@@ -1,0 +1,29 @@
+{
+  "item_group.tfcwoodwork.woodworking": "TFC Woodworking",
+
+  "item.tfcwoodwork.testaxe": "DEGUG Axe",
+
+  "item.tfcwoodwork.wood.bark.acacia": "Acacia Bark",
+  "item.tfcwoodwork.wood.bark.ash": "Ash Bark",
+  "item.tfcwoodwork.wood.bark.aspen": "Aspen Bark",
+  "item.tfcwoodwork.wood.bark.birch": "Birch Bark",
+  "item.tfcwoodwork.wood.bark.blackwood": "Blackwood Bark",
+  "item.tfcwoodwork.wood.bark.chestnut": "Chestnut Bark",
+  "item.tfcwoodwork.wood.bark.douglas_fir": "Douglas Fir Bark",
+  "item.tfcwoodwork.wood.bark.hickory": "Hickory Bark",
+  "item.tfcwoodwork.wood.bark.kapok": "Kapok Bark",
+  "item.tfcwoodwork.wood.bark.mangrove": "Mangrove Bark",
+  "item.tfcwoodwork.wood.bark.maple": "Maple Bark",
+  "item.tfcwoodwork.wood.bark.oak": "Oak Bark",
+  "item.tfcwoodwork.wood.bark.palm": "Palm Bark",
+  "item.tfcwoodwork.wood.bark.pine": "Pine Bark",
+  "item.tfcwoodwork.wood.bark.rosewood": "Rosewood Bark",
+  "item.tfcwoodwork.wood.bark.sequoia": "Sequoia Bark",
+  "item.tfcwoodwork.wood.bark.spruce": "Spruce Bark",
+  "item.tfcwoodwork.wood.bark.sycamore": "Sycamore Bark",
+  "item.tfcwoodwork.wood.bark.white_cedar": "White Cedar Bark",
+  "item.tfcwoodwork.wood.bark.willow": "Willow Bark",
+
+  "block.tfcwoodwork.chopped_log": "Chopped Log"
+
+}

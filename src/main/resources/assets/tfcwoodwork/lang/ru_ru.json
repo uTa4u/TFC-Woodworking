@@ -1,0 +1,26 @@
+{
+  "item_group.tfcwoodwork.woodworking": "TFC Деревообработка",
+
+  "item.tfcwoodwork.testaxe": "ДЕБАГ Топор",
+
+  "item.tfcwoodwork.wood.bark.acacia": "Кора акации",
+  "item.tfcwoodwork.wood.bark.ash": "Кора ясеня",
+  "item.tfcwoodwork.wood.bark.aspen": "Кора осины",
+  "item.tfcwoodwork.wood.bark.birch": "Кора берёзы",
+  "item.tfcwoodwork.wood.bark.blackwood": "Кора гренадила",
+  "item.tfcwoodwork.wood.bark.chestnut": "Кора каштана",
+  "item.tfcwoodwork.wood.bark.douglas_fir": "Кора дугласовой пихты",
+  "item.tfcwoodwork.wood.bark.hickory": "Кора ореха",
+  "item.tfcwoodwork.wood.bark.kapok": "Кора сейбы",
+  "item.tfcwoodwork.wood.bark.mangrove": "Кора мангрового дерева",
+  "item.tfcwoodwork.wood.bark.maple": "Кора клёна",
+  "item.tfcwoodwork.wood.bark.oak": "Кора дуба",
+  "item.tfcwoodwork.wood.bark.palm": "Кора пальмы",
+  "item.tfcwoodwork.wood.bark.pine": "Кора сосны",
+  "item.tfcwoodwork.wood.bark.rosewood": "Кора палисандра",
+  "item.tfcwoodwork.wood.bark.sequoia": "Кора секвойи",
+  "item.tfcwoodwork.wood.bark.spruce": "Кора ели",
+  "item.tfcwoodwork.wood.bark.sycamore": "Кора платана",
+  "item.tfcwoodwork.wood.bark.white_cedar": "Кора белого кедра",
+  "item.tfcwoodwork.wood.bark.willow": "Кора ивы"
+}

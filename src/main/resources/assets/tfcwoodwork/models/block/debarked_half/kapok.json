@@ -1,0 +1,9 @@
+{
+  "parent": "tfcwoodwork:block/debarked_half/debarked_half",
+  "textures": {
+    "side": "tfc:block/wood/sheet/kapok",
+    "top": "tfc:block/wood/log_top/kapok",
+    "inner": "tfcwoodwork:block/log_inner/kapok",
+    "particle": "tfc:block/wood/sheet/kapok"
+  }
+}

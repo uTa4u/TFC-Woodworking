@@ -1,0 +1,14 @@
+{
+  "wood_chop": {
+    "subtitle": "sounds.tfcwoodwork.wood_chop",
+    "sounds": [
+      "tfcwoodwork:wood_chop"
+    ]
+  },
+  "wood_sawed": {
+    "subtitle": "sounds.tfcwoodwork.wood_sawed",
+    "sounds": [
+      "tfcwoodwork:wood_sawed"
+    ]
+  }
+}

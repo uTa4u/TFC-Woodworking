@@ -1,0 +1,9 @@
+{
+  "parent": "tfcwoodwork:block/debarked_quarter/debarked_quarter",
+  "textures": {
+    "side": "tfc:block/wood/sheet/acacia",
+    "top": "tfc:block/wood/log_top/acacia",
+    "inner": "tfcwoodwork:block/log_inner/acacia",
+    "particle": "tfc:block/wood/sheet/acacia"
+  }
+}

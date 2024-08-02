@@ -1,0 +1,8 @@
+{
+  "parent": "tfcwoodwork:block/debarked_log/debarked_log",
+  "textures": {
+    "side": "tfc:block/wood/sheet/douglas_fir",
+    "top": "tfc:block/wood/log_top/douglas_fir",
+    "particle": "tfc:block/wood/sheet/douglas_fir"
+  }
+}

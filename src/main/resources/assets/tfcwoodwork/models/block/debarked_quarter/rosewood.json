@@ -1,0 +1,9 @@
+{
+  "parent": "tfcwoodwork:block/debarked_quarter/debarked_quarter",
+  "textures": {
+    "side": "tfc:block/wood/sheet/rosewood",
+    "top": "tfc:block/wood/log_top/rosewood",
+    "inner": "tfcwoodwork:block/log_inner/rosewood",
+    "particle": "tfc:block/wood/sheet/rosewood"
+  }
+}

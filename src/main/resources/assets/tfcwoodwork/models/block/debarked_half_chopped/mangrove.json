@@ -1,0 +1,9 @@
+{
+  "parent": "tfcwoodwork:block/debarked_half_chopped/debarked_half_chopped",
+  "textures": {
+    "side": "tfc:block/wood/sheet/mangrove",
+    "top": "tfc:block/wood/log_top/mangrove",
+    "inner": "tfcwoodwork:block/log_inner/mangrove",
+    "particle": "tfc:block/wood/sheet/mangrove"
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "tfcwoodwork:debarked_half/willow",
+          "conditions": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "tfcwoodwork:debarked_log/willow",
+              "properties": {
+                "chopped": "true"
+              }
+            }
+          ],
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 2
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "tfcwoodwork:debarked_log/willow",
+          "conditions": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "tfcwoodwork:debarked_log/willow",
+              "properties": {
+                "chopped": "false"
+              }
+            }
+          ],
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

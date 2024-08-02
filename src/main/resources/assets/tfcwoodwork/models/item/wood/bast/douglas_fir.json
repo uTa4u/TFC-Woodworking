@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "tfc:block/wood/stripped_log/douglas_fir"
+  }
+}

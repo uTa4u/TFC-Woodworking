@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=north,chopped=false": {
+      "model": "tfcwoodwork:block/debarked_half/rosewood"
+    },
+    "facing=east,chopped=false": {
+      "model": "tfcwoodwork:block/debarked_half/rosewood",
+      "y": 90
+    },
+    "facing=south,chopped=false": {
+      "model": "tfcwoodwork:block/debarked_half/rosewood",
+      "y": 180
+    },
+    "facing=west,chopped=false": {
+      "model": "tfcwoodwork:block/debarked_half/rosewood",
+      "y": 270
+    },
+    "facing=north,chopped=true": {
+      "model": "tfcwoodwork:block/debarked_half_chopped/rosewood"
+    },
+    "facing=east,chopped=true": {
+      "model": "tfcwoodwork:block/debarked_half_chopped/rosewood",
+      "y": 90
+    },
+    "facing=south,chopped=true": {
+      "model": "tfcwoodwork:block/debarked_half_chopped/rosewood",
+      "y": 180
+    },
+    "facing=west,chopped=true": {
+      "model": "tfcwoodwork:block/debarked_half_chopped/rosewood",
+      "y": 270
+    }
+  }
+}
