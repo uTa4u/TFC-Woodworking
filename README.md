@@ -4,7 +4,7 @@ An addon for [TerraFirmaCraft](https://github.com/TerraFirmaCraft/TerraFirmaCraf
 
 Makes crafting wooden things more immersive through a tree (pun intended) of in-world crafting
 
-# Implemented:
+### Implemented:
 
 - Getting wooden bark/bast through stripping/debarking logs
 
