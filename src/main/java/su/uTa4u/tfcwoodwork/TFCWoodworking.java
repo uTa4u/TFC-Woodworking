@@ -16,6 +16,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import su.uTa4u.tfcwoodwork.blocks.ModBlocks;
+import su.uTa4u.tfcwoodwork.entity.ModEntities;
 import su.uTa4u.tfcwoodwork.items.ModItems;
 import su.uTa4u.tfcwoodwork.sounds.ModSounds;
 
@@ -45,6 +46,7 @@ public class TFCWoodworking {
         ModItems.ITEMS.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
         ModSounds.SOUND_EVENTS.register(modEventBus);
+        ModEntities.ENTITY_TYPES.register(modEventBus);
         CREATIVE_TABS.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(useOnEventHandler.class);

@@ -1,7 +1,6 @@
 package su.uTa4u.tfcwoodwork;
 
 import net.dries007.tfc.common.blocks.wood.Wood;
-import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
@@ -15,6 +14,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.RegistryObject;
+import su.uTa4u.tfcwoodwork.entity.LogHalfProjectile;
+import su.uTa4u.tfcwoodwork.entity.ModEntities;
 
 import java.util.Map;
 import java.util.Random;
@@ -22,7 +23,6 @@ import java.util.Random;
 
 public class util {
     private static final Random rng = new Random();
-//    private static final Logger LOGGER = LogUtils.getLogger();
 
     public static <T extends Enum<T>> BlockState getStateToPlace(Map<Wood, Map<T, RegistryObject<Block>>> map, Wood wood, T blockTypes) {
         return map.get(wood).get(blockTypes).get().defaultBlockState();
@@ -36,12 +36,37 @@ public class util {
         level.addFreshEntity(new ItemEntity(level, pos.getX(), pos.above().getY(), pos.getZ(), itemstack));
     }
 
-    public static void biDrop(Level level, BlockPos pos, Direction dir, Item item, int count) {
+    public static void shootChoppedWood(Level level, BlockPos pos, Direction dir) {
+        Direction.Axis axis = dir.getAxis();
+        double deltaX = 0;
+        double deltaY = 0.25;
+        double deltaZ = 0;
+        double offsetX = 0;
+        double offsetY = 0.25;
+        double offsetZ = 0;
+        if (axis == Direction.Axis.Z) {
+            deltaX = 0.25;
+            offsetX = 0.25;
+        } else {
+            deltaZ = 0.25;
+            offsetZ = 0.25;
+        }
+        LogHalfProjectile proj1 = new LogHalfProjectile(pos, 0.5 + offsetX, offsetY, 0.5 + offsetZ, level, dir, true);
+        LogHalfProjectile proj2 = new LogHalfProjectile(pos, 0.5 - offsetX, offsetY, 0.5 - offsetZ, level, dir, false);
+        proj1.shoot(deltaX, deltaY, deltaZ, 0.2f, 0.0f);
+        proj2.shoot(-deltaX, deltaY, -deltaZ, 0.2f, 0.0f);
+
+        level.addFreshEntity(proj1);
+        level.addFreshEntity(proj2);
+
+    }
+
+    public static void dropBiDirectional(Level level, BlockPos pos, Direction dir, Item item, int count) {
         Direction.Axis axis = dir.getAxis();
         if (axis == Direction.Axis.Z) {
             Direction left = dir.getCounterClockWise();
             BlockPos leftPos = pos.relative(left);
-            double deltaX = leftPos.getX() - pos.getX();
+            double deltaX = 0.5;
             double deltaY = 0.5;
             double deltaZ = 0;
             ItemEntity drop1 = new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(),
@@ -51,17 +76,6 @@ public class util {
             level.addFreshEntity(drop1);
             level.addFreshEntity(drop2);
         } else if (axis == Direction.Axis.X) {
-            Direction left = dir.getCounterClockWise();
-            BlockPos leftPos = pos.relative(left);
-            double deltaX = 0;
-            double deltaY = 0.5;
-            double deltaZ = leftPos.getZ() - pos.getZ();
-            ItemEntity drop1 = new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(),
-                    new ItemStack(item, count), deltaX, deltaY, deltaZ);
-            ItemEntity drop2 = new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(),
-                    new ItemStack(item, count), -deltaX, deltaY, deltaZ);
-            level.addFreshEntity(drop1);
-            level.addFreshEntity(drop2);
         }
     }
 
@@ -78,9 +92,7 @@ public class util {
 
     public static void damageTool(Player player, ItemStack inHand, InteractionHand hand) {
         if (rng.nextBoolean()) {
-            inHand.hurtAndBreak(1, player, (p) -> {
-                p.broadcastBreakEvent(hand);
-            });
+            inHand.hurtAndBreak(1, player, (p) -> p.broadcastBreakEvent(hand));
         }
     }
 
