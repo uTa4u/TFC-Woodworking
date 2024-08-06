@@ -47,7 +47,7 @@ public class useOnEventHandler {
             }
             if (checkFourDirections(level, pos)) {
                 InteractionResult result;
-                if (isValidAxe(inMainHand) && !(state.hasProperty(AbstractDebarkedWood.CHOPPED) && state.getValue(AbstractDebarkedWood.CHOPPED))) {
+                if (isValidAxe(inMainHand)) {
                     result = useTool(util.TOOL.AXE, level, player, pos, inMainHand, hand);
                 } else if (isValidSaw(inMainHand)) {
                     result = useTool(util.TOOL.SAW, level, player, pos, inMainHand, hand);
@@ -106,12 +106,11 @@ public class useOnEventHandler {
             Map<Wood.BlockType, RegistryObject<Block>> tfc = TFCBlocks.WOODS.get(wood);
             Map<BlockType, RegistryObject<Block>> tfcww = ModBlocks.WOODS.get(wood);
             if (state.is(tfc.get(Wood.BlockType.LOG).get()) ||
-                state.is(tfc.get(Wood.BlockType.STRIPPED_LOG).get())) {
+                    state.is(tfc.get(Wood.BlockType.STRIPPED_LOG).get())) {
                 return true;
             } else if ((state.is(tfcww.get(BlockType.DEBARKED_LOG).get()) ||
-                       state.is(tfcww.get(BlockType.DEBARKED_HALF).get()) ||
-                       state.is(tfcww.get(BlockType.DEBARKED_QUARTER).get())))
-            {
+                    state.is(tfcww.get(BlockType.DEBARKED_HALF).get()) ||
+                    state.is(tfcww.get(BlockType.DEBARKED_QUARTER).get()))) {
                 return true;
             }
         }
@@ -131,54 +130,53 @@ public class useOnEventHandler {
     //TODO: make bark pileable
     //TODO: make blocks bigged and heavier (tfc mechanics)
     //TODO: chopped woods fly away when chopped
+    //TODO: factor out shared stuff from switches/ifs
     public static InteractionResult useTool(util.TOOL tool, Level level, Player player, BlockPos pos, ItemStack inHand, InteractionHand hand) {
         BlockState state = level.getBlockState(pos);
         util.Pair<Wood, Wood.BlockType> pair1 = util.getWoodWoodTypePair(TFCBlocks.WOODS, state);
 
+        Direction dir = player.getDirection();
         if (pair1 != null) {
             BlockState newState;
-            Direction dir = player.getDirection();
             switch (pair1.value()) {
                 case LOG -> {
                     newState = util.getStateToPlace(TFCBlocks.WOODS, pair1.key(), Wood.BlockType.STRIPPED_LOG);
                     util.spawnDrops(level, pos, ModItems.getBark(pair1.key()));
-
                 }
                 case STRIPPED_LOG -> {
-                    newState = util.getStateToPlace(ModBlocks.WOODS, pair1.key(), BlockType.DEBARKED_LOG)
-                            .setValue(AbstractDebarkedWood.FACING, dir.getOpposite());
+                    newState = util.getStateToPlace(ModBlocks.WOODS, pair1.key(), BlockType.DEBARKED_LOG);
                     util.spawnDrops(level, pos, ModItems.getBast(pair1.key()));
                 }
                 default -> {
                     return InteractionResult.PASS;
                 }
             }
+            level.setBlockAndUpdate(pos, newState);
             level.playSound(player, pos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0f, 1.0f);
             util.damageTool(player, inHand, hand);
-            level.setBlockAndUpdate(pos, newState);
             return InteractionResult.sidedSuccess(level.isClientSide);
         } else {
             util.Pair<Wood, BlockType> pair2 = util.getWoodWoodTypePair(ModBlocks.WOODS, state);
             if (pair2 != null) {
                 if (tool == util.TOOL.AXE && level.getBlockState(pos.above()) == Blocks.AIR.defaultBlockState()) {
                     switch (pair2.value()) {
-                        case DEBARKED_LOG, DEBARKED_HALF -> {
-                            BlockState newState = state.setValue(AbstractDebarkedWood.CHOPPED, true);
-                            level.setBlockAndUpdate(pos, newState);
+                        case DEBARKED_LOG -> {
+                            //util.dropBiDirectional(level, pos, dir, util.getItemToDrop(ModBlocks.WOODS, pair2.key(), BlockType.DEBARKED_HALF), 1);
+                            util.shootChoppedWood(level, pos, dir);
                         }
-                        default -> {
-                            return InteractionResult.PASS;
+                        case DEBARKED_HALF -> {
+                            //util.dropBiDirectional(level, pos, dir, util.getItemToDrop(ModBlocks.WOODS, pair2.key(), BlockType.DEBARKED_QUARTER), 1);
                         }
+                        default -> { return InteractionResult.PASS; }
                     }
+                    level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
                     level.playSound(player, pos, ModSounds.LOG_CHOP.get(), SoundSource.BLOCKS, 0.6f, 1.0f);
                     util.damageTool(player, inHand, hand);
                 } else if (tool == util.TOOL.SAW) {
                     switch (pair2.value()) {
                         case DEBARKED_HALF -> util.spawnDrops(level, pos, new ItemStack(TFCItems.SUPPORTS.get(pair2.key()).get(), 4));
                         case DEBARKED_QUARTER -> util.spawnDrops(level, pos, new ItemStack(TFCItems.LUMBER.get(pair2.key()).get(), 2));
-                        default -> {
-                            return InteractionResult.PASS;
-                        }
+                        default -> { return InteractionResult.PASS; }
                     }
                     util.spawnDrops(level, pos, new ItemStack(ModItems.SAWDUST.get(), 1));
                     level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());

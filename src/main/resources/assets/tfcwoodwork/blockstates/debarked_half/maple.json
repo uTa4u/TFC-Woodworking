@@ -1,33 +1,18 @@
 {
   "variants": {
-    "facing=north,chopped=false": {
+    "facing=north": {
       "model": "tfcwoodwork:block/debarked_half/maple"
     },
-    "facing=east,chopped=false": {
+    "facing=east": {
       "model": "tfcwoodwork:block/debarked_half/maple",
       "y": 90
     },
-    "facing=south,chopped=false": {
+    "facing=south": {
       "model": "tfcwoodwork:block/debarked_half/maple",
       "y": 180
     },
-    "facing=west,chopped=false": {
+    "facing=west": {
       "model": "tfcwoodwork:block/debarked_half/maple",
-      "y": 270
-    },
-    "facing=north,chopped=true": {
-      "model": "tfcwoodwork:block/debarked_half_chopped/maple"
-    },
-    "facing=east,chopped=true": {
-      "model": "tfcwoodwork:block/debarked_half_chopped/maple",
-      "y": 90
-    },
-    "facing=south,chopped=true": {
-      "model": "tfcwoodwork:block/debarked_half_chopped/maple",
-      "y": 180
-    },
-    "facing=west,chopped=true": {
-      "model": "tfcwoodwork:block/debarked_half_chopped/maple",
       "y": 270
     }
   }

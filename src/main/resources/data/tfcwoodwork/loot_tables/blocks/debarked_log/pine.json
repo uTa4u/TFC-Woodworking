@@ -11,35 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "tfcwoodwork:debarked_half/pine",
-          "conditions": [
-            {
-              "condition": "minecraft:block_state_property",
-              "block": "tfcwoodwork:debarked_log/pine",
-              "properties": {
-                "chopped": "true"
-              }
-            }
-          ],
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
           "name": "tfcwoodwork:debarked_log/pine",
-          "conditions": [
-            {
-              "condition": "minecraft:block_state_property",
-              "block": "tfcwoodwork:debarked_log/pine",
-              "properties": {
-                "chopped": "false"
-              }
-            }
-          ],
           "functions": [
             {
               "function": "minecraft:set_count",

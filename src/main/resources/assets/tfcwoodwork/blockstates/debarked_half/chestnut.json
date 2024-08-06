@@ -1,33 +1,18 @@
 {
   "variants": {
-    "facing=north,chopped=false": {
+    "facing=north": {
       "model": "tfcwoodwork:block/debarked_half/chestnut"
     },
-    "facing=east,chopped=false": {
+    "facing=east": {
       "model": "tfcwoodwork:block/debarked_half/chestnut",
       "y": 90
     },
-    "facing=south,chopped=false": {
+    "facing=south": {
       "model": "tfcwoodwork:block/debarked_half/chestnut",
       "y": 180
     },
-    "facing=west,chopped=false": {
+    "facing=west": {
       "model": "tfcwoodwork:block/debarked_half/chestnut",
-      "y": 270
-    },
-    "facing=north,chopped=true": {
-      "model": "tfcwoodwork:block/debarked_half_chopped/chestnut"
-    },
-    "facing=east,chopped=true": {
-      "model": "tfcwoodwork:block/debarked_half_chopped/chestnut",
-      "y": 90
-    },
-    "facing=south,chopped=true": {
-      "model": "tfcwoodwork:block/debarked_half_chopped/chestnut",
-      "y": 180
-    },
-    "facing=west,chopped=true": {
-      "model": "tfcwoodwork:block/debarked_half_chopped/chestnut",
       "y": 270
     }
   }

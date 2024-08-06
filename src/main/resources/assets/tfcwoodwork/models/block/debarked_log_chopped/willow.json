@@ -1,9 +1,0 @@
-{
-  "parent": "tfcwoodwork:block/debarked_log_chopped/debarked_log_chopped",
-  "textures": {
-    "side": "tfc:block/wood/sheet/willow",
-    "top": "tfc:block/wood/log_top/willow",
-    "inner": "tfcwoodwork:block/log_inner/willow",
-    "particle": "tfc:block/wood/sheet/willow"
-  }
-}
