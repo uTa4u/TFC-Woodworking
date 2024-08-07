@@ -53,16 +53,16 @@ public class util {
         double offsetZ = 0;
         if (axis == Direction.Axis.Z) {
             deltaX = 0.75;
-            offsetX = 0.125;
+            offsetX = 0.1875;
         } else {
             deltaZ = 0.75;
-            offsetZ = 0.125;
+            offsetZ = 0.1875;
         }
         BlockState state = getStateToPlace(ModBlocks.WOODS, wood, BlockType.DEBARKED_HALF);
         LogHalfProjectile proj1 = new LogHalfProjectile(pos, state, 0.5 + offsetX, offsetY, 0.5 + offsetZ, level, dir, true);
         LogHalfProjectile proj2 = new LogHalfProjectile(pos, state, 0.5 - offsetX, offsetY, 0.5 - offsetZ, level, dir, false);
-        proj1.shoot(deltaX, deltaY, deltaZ, 0.2f, 0.0f);
-        proj2.shoot(-deltaX, deltaY, -deltaZ, 0.2f, 0.0f);
+        proj1.shoot(deltaX, deltaY, deltaZ, 0.3f, 0.0f);
+        proj2.shoot(-deltaX, deltaY, -deltaZ, 0.3f, 0.0f);
 
         level.addFreshEntity(proj1);
         level.addFreshEntity(proj2);

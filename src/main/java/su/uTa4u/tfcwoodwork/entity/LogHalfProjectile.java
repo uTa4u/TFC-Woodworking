@@ -20,6 +20,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
 import org.slf4j.Logger;
@@ -35,7 +36,7 @@ public class LogHalfProjectile extends AbstractArrow {
     protected static final EntityDataAccessor<BlockState> BLOCKSTATE = SynchedEntityData.defineId(LogHalfProjectile.class, EntityDataSerializers.BLOCK_STATE);
 
     private static final Logger LOGGER = LogUtils.getLogger();
-    private static final EntityDimensions dimensions = new EntityDimensions(0.375f, 0.375f, true);
+    private static final EntityDimensions DIMENSIONS = new EntityDimensions(0.375f, 0.375f, true);
     private static final int HOR_ROT_PERIOD = 30; // Ticks per 360.0f degree rotation
     private float hRot0 = 0.0f;
     private float hRot = 0.0f;
@@ -105,9 +106,12 @@ public class LogHalfProjectile extends AbstractArrow {
         this.entityData.set(START_BLOCKPOS, pos);
     }
 
-    //TODO: onHitEntity do damage
-    //TODO: if woodpile block is hit, place wood in there immediately
 
+    //TODO: onHitEntity do damage
+    @Override
+    protected void onHitEntity(EntityHitResult pResult) {}
+
+    //TODO: if woodpile block is hit, place wood in there immediately
     @Override
     protected void onHitBlock(BlockHitResult result) {
         //TODO: play sound?
@@ -117,7 +121,7 @@ public class LogHalfProjectile extends AbstractArrow {
 
     @Override
     protected AABB makeBoundingBox() {
-        return dimensions.makeBoundingBox(this.position());
+        return DIMENSIONS.makeBoundingBox(this.position());
     }
 
     @Override

@@ -48,7 +48,6 @@ public class LogHalfRenderer extends EntityRenderer<LogHalfProjectile> {
     }
 
     public void render(LogHalfProjectile entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
-        //TODO: un-hardcode blockstate?
         BlockState blockstate = entity.getBlockState();
         if (blockstate.getRenderShape() == RenderShape.MODEL) {
             Level level = entity.level();
@@ -60,12 +59,15 @@ public class LogHalfRenderer extends EntityRenderer<LogHalfProjectile> {
 
                 if (entity.getMirrored()) poseStack.mulPose(Axis.YP.rotationDegrees(180.0f));
 
-                poseStack.translate(0.1875, 0.5, 0);
-                poseStack.mulPose(Axis.XN.rotationDegrees(Mth.rotLerp(partialTicks, entity.getHRot0(), entity.getHRot())));
-                poseStack.translate(-0.1875, -0.5, 0);
+                poseStack.translate(0, -0.3125, 0);
 
-                BlockPos blockpos = BlockPos.containing(entity.getX(), entity.getBoundingBox().maxY, entity.getZ());
-                poseStack.translate(-0.5, -0.375, -0.875);
+                poseStack.translate(0, 0.5, 0);
+                poseStack.mulPose(Axis.XN.rotationDegrees(Mth.rotLerp(partialTicks, entity.getHRot0(), entity.getHRot())));
+                poseStack.translate(0, -0.5, 0);
+
+                poseStack.translate(-0.5, 0, -0.5);
+
+                BlockPos blockpos = entity.blockPosition();
                 var model = this.dispatcher.getBlockModel(blockstate);
                 for (var renderType : model.getRenderTypes(blockstate, RandomSource.create(blockstate.getSeed(entity.getStartBlockpos())), net.minecraftforge.client.model.data.ModelData.EMPTY)) {
                     renderType = net.minecraftforge.client.RenderTypeHelper.getMovingBlockRenderType(renderType);
