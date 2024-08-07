@@ -56,8 +56,7 @@ public class LogHalfRenderer extends EntityRenderer<LogHalfProjectile> {
                 poseStack.pushPose();
 
                 Direction chopperDir = entity.getDirection();
-                if (chopperDir == Direction.SOUTH || chopperDir == Direction.NORTH)
-                    poseStack.mulPose(Axis.YP.rotationDegrees(90.0f));
+                if (chopperDir == Direction.SOUTH || chopperDir == Direction.NORTH) poseStack.mulPose(Axis.YP.rotationDegrees(90.0f));
 
                 if (entity.getMirrored()) poseStack.mulPose(Axis.YP.rotationDegrees(180.0f));
 
@@ -66,7 +65,7 @@ public class LogHalfRenderer extends EntityRenderer<LogHalfProjectile> {
                 poseStack.translate(-0.1875, -0.5, 0);
 
                 BlockPos blockpos = BlockPos.containing(entity.getX(), entity.getBoundingBox().maxY, entity.getZ());
-                poseStack.translate(-0.5D, 0.0D, -0.5D);
+                poseStack.translate(-0.5, -0.375, -0.875);
                 var model = this.dispatcher.getBlockModel(blockstate);
                 for (var renderType : model.getRenderTypes(blockstate, RandomSource.create(blockstate.getSeed(entity.getStartBlockpos())), net.minecraftforge.client.model.data.ModelData.EMPTY)) {
                     renderType = net.minecraftforge.client.RenderTypeHelper.getMovingBlockRenderType(renderType);

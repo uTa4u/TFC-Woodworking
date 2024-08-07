@@ -13,6 +13,7 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.RegistryObject;
 import su.uTa4u.tfcwoodwork.blocks.BlockType;
 import su.uTa4u.tfcwoodwork.blocks.ModBlocks;
@@ -34,8 +35,12 @@ public class util {
         return getStateToPlace(map, wood, blockTypes).getBlock().asItem();
     }
 
+    public static void spawnDropsPrecise(Level level, BlockPos pos, Vec3 offset, ItemStack itemstack) {
+        level.addFreshEntity(new ItemEntity(level, pos.getX() + offset.x, pos.getY() + offset.y, pos.getZ() + offset.z, itemstack, 0, 0, 0));
+    }
+
     public static void spawnDrops(Level level, BlockPos pos, ItemStack itemstack) {
-        level.addFreshEntity(new ItemEntity(level, pos.getX(), pos.above().getY(), pos.getZ(), itemstack));
+        level.addFreshEntity(new ItemEntity(level, pos.getX(), pos.above().getY(), pos.getZ(), itemstack, 0, 0, 0));
     }
 
     public static void shootChoppedWood(Level level, BlockPos pos, Wood wood, Direction dir) {
@@ -44,14 +49,14 @@ public class util {
         double deltaY = 0.25;
         double deltaZ = 0;
         double offsetX = 0;
-        double offsetY = 0.25;
+        double offsetY = 0.5;
         double offsetZ = 0;
         if (axis == Direction.Axis.Z) {
-            deltaX = 0.25;
-            offsetX = 0.25;
+            deltaX = 0.75;
+            offsetX = 0.125;
         } else {
-            deltaZ = 0.25;
-            offsetZ = 0.25;
+            deltaZ = 0.75;
+            offsetZ = 0.125;
         }
         BlockState state = getStateToPlace(ModBlocks.WOODS, wood, BlockType.DEBARKED_HALF);
         LogHalfProjectile proj1 = new LogHalfProjectile(pos, state, 0.5 + offsetX, offsetY, 0.5 + offsetZ, level, dir, true);

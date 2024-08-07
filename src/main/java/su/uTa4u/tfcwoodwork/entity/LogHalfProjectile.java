@@ -10,6 +10,7 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
@@ -17,7 +18,9 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
 import org.slf4j.Logger;
 import su.uTa4u.tfcwoodwork.blocks.BlockType;
@@ -32,9 +35,8 @@ public class LogHalfProjectile extends AbstractArrow {
     protected static final EntityDataAccessor<BlockState> BLOCKSTATE = SynchedEntityData.defineId(LogHalfProjectile.class, EntityDataSerializers.BLOCK_STATE);
 
     private static final Logger LOGGER = LogUtils.getLogger();
-    private static final int HOR_ROT_PERIOD = 120; // Ticks per 360.0f rotation
-    private BlockPos stuckPos;
-    private int life = 0;
+    private static final EntityDimensions dimensions = new EntityDimensions(0.375f, 0.375f, true);
+    private static final int HOR_ROT_PERIOD = 30; // Ticks per 360.0f degree rotation
     private float hRot0 = 0.0f;
     private float hRot = 0.0f;
 
@@ -104,21 +106,18 @@ public class LogHalfProjectile extends AbstractArrow {
     }
 
     //TODO: onHitEntity do damage
+    //TODO: if woodpile block is hit, place wood in there immediately
 
     @Override
     protected void onHitBlock(BlockHitResult result) {
         //TODO: play sound?
-        this.stuckPos = result.getBlockPos();
-        this.inGround = true;
+        util.spawnDropsPrecise(this.level(), BlockPos.ZERO, result.getLocation(), this.getBlockState().getBlock().asItem().getDefaultInstance());
+        this.discard();
     }
 
     @Override
-    protected void tickDespawn() {
-        ++this.life;
-        if (this.life >= 10) {
-            util.spawnDrops(this.level(), stuckPos, this.getBlockState().getBlock().asItem().getDefaultInstance());
-            this.discard();
-        }
+    protected AABB makeBoundingBox() {
+        return dimensions.makeBoundingBox(this.position());
     }
 
     @Override
