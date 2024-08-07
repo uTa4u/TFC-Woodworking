@@ -162,7 +162,7 @@ public class useOnEventHandler {
                     switch (pair2.value()) {
                         case DEBARKED_LOG -> {
                             //util.dropBiDirectional(level, pos, dir, util.getItemToDrop(ModBlocks.WOODS, pair2.key(), BlockType.DEBARKED_HALF), 1);
-                            util.shootChoppedWood(level, pos, dir);
+                            util.shootChoppedWood(level, pos, pair2.key(), dir);
                         }
                         case DEBARKED_HALF -> {
                             //util.dropBiDirectional(level, pos, dir, util.getItemToDrop(ModBlocks.WOODS, pair2.key(), BlockType.DEBARKED_QUARTER), 1);

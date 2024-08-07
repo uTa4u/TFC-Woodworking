@@ -14,6 +14,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.RegistryObject;
+import su.uTa4u.tfcwoodwork.blocks.BlockType;
+import su.uTa4u.tfcwoodwork.blocks.ModBlocks;
 import su.uTa4u.tfcwoodwork.entity.LogHalfProjectile;
 import su.uTa4u.tfcwoodwork.entity.ModEntities;
 
@@ -36,7 +38,7 @@ public class util {
         level.addFreshEntity(new ItemEntity(level, pos.getX(), pos.above().getY(), pos.getZ(), itemstack));
     }
 
-    public static void shootChoppedWood(Level level, BlockPos pos, Direction dir) {
+    public static void shootChoppedWood(Level level, BlockPos pos, Wood wood, Direction dir) {
         Direction.Axis axis = dir.getAxis();
         double deltaX = 0;
         double deltaY = 0.25;
@@ -51,8 +53,9 @@ public class util {
             deltaZ = 0.25;
             offsetZ = 0.25;
         }
-        LogHalfProjectile proj1 = new LogHalfProjectile(pos, 0.5 + offsetX, offsetY, 0.5 + offsetZ, level, dir, true);
-        LogHalfProjectile proj2 = new LogHalfProjectile(pos, 0.5 - offsetX, offsetY, 0.5 - offsetZ, level, dir, false);
+        BlockState state = getStateToPlace(ModBlocks.WOODS, wood, BlockType.DEBARKED_HALF);
+        LogHalfProjectile proj1 = new LogHalfProjectile(pos, state, 0.5 + offsetX, offsetY, 0.5 + offsetZ, level, dir, true);
+        LogHalfProjectile proj2 = new LogHalfProjectile(pos, state, 0.5 - offsetX, offsetY, 0.5 - offsetZ, level, dir, false);
         proj1.shoot(deltaX, deltaY, deltaZ, 0.2f, 0.0f);
         proj2.shoot(-deltaX, deltaY, -deltaZ, 0.2f, 0.0f);
 
@@ -61,7 +64,7 @@ public class util {
 
     }
 
-    public static void dropBiDirectional(Level level, BlockPos pos, Direction dir, Item item, int count) {
+/*    public static void dropBiDirectional(Level level, BlockPos pos, Direction dir, Item item, int count) {
         Direction.Axis axis = dir.getAxis();
         if (axis == Direction.Axis.Z) {
             Direction left = dir.getCounterClockWise();
@@ -77,7 +80,7 @@ public class util {
             level.addFreshEntity(drop2);
         } else if (axis == Direction.Axis.X) {
         }
-    }
+    }*/
 
     public static <T extends Enum<T>> Pair<Wood, T> getWoodWoodTypePair(Map<Wood, Map<T, RegistryObject<Block>>> map, BlockState state) {
         for (Map.Entry<Wood, Map<T, RegistryObject<Block>>> entry1 : map.entrySet()) {

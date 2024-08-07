@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.logging.LogUtils;
 import com.mojang.math.Axis;
 import net.dries007.tfc.common.blocks.wood.Wood;
+import net.dries007.tfc.util.Helpers;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.entity.ArrowRenderer;
@@ -27,12 +28,18 @@ import su.uTa4u.tfcwoodwork.blocks.BlockType;
 import su.uTa4u.tfcwoodwork.blocks.ModBlocks;
 import su.uTa4u.tfcwoodwork.entity.LogHalfProjectile;
 
+import java.util.Map;
+
 @OnlyIn(Dist.CLIENT)
 public class LogHalfRenderer extends EntityRenderer<LogHalfProjectile> {
     private static final Logger LOGGER = LogUtils.getLogger();
     //TODO: un-hardcode texture
-    private static final ResourceLocation TEXTURE = new ResourceLocation(TFCWoodworking.MOD_ID, "textures/entity/log_half.png");
+    private static final Map<Wood, ResourceLocation> TEXTURE_BY_WOOD;
     private final BlockRenderDispatcher dispatcher;
+
+    static {
+        TEXTURE_BY_WOOD = Helpers.mapOfKeys(Wood.class, (wood) -> new ResourceLocation(TFCWoodworking.MOD_ID, "textures/entity/log_half/" + wood.getSerializedName() + ".png"));
+    }
 
     public LogHalfRenderer(EntityRendererProvider.Context pContext) {
         super(pContext);
@@ -42,7 +49,7 @@ public class LogHalfRenderer extends EntityRenderer<LogHalfProjectile> {
 
     public void render(LogHalfProjectile entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         //TODO: un-hardcode blockstate?
-        BlockState blockstate = ModBlocks.WOODS.get(Wood.ACACIA).get(BlockType.DEBARKED_HALF).get().defaultBlockState();
+        BlockState blockstate = entity.getBlockState();
         if (blockstate.getRenderShape() == RenderShape.MODEL) {
             Level level = entity.level();
             if (blockstate != level.getBlockState(entity.blockPosition()) && blockstate.getRenderShape() != RenderShape.INVISIBLE) {
@@ -71,8 +78,9 @@ public class LogHalfRenderer extends EntityRenderer<LogHalfProjectile> {
         }
     }
 
+    //Is this even used by the renderer? Idk, but didn't want to return null
     @Override
-    public ResourceLocation getTextureLocation(LogHalfProjectile entity) {
-        return TEXTURE;
+    public ResourceLocation getTextureLocation(LogHalfProjectile pEntity) {
+        return TEXTURE_BY_WOOD.get(Wood.ACACIA);
     }
 }
