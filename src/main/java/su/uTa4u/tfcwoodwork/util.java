@@ -1,5 +1,6 @@
 package su.uTa4u.tfcwoodwork;
 
+import com.mojang.logging.LogUtils;
 import net.dries007.tfc.common.blocks.wood.Wood;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -15,9 +16,13 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.RegistryObject;
+import org.slf4j.Logger;
+import su.uTa4u.tfcwoodwork.blocks.AbstractDebarkedWood;
 import su.uTa4u.tfcwoodwork.blocks.BlockType;
 import su.uTa4u.tfcwoodwork.blocks.ModBlocks;
+import su.uTa4u.tfcwoodwork.entity.AbstractWoodProjectile;
 import su.uTa4u.tfcwoodwork.entity.LogHalfProjectile;
+import su.uTa4u.tfcwoodwork.entity.LogQuarterProjectile;
 
 import java.util.Map;
 import java.util.Random;
@@ -25,6 +30,8 @@ import java.util.Random;
 
 public class util {
     private static final Random rng = new Random();
+    private static final Logger LOGGER = LogUtils.getLogger();
+
 
     public static <T extends Enum<T>> BlockState getStateToPlace(Map<Wood, Map<T, RegistryObject<Block>>> map, Wood wood, T blockTypes) {
         return map.get(wood).get(blockTypes).get().defaultBlockState();
@@ -42,7 +49,15 @@ public class util {
         level.addFreshEntity(new ItemEntity(level, pos.getX(), pos.above().getY(), pos.getZ(), itemstack, 0, 0, 0));
     }
 
-    public static void shootChoppedWood(Level level, BlockPos pos, Wood wood, Direction dir) {
+    public static void shootLogHalves(Level level, BlockPos pos, Wood wood, Direction dir) {
+        shootChoppedWood(level, pos, wood, BlockType.DEBARKED_HALF, dir);
+    }
+
+    public static void shootLogQuarters(Level level, BlockPos pos, Wood wood, Direction dir) {
+        shootChoppedWood(level, pos, wood, BlockType.DEBARKED_QUARTER, dir);
+    }
+
+    private static void shootChoppedWood(Level level, BlockPos pos, Wood wood, BlockType type, Direction dir) {
         Direction.Axis axis = dir.getAxis();
         double deltaX = 0;
         double deltaY = 0.25;
@@ -57,9 +72,19 @@ public class util {
             deltaZ = 0.75;
             offsetZ = 0.1875;
         }
-        BlockState state = getStateToPlace(ModBlocks.WOODS, wood, BlockType.DEBARKED_HALF);
-        LogHalfProjectile proj1 = new LogHalfProjectile(pos, state, 0.5 + offsetX, offsetY, 0.5 + offsetZ, level, dir, true);
-        LogHalfProjectile proj2 = new LogHalfProjectile(pos, state, 0.5 - offsetX, offsetY, 0.5 - offsetZ, level, dir, false);
+        AbstractWoodProjectile proj1;
+        AbstractWoodProjectile proj2;
+        BlockState state = getStateToPlace(ModBlocks.WOODS, wood, type);
+        if (type == BlockType.DEBARKED_HALF) {
+            proj1 = new LogHalfProjectile(pos, state, 0.5 + offsetX, offsetY, 0.5 + offsetZ, level, dir, true);
+            proj2 = new LogHalfProjectile(pos, state, 0.5 - offsetX, offsetY, 0.5 - offsetZ, level, dir, false);
+        } else if (type == BlockType.DEBARKED_QUARTER) {
+            proj1 = new LogQuarterProjectile(pos, state, 0.5 + offsetX, offsetY, 0.5 + offsetZ, level, dir, true);
+            proj2 = new LogQuarterProjectile(pos, state, 0.5 - offsetX, offsetY, 0.5 - offsetZ, level, dir, false);
+        } else {
+            LOGGER.debug("Attempted to shoot DEBARKED_LOG, why?");
+            return;
+        }
         proj1.shoot(deltaX, deltaY, deltaZ, 0.3f, 0.0f);
         proj2.shoot(-deltaX, deltaY, -deltaZ, 0.3f, 0.0f);
 
@@ -128,5 +153,4 @@ public class util {
     //https://ru.wikipedia.org/wiki/Ствол_(ботаника)
     //"Луб" == "Bast"
     // https://en.wikipedia.org/wiki/Cambium
-    //ALL actions should take durability
 }

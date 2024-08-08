@@ -22,13 +22,14 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.slf4j.Logger;
 import su.uTa4u.tfcwoodwork.TFCWoodworking;
+import su.uTa4u.tfcwoodwork.entity.AbstractWoodProjectile;
 import su.uTa4u.tfcwoodwork.entity.LogHalfProjectile;
+import su.uTa4u.tfcwoodwork.entity.LogQuarterProjectile;
 
 import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
-public class LogHalfRenderer extends EntityRenderer<LogHalfProjectile> {
-    private static final Logger LOGGER = LogUtils.getLogger();
+public class WoodProjectilefRenderer extends EntityRenderer<AbstractWoodProjectile> {
     private static final Map<Wood, ResourceLocation> TEXTURE_BY_WOOD;
     private final BlockRenderDispatcher dispatcher;
 
@@ -36,7 +37,7 @@ public class LogHalfRenderer extends EntityRenderer<LogHalfProjectile> {
         TEXTURE_BY_WOOD = Helpers.mapOfKeys(Wood.class, (wood) -> new ResourceLocation(TFCWoodworking.MOD_ID, "textures/entity/log_half/" + wood.getSerializedName() + ".png"));
     }
 
-    public LogHalfRenderer(EntityRendererProvider.Context pContext) {
+    public WoodProjectilefRenderer(EntityRendererProvider.Context pContext) {
         super(pContext);
         this.shadowRadius = 0.5F;
         this.dispatcher = pContext.getBlockRenderDispatcher();
@@ -74,8 +75,9 @@ public class LogHalfRenderer extends EntityRenderer<LogHalfProjectile> {
     }
 
     //Is this even used by the renderer? Idk, but didn't want to return null
+    //If it is used, need to handle log_quarter
     @Override
-    public ResourceLocation getTextureLocation(LogHalfProjectile pEntity) {
+    public ResourceLocation getTextureLocation(AbstractWoodProjectile pEntity) {
         return TEXTURE_BY_WOOD.get(Wood.ACACIA);
     }
 }
