@@ -34,10 +34,10 @@ public class LogHalfProjectile extends AbstractArrow {
     protected static final EntityDataAccessor<Direction> DIRECTION = SynchedEntityData.defineId(LogHalfProjectile.class, EntityDataSerializers.DIRECTION);
     protected static final EntityDataAccessor<BlockPos> START_BLOCKPOS = SynchedEntityData.defineId(LogHalfProjectile.class, EntityDataSerializers.BLOCK_POS);
     protected static final EntityDataAccessor<BlockState> BLOCKSTATE = SynchedEntityData.defineId(LogHalfProjectile.class, EntityDataSerializers.BLOCK_STATE);
-
+////
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final EntityDimensions DIMENSIONS = new EntityDimensions(0.375f, 0.375f, true);
-    private static final int HOR_ROT_PERIOD = 30; // Ticks per 360.0f degree rotation
+    private static final int HOR_ROT_PERIOD = 30; // Ticks for 360.0f degree rotation
     private float hRot0 = 0.0f;
     private float hRot = 0.0f;
 
@@ -55,9 +55,7 @@ public class LogHalfProjectile extends AbstractArrow {
 
     public float getHRot() {
         this.hRot0 = this.hRot;
-        if (!this.inGround) {
-            this.hRot = (this.tickCount % HOR_ROT_PERIOD) * (360.0f / HOR_ROT_PERIOD);
-        }
+        this.hRot = (this.tickCount % HOR_ROT_PERIOD) * (360.0f / HOR_ROT_PERIOD);
         return this.hRot;
     }
 
@@ -107,7 +105,7 @@ public class LogHalfProjectile extends AbstractArrow {
     }
 
 
-    //TODO: onHitEntity do damage
+    //TODO: do damage?
     @Override
     protected void onHitEntity(EntityHitResult pResult) {}
 
