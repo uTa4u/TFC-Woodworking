@@ -1,7 +1,6 @@
 package su.uTa4u.tfcwoodwork.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.logging.LogUtils;
 import com.mojang.math.Axis;
 import net.dries007.tfc.common.blocks.wood.Wood;
 import net.dries007.tfc.util.Helpers;
@@ -20,11 +19,8 @@ import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.slf4j.Logger;
 import su.uTa4u.tfcwoodwork.TFCWoodworking;
 import su.uTa4u.tfcwoodwork.entity.AbstractWoodProjectile;
-import su.uTa4u.tfcwoodwork.entity.LogHalfProjectile;
-import su.uTa4u.tfcwoodwork.entity.LogQuarterProjectile;
 
 import java.util.Map;
 

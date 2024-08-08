@@ -18,8 +18,8 @@ public class ModItems {
 
     public static final DeferredRegister<Item> ITEMS;
 
-    public static final RegistryObject<Item> TESTAXE;
-    public static final RegistryObject<Item> TESTSAW;
+//    public static final RegistryObject<Item> TESTAXE;
+//    public static final RegistryObject<Item> TESTSAW;
     public static final Map<Wood, RegistryObject<Item>> TREE_BARK;
     public static final Map<Wood, RegistryObject<Item>> TREE_BAST;
     public static final RegistryObject<Item> SAWDUST;
@@ -27,8 +27,8 @@ public class ModItems {
 
     static {
         ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, TFCWoodworking.MOD_ID);
-        TESTAXE = registerItem("testaxe", TestAxe::new);
-        TESTSAW = registerItem("testsaw", TestSaw::new);
+//        TESTAXE = registerItem("testaxe", TestAxe::new);
+//        TESTSAW = registerItem("testsaw", TestSaw::new);
         TREE_BARK = Helpers.mapOfKeys(Wood.class, (wood) -> registerItemFamily("wood/bark/" + wood.name()));
         TREE_BAST = Helpers.mapOfKeys(Wood.class, (wood) -> registerItemFamily("wood/bast/" + wood.name()));
         SAWDUST = registerItem("wood/sawdust", () -> new Item(new Item.Properties()));
@@ -46,11 +46,11 @@ public class ModItems {
         return new ResourceLocation(TFCWoodworking.MOD_ID, path);
     }
 
-    public static ItemStack getBark(Wood wood) {
-        return new ItemStack(ForgeRegistries.ITEMS.getValue(getResourceLoc("wood/bark/" + wood.name().toLowerCase(Locale.ROOT))), 4);
+    public static Item getBark(Wood wood) {
+        return ForgeRegistries.ITEMS.getValue(getResourceLoc("wood/bark/" + wood.name().toLowerCase(Locale.ROOT)));
     }
 
-    public static ItemStack getBast(Wood wood) {
-        return new ItemStack(ForgeRegistries.ITEMS.getValue(getResourceLoc("wood/bast/" + wood.name().toLowerCase(Locale.ROOT))), 4);
+    public static Item getBast(Wood wood) {
+        return ForgeRegistries.ITEMS.getValue(getResourceLoc("wood/bast/" + wood.name().toLowerCase(Locale.ROOT)));
     }
 }

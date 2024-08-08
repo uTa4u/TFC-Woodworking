@@ -70,44 +70,41 @@ public class util {
             deltaZ = 0.75;
             offsetZ = 0.1875;
         }
-        AbstractWoodProjectile proj1;
-        AbstractWoodProjectile proj2;
+        AbstractWoodProjectile projLeft;
+        AbstractWoodProjectile projRight;
         BlockState state = getStateToPlace(ModBlocks.WOODS, wood, type);
         if (type == BlockType.DEBARKED_HALF) {
-            proj1 = new LogHalfProjectile(pos, state, 0.5 + offsetX, offsetY, 0.5 + offsetZ, level, dir, true);
-            proj2 = new LogHalfProjectile(pos, state, 0.5 - offsetX, offsetY, 0.5 - offsetZ, level, dir, false);
+            projLeft = new LogHalfProjectile(pos, state, 0.5 + offsetX, offsetY, 0.5 + offsetZ, level, dir, true);
+            projRight = new LogHalfProjectile(pos, state, 0.5 - offsetX, offsetY, 0.5 - offsetZ, level, dir, false);
         } else if (type == BlockType.DEBARKED_QUARTER) {
-            proj1 = new LogQuarterProjectile(pos, state, 0.5 + offsetX, offsetY, 0.5 + offsetZ, level, dir, true);
-            proj2 = new LogQuarterProjectile(pos, state, 0.5 - offsetX, offsetY, 0.5 - offsetZ, level, dir, false);
+            projLeft = new LogQuarterProjectile(pos, state, 0.5 + offsetX, offsetY, 0.5 + offsetZ, level, dir, true);
+            projRight = new LogQuarterProjectile(pos, state, 0.5 - offsetX, offsetY, 0.5 - offsetZ, level, dir, false);
         } else {
-            LOGGER.debug("Attempted to shoot DEBARKED_LOG, why?");
+            LOGGER.debug("Attempted to shoot non existent projectile, why?");
             return;
         }
-        proj1.shoot(deltaX, deltaY, deltaZ, 0.3f, 0.0f);
-        proj2.shoot(-deltaX, deltaY, -deltaZ, 0.3f, 0.0f);
+        projLeft.shoot(deltaX, deltaY, deltaZ, 0.3f, 0.0f);
+        projRight.shoot(-deltaX, deltaY, -deltaZ, 0.3f, 0.0f);
 
-        level.addFreshEntity(proj1);
-        level.addFreshEntity(proj2);
+        level.addFreshEntity(projLeft);
+        level.addFreshEntity(projRight);
 
     }
 
-/*    public static void dropBiDirectional(Level level, BlockPos pos, Direction dir, Item item, int count) {
-        Direction.Axis axis = dir.getAxis();
-        if (axis == Direction.Axis.Z) {
-            Direction left = dir.getCounterClockWise();
-            BlockPos leftPos = pos.relative(left);
-            double deltaX = 0.5;
-            double deltaY = 0.5;
-            double deltaZ = 0;
-            ItemEntity drop1 = new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(),
-                    new ItemStack(item, count), deltaX, deltaY, deltaZ);
-            ItemEntity drop2 = new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(),
-                    new ItemStack(item, count), -deltaX, deltaY, deltaZ);
-            level.addFreshEntity(drop1);
-            level.addFreshEntity(drop2);
-        } else if (axis == Direction.Axis.X) {
-        }
-    }*/
+    public static void spawnDropsCardinal(Level level, BlockPos pos, Item item, int count) {
+        double deltaX = 0.05;
+        double deltaY = 0.05;
+        double deltaZ = 0.05;
+        ItemStack itemStack = new ItemStack(item, count);
+        ItemEntity north = new ItemEntity(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() - 0.2, itemStack, 0, deltaY, -deltaZ);
+        ItemEntity south = new ItemEntity(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 1.2, itemStack, 0, deltaY, deltaZ);
+        ItemEntity west  = new ItemEntity(level, pos.getX() - 0.2, pos.getY() + 0.5, pos.getZ() + 0.5, itemStack, -deltaX, deltaY, 0);
+        ItemEntity east  = new ItemEntity(level, pos.getX() + 1.2, pos.getY() + 0.5, pos.getZ() + 0.5, itemStack, deltaX, deltaY, 0);
+        level.addFreshEntity(north);
+        level.addFreshEntity(south);
+        level.addFreshEntity(west);
+        level.addFreshEntity(east);
+    }
 
     public static <T extends Enum<T>> Pair<Wood, T> getWoodWoodTypePair(Map<Wood, Map<T, RegistryObject<Block>>> map, BlockState state) {
         for (Map.Entry<Wood, Map<T, RegistryObject<Block>>> entry1 : map.entrySet()) {

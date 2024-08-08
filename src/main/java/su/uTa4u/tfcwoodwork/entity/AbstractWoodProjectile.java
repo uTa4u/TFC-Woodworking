@@ -34,11 +34,11 @@ public abstract class AbstractWoodProjectile extends AbstractArrow {
     private float hRot0 = 0.0f;
     private float hRot = 0.0f;
 
-    protected AbstractWoodProjectile(EntityType<? extends AbstractWoodProjectile> entityType, Level level) {
+    protected AbstractWoodProjectile(EntityType<? extends AbstractArrow> entityType, Level level) {
         super(entityType, level);
     }
 
-    public AbstractWoodProjectile(EntityType entityType, BlockPos pos, BlockState state, double offsetX, double offsetY, double offsetZ, Level level, Direction dir, boolean isMirrored) {
+    public AbstractWoodProjectile(EntityType<? extends AbstractArrow> entityType, BlockPos pos, BlockState state, double offsetX, double offsetY, double offsetZ, Level level, Direction dir, boolean isMirrored) {
         super(entityType, pos.getX() + offsetX, pos.getY() + offsetY, pos.getZ() + offsetZ, level);
         this.setMirrored(isMirrored);
         this.setDirection(dir);
