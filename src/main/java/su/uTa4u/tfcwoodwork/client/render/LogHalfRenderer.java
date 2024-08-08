@@ -58,9 +58,7 @@ public class LogHalfRenderer extends EntityRenderer<LogHalfProjectile> {
                 if (chopperDir == Direction.SOUTH || chopperDir == Direction.NORTH) poseStack.mulPose(Axis.YP.rotationDegrees(90.0f));
 
                 if (entity.getMirrored()) poseStack.mulPose(Axis.YP.rotationDegrees(180.0f));
-
-//                poseStack.translate(0, -0.3125, 0);
-                poseStack.translate(0, -0.3, 0);
+                poseStack.translate(0, -0.3125, 0);
 
                 poseStack.translate(0, 0.5, 0);
                 poseStack.mulPose(Axis.XN.rotationDegrees(Mth.rotLerp(partialTicks, entity.getHRot0(), entity.getHRot())));

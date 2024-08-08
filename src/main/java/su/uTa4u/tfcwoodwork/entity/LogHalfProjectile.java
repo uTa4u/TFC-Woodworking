@@ -34,7 +34,7 @@ public class LogHalfProjectile extends AbstractArrow {
     protected static final EntityDataAccessor<Direction> DIRECTION = SynchedEntityData.defineId(LogHalfProjectile.class, EntityDataSerializers.DIRECTION);
     protected static final EntityDataAccessor<BlockPos> START_BLOCKPOS = SynchedEntityData.defineId(LogHalfProjectile.class, EntityDataSerializers.BLOCK_POS);
     protected static final EntityDataAccessor<BlockState> BLOCKSTATE = SynchedEntityData.defineId(LogHalfProjectile.class, EntityDataSerializers.BLOCK_STATE);
-////
+
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final EntityDimensions DIMENSIONS = new EntityDimensions(0.375f, 0.375f, true);
     private static final int HOR_ROT_PERIOD = 30; // Ticks for 360.0f degree rotation
@@ -104,10 +104,10 @@ public class LogHalfProjectile extends AbstractArrow {
         this.entityData.set(START_BLOCKPOS, pos);
     }
 
-
     //TODO: do damage?
     @Override
-    protected void onHitEntity(EntityHitResult pResult) {}
+    protected void onHitEntity(EntityHitResult pResult) {
+    }
 
     //TODO: if woodpile block is hit, place wood in there immediately
     @Override
