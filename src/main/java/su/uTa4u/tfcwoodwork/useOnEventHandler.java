@@ -151,7 +151,6 @@ public class useOnEventHandler {
         return false;
     }
 
-    //TODO: make maps for all valid tools and blocks instead of looping over it every time
     //TODO: remove tfc recipes for handled blocks/items
     //TODO: new textures for blocks and items
     //TODO: more in-world recipes for wooden things
@@ -161,7 +160,7 @@ public class useOnEventHandler {
     //TODO: make blocks bigged and heavier (tfc mechanics)
     //TODO: make debarked logs pileable
     //TODO: factor out shared stuff from switches/ifs
-    //TODO: better recipe for WOOD and STRIPPED_WOOD
+    //TODO: better recipe for WOOD and STRIPPED_WOOD (2 bark 1 log -> 1 wood)
     public static InteractionResult useTool(util.TOOL tool, Level level, Player player, BlockPos pos, ItemStack inHand, InteractionHand hand) {
         BlockState state = level.getBlockState(pos);
         util.Pair<Wood, Wood.BlockType> pair1 = util.getWoodWoodTypePair(TFCBlocks.WOODS, state);
