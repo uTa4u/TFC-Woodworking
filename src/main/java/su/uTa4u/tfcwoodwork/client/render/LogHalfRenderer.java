@@ -7,11 +7,9 @@ import net.dries007.tfc.common.blocks.wood.Wood;
 import net.dries007.tfc.util.Helpers;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
-import net.minecraft.client.renderer.entity.ArrowRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -24,8 +22,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.slf4j.Logger;
 import su.uTa4u.tfcwoodwork.TFCWoodworking;
-import su.uTa4u.tfcwoodwork.blocks.BlockType;
-import su.uTa4u.tfcwoodwork.blocks.ModBlocks;
 import su.uTa4u.tfcwoodwork.entity.LogHalfProjectile;
 
 import java.util.Map;
@@ -33,7 +29,6 @@ import java.util.Map;
 @OnlyIn(Dist.CLIENT)
 public class LogHalfRenderer extends EntityRenderer<LogHalfProjectile> {
     private static final Logger LOGGER = LogUtils.getLogger();
-    //TODO: un-hardcode texture
     private static final Map<Wood, ResourceLocation> TEXTURE_BY_WOOD;
     private final BlockRenderDispatcher dispatcher;
 

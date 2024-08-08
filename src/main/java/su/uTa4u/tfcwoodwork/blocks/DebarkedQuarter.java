@@ -11,8 +11,6 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-import java.util.Random;
-
 public class DebarkedQuarter extends AbstractDebarkedWood {
     private static final VoxelShape AABB = Shapes.box(0.3125, 0, 0.3125, 0.6875, 1, 0.6875);
 

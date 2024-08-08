@@ -23,7 +23,6 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.RegistryObject;
-import su.uTa4u.tfcwoodwork.blocks.AbstractDebarkedWood;
 import su.uTa4u.tfcwoodwork.blocks.BlockType;
 import su.uTa4u.tfcwoodwork.blocks.ModBlocks;
 import su.uTa4u.tfcwoodwork.items.ModItems;
