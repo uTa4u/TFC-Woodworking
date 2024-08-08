@@ -117,18 +117,16 @@ public class useOnEventHandler {
     }
 
     //TODO: remove tfc recipes for handled blocks/items
-    //TODO: drops should drop in cross/perpendicular way
+    //TODO: bark and bast should drop from 4 directions
     //TODO: new textures for blocks and items
-    //TODO: quarter -> fence
+    //TODO: more in-world recipes for wooden things
     //TODO: uses/tags for bark/bast/sawdust
-    //TODO: fix tool cooldown
+    //TODO: before taking an action check if tool is not in cooldown
     //TODO: make Wood.BlockType == WOOD stripable
-    //TODO: make vanilla wood stripable leave vanilla implementation and just drop bark
     //TODO: if alive tree was debarked it should die after some time and fall, more debarked blocks = faster death
-    //TODO: relevant helper methods here from util
     //TODO: make bark pileable
     //TODO: make blocks bigged and heavier (tfc mechanics)
-    //TODO: chopped woods fly away when chopped
+    //TODO: make debarked logs pileable
     //TODO: factor out shared stuff from switches/ifs
     public static InteractionResult useTool(util.TOOL tool, Level level, Player player, BlockPos pos, ItemStack inHand, InteractionHand hand) {
         BlockState state = level.getBlockState(pos);
@@ -159,13 +157,8 @@ public class useOnEventHandler {
             if (pair2 != null) {
                 if (tool == util.TOOL.AXE && level.getBlockState(pos.above()) == Blocks.AIR.defaultBlockState()) {
                     switch (pair2.value()) {
-                        case DEBARKED_LOG -> {
-                            //util.dropBiDirectional(level, pos, dir, util.getItemToDrop(ModBlocks.WOODS, pair2.key(), BlockType.DEBARKED_HALF), 1);
-                            util.shootChoppedWood(level, pos, pair2.key(), dir);
-                        }
-                        case DEBARKED_HALF -> {
-                            //util.dropBiDirectional(level, pos, dir, util.getItemToDrop(ModBlocks.WOODS, pair2.key(), BlockType.DEBARKED_QUARTER), 1);
-                        }
+                        case DEBARKED_LOG -> util.shootLogHalves(level, pos, pair2.key(), dir);
+                        case DEBARKED_HALF -> util.shootLogQuarters(level, pos, pair2.key(), dir);
                         default -> { return InteractionResult.PASS; }
                     }
                     level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());

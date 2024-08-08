@@ -17,7 +17,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.RegistryObject;
 import org.slf4j.Logger;
-import su.uTa4u.tfcwoodwork.blocks.AbstractDebarkedWood;
 import su.uTa4u.tfcwoodwork.blocks.BlockType;
 import su.uTa4u.tfcwoodwork.blocks.ModBlocks;
 import su.uTa4u.tfcwoodwork.entity.AbstractWoodProjectile;
@@ -31,7 +30,6 @@ import java.util.Random;
 public class util {
     private static final Random rng = new Random();
     private static final Logger LOGGER = LogUtils.getLogger();
-
 
     public static <T extends Enum<T>> BlockState getStateToPlace(Map<Wood, Map<T, RegistryObject<Block>>> map, Wood wood, T blockTypes) {
         return map.get(wood).get(blockTypes).get().defaultBlockState();

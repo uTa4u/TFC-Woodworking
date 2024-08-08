@@ -43,7 +43,7 @@ public class WoodProjectilefRenderer extends EntityRenderer<AbstractWoodProjecti
         this.dispatcher = pContext.getBlockRenderDispatcher();
     }
 
-    public void render(LogHalfProjectile entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+    public void render(AbstractWoodProjectile entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         BlockState blockstate = entity.getBlockState();
         if (blockstate.getRenderShape() == RenderShape.MODEL) {
             Level level = entity.level();
