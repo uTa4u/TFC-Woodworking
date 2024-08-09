@@ -133,7 +133,7 @@ public class util {
         InteractionHand hand = context.getHand();
         ItemStack inHand = context.getItemInHand();
 
-        return useOnEventHandler.useTool(tool, level, player, pos, inHand, hand);
+        return useOnEventHandler.useTool(tool, level, player, pos);
     }
 
     public enum TOOL {

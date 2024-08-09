@@ -53,16 +53,18 @@ public class useOnEventHandler {
             }
             if (checkFourDirections(level, pos)) {
                 if (isValidAxe(inMainHand)) {
-                    InteractionResult result = useTool(util.TOOL.AXE, level, player, pos, inMainHand, hand);
+                    InteractionResult result = useTool(util.TOOL.AXE, level, player, pos);
                     if (result == InteractionResult.sidedSuccess(level.isClientSide)) {
                         player.swing(InteractionHand.MAIN_HAND, true);
+                        util.damageTool(player, inMainHand, hand);
                         setCooldownForAxes(player);
                         event.setCanceled(true);
                     }
                 } else if (isValidSaw(inMainHand)) {
-                    InteractionResult result = useTool(util.TOOL.SAW, level, player, pos, inMainHand, hand);
+                    InteractionResult result = useTool(util.TOOL.SAW, level, player, pos);
                     if (result == InteractionResult.sidedSuccess(level.isClientSide)) {
                         player.swing(InteractionHand.MAIN_HAND, true);
+                        util.damageTool(player, inMainHand, hand);
                         setCooldownForSaws(player);
                         event.setCanceled(true);
                     }
@@ -161,7 +163,7 @@ public class useOnEventHandler {
     //TODO: make debarked logs pileable
     //TODO: factor out shared stuff from switches/ifs
     //TODO: better recipe for WOOD and STRIPPED_WOOD (2 bark 1 log -> 1 wood)
-    public static InteractionResult useTool(util.TOOL tool, Level level, Player player, BlockPos pos, ItemStack inHand, InteractionHand hand) {
+    public static InteractionResult useTool(util.TOOL tool, Level level, Player player, BlockPos pos) {
         BlockState state = level.getBlockState(pos);
         util.Pair<Wood, Wood.BlockType> pair1 = util.getWoodWoodTypePair(TFCBlocks.WOODS, state);
 
@@ -171,24 +173,20 @@ public class useOnEventHandler {
             switch (pair1.value()) {
                 case LOG -> {
                     newState = util.getStateToPlace(TFCBlocks.WOODS, pair1.key(), Wood.BlockType.STRIPPED_LOG);
-//                    util.spawnDrops(level, pos, ModItems.getBark(pair1.key()));
                     util.spawnDropsCardinal(level, pos, ModItems.getBark(pair1.key()), 1);
                 }
                 case WOOD -> {
                     newState = util.getStateToPlace(TFCBlocks.WOODS, pair1.key(), Wood.BlockType.STRIPPED_WOOD);
-//                    util.spawnDrops(level, pos, ModItems.getBark(pair1.key()));
                     util.spawnDropsCardinal(level, pos, ModItems.getBark(pair1.key()), 1);
                 }
                 case STRIPPED_LOG, STRIPPED_WOOD -> {
                     newState = util.getStateToPlace(ModBlocks.WOODS, pair1.key(), BlockType.DEBARKED_LOG);
-//                    util.spawnDrops(level, pos, ModItems.getBast(pair1.key()));
                     util.spawnDropsCardinal(level, pos, ModItems.getBast(pair1.key()), 1);
                 }
                 default -> { return InteractionResult.PASS; }
             }
             level.setBlockAndUpdate(pos, newState);
             level.playSound(player, pos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0f, 1.0f);
-            util.damageTool(player, inHand, hand);
             return InteractionResult.sidedSuccess(level.isClientSide);
         } else {
             util.Pair<Wood, BlockType> pair2 = util.getWoodWoodTypePair(ModBlocks.WOODS, state);
@@ -203,7 +201,6 @@ public class useOnEventHandler {
                     }
                     level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
                     level.playSound(player, pos, ModSounds.LOG_CHOP.get(), SoundSource.BLOCKS, 0.6f, 1.0f);
-                    util.damageTool(player, inHand, hand);
                 } else if (tool == util.TOOL.SAW) {
                     switch (pair2.value()) {
                         case DEBARKED_HALF -> util.spawnDrops(level, pos, new ItemStack(TFCItems.SUPPORTS.get(pair2.key()).get(), 4));
@@ -215,7 +212,6 @@ public class useOnEventHandler {
                     util.spawnDrops(level, pos, new ItemStack(ModItems.SAWDUST.get(), 1));
                     level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
                     level.playSound(player, pos, ModSounds.LOG_SAWED.get(), SoundSource.BLOCKS, 0.6f, 1.0f);
-                    util.damageTool(player, inHand, hand);
                 }
                 return InteractionResult.sidedSuccess(level.isClientSide);
             }
