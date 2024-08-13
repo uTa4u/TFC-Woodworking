@@ -2,6 +2,7 @@ package su.uTa4u.tfcwoodwork.container;
 
 import net.dries007.tfc.common.blockentities.InventoryBlockEntity;
 import net.dries007.tfc.common.container.BlockEntityContainer;
+import net.dries007.tfc.common.container.BlockEntityContainer.Factory;
 import net.dries007.tfc.util.registry.RegistrationHelpers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
@@ -18,8 +19,6 @@ import su.uTa4u.tfcwoodwork.blockentities.ModBlockEntities;
 
 import java.util.function.Supplier;
 
-import static net.dries007.tfc.util.registry.RegistrationHelpers.registerContainer;
-
 public class ModContainerTypes {
     public static final DeferredRegister<MenuType<?>> CONTAINERS;
 
@@ -31,7 +30,7 @@ public class ModContainerTypes {
         LOG_PILE = registerBlock("log_pile", ModBlockEntities.LOG_PILE, LogPileExContainer::create);
     }
 
-    private static <T extends InventoryBlockEntity<?>, C extends BlockEntityContainer<T>> RegistryObject<MenuType<C>> registerBlock(String name, Supplier<BlockEntityType<T>> type, BlockEntityContainer.Factory<T, C> factory) {
+    private static <T extends InventoryBlockEntity<?>, C extends BlockEntityContainer<T>> RegistryObject<MenuType<C>> registerBlock(String name, Supplier<BlockEntityType<T>> type, Factory<T, C> factory) {
         return RegistrationHelpers.registerBlockEntityContainer(CONTAINERS, name, type, factory);
     }
 
