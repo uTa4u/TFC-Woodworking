@@ -7,7 +7,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import su.uTa4u.tfcwoodwork.TFCWoodworking;
 import su.uTa4u.tfcwoodwork.client.render.WoodProjectilefRenderer;
-import su.uTa4u.tfcwoodwork.entity.ModEntities;
+import su.uTa4u.tfcwoodwork.entities.ModEntities;
 
 @Mod.EventBusSubscriber(modid = TFCWoodworking.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientSetup {

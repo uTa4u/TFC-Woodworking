@@ -1,4 +1,4 @@
-package su.uTa4u.tfcwoodwork.entity;
+package su.uTa4u.tfcwoodwork.entities;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

@@ -19,9 +19,9 @@ import net.minecraftforge.registries.RegistryObject;
 import org.slf4j.Logger;
 import su.uTa4u.tfcwoodwork.blocks.BlockType;
 import su.uTa4u.tfcwoodwork.blocks.ModBlocks;
-import su.uTa4u.tfcwoodwork.entity.AbstractWoodProjectile;
-import su.uTa4u.tfcwoodwork.entity.LogHalfProjectile;
-import su.uTa4u.tfcwoodwork.entity.LogQuarterProjectile;
+import su.uTa4u.tfcwoodwork.entities.AbstractWoodProjectile;
+import su.uTa4u.tfcwoodwork.entities.LogHalfProjectile;
+import su.uTa4u.tfcwoodwork.entities.LogQuarterProjectile;
 
 import java.util.Map;
 import java.util.Random;

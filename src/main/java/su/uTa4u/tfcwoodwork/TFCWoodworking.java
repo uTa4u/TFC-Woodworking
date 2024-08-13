@@ -16,7 +16,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import su.uTa4u.tfcwoodwork.blocks.ModBlocks;
-import su.uTa4u.tfcwoodwork.entity.ModEntities;
+import su.uTa4u.tfcwoodwork.entities.ModEntities;
 import su.uTa4u.tfcwoodwork.items.ModItems;
 import su.uTa4u.tfcwoodwork.sounds.ModSounds;
 

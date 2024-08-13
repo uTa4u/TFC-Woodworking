@@ -1,4 +1,4 @@
-package su.uTa4u.tfcwoodwork.entity;
+package su.uTa4u.tfcwoodwork.entities;
 
 import net.dries007.tfc.common.blocks.wood.Wood;
 import net.minecraft.core.BlockPos;
