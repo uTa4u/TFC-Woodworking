@@ -1,9 +1,0 @@
-{
-  "parent": "tfcwoodwork:block/debarked_half_chopped/debarked_half_chopped",
-  "textures": {
-    "side": "tfc:block/wood/sheet/aspen",
-    "top": "tfc:block/wood/log_top/aspen",
-    "inner": "tfcwoodwork:block/log_inner/aspen",
-    "particle": "tfc:block/wood/sheet/aspen"
-  }
-}

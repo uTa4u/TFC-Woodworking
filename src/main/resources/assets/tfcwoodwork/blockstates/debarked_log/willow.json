@@ -1,34 +1,7 @@
 {
   "variants": {
-    "facing=north,chopped=false": {
+    "": {
       "model": "tfcwoodwork:block/debarked_log/willow"
-    },
-    "facing=east,chopped=false": {
-      "model": "tfcwoodwork:block/debarked_log/willow",
-      "y": 90
-    },
-    "facing=south,chopped=false": {
-      "model": "tfcwoodwork:block/debarked_log/willow",
-      "y": 180
-    },
-    "facing=west,chopped=false": {
-      "model": "tfcwoodwork:block/debarked_log/willow",
-      "y": 270
-    },
-    "facing=north,chopped=true": {
-      "model": "tfcwoodwork:block/debarked_log_chopped/willow"
-    },
-    "facing=east,chopped=true": {
-      "model": "tfcwoodwork:block/debarked_log_chopped/willow",
-      "y": 90
-    },
-    "facing=south,chopped=true": {
-      "model": "tfcwoodwork:block/debarked_log_chopped/willow",
-      "y": 180
-    },
-    "facing=west,chopped=true": {
-      "model": "tfcwoodwork:block/debarked_log_chopped/willow",
-      "y": 270
     }
   }
 }

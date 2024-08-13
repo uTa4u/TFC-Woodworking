@@ -11,35 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "tfcwoodwork:debarked_half/blackwood",
-          "conditions": [
-            {
-              "condition": "minecraft:block_state_property",
-              "block": "tfcwoodwork:debarked_log/blackwood",
-              "properties": {
-                "chopped": "true"
-              }
-            }
-          ],
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": 2
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
           "name": "tfcwoodwork:debarked_log/blackwood",
-          "conditions": [
-            {
-              "condition": "minecraft:block_state_property",
-              "block": "tfcwoodwork:debarked_log/blackwood",
-              "properties": {
-                "chopped": "false"
-              }
-            }
-          ],
           "functions": [
             {
               "function": "minecraft:set_count",

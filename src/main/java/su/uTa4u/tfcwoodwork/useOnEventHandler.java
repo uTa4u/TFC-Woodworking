@@ -13,6 +13,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemCooldowns;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -23,7 +24,6 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.RegistryObject;
-import su.uTa4u.tfcwoodwork.blocks.AbstractDebarkedWood;
 import su.uTa4u.tfcwoodwork.blocks.BlockType;
 import su.uTa4u.tfcwoodwork.blocks.ModBlocks;
 import su.uTa4u.tfcwoodwork.items.ModItems;
@@ -32,6 +32,8 @@ import su.uTa4u.tfcwoodwork.sounds.ModSounds;
 import java.util.Map;
 
 public class useOnEventHandler {
+    private static final int TOOL_COOLDOWN = 10;
+
     @SubscribeEvent
     public static void useOn(PlayerInteractEvent.RightClickBlock event) {
         Level level = event.getLevel();
@@ -39,6 +41,10 @@ public class useOnEventHandler {
         Player player = event.getEntity();
         BlockState state = level.getBlockState(pos);
         ItemStack inMainHand = player.getItemInHand(InteractionHand.MAIN_HAND);
+        if (player.getCooldowns().isOnCooldown(inMainHand.getItem())) {
+            event.setUseItem(Event.Result.DENY);
+            return;
+        }
         if (isValidBlock(state)) {
             InteractionHand hand = event.getHand();
             if (hand == InteractionHand.OFF_HAND) {
@@ -46,21 +52,49 @@ public class useOnEventHandler {
                 return;
             }
             if (checkFourDirections(level, pos)) {
-                InteractionResult result;
-                if (isValidAxe(inMainHand) && !(state.hasProperty(AbstractDebarkedWood.CHOPPED) && state.getValue(AbstractDebarkedWood.CHOPPED))) {
-                    result = useTool(util.TOOL.AXE, level, player, pos, inMainHand, hand);
+                if (isValidAxe(inMainHand)) {
+                    InteractionResult result = useTool(util.TOOL.AXE, level, player, pos);
+                    if (result == InteractionResult.sidedSuccess(level.isClientSide)) {
+                        player.swing(InteractionHand.MAIN_HAND, true);
+                        util.damageTool(player, inMainHand, hand);
+                        setCooldownForAxes(player);
+                        event.setCanceled(true);
+                    }
                 } else if (isValidSaw(inMainHand)) {
-                    result = useTool(util.TOOL.SAW, level, player, pos, inMainHand, hand);
-                } else {
-                    return;
-                }
-                if (result == InteractionResult.sidedSuccess(level.isClientSide)) {
-                    player.swing(InteractionHand.MAIN_HAND, true);
-                    player.getCooldowns().addCooldown(inMainHand.getItem(), 20);
-                    event.setCanceled(true);
+                    InteractionResult result = useTool(util.TOOL.SAW, level, player, pos);
+                    if (result == InteractionResult.sidedSuccess(level.isClientSide)) {
+                        player.swing(InteractionHand.MAIN_HAND, true);
+                        util.damageTool(player, inMainHand, hand);
+                        setCooldownForSaws(player);
+                        event.setCanceled(true);
+                    }
                 }
             } else {
                 event.setUseItem(Event.Result.DENY);
+            }
+        }
+    }
+
+    private static void setCooldownForAxes(Player player) {
+        ItemCooldowns cds = player.getCooldowns();
+        for (RockCategory rock : RockCategory.values()) {
+            cds.addCooldown(TFCItems.ROCK_TOOLS.get(rock).get(RockCategory.ItemType.AXE).get(), TOOL_COOLDOWN);
+        }
+        for (Metal.Default metal : Metal.Default.values()) {
+            RegistryObject<Item> axe = TFCItems.METAL_ITEMS.get(metal).get(Metal.ItemType.AXE);
+            if (axe != null) {
+                cds.addCooldown(axe.get(), TOOL_COOLDOWN);
+            }
+        }
+
+    }
+
+    private static void setCooldownForSaws(Player player) {
+        ItemCooldowns cds = player.getCooldowns();
+        for (Metal.Default metal : Metal.Default.values()) {
+            RegistryObject<Item> saw = TFCItems.METAL_ITEMS.get(metal).get(Metal.ItemType.SAW);
+            if (saw != null) {
+                cds.addCooldown(saw.get(), TOOL_COOLDOWN);
             }
         }
     }
@@ -106,12 +140,13 @@ public class useOnEventHandler {
             Map<Wood.BlockType, RegistryObject<Block>> tfc = TFCBlocks.WOODS.get(wood);
             Map<BlockType, RegistryObject<Block>> tfcww = ModBlocks.WOODS.get(wood);
             if (state.is(tfc.get(Wood.BlockType.LOG).get()) ||
-                state.is(tfc.get(Wood.BlockType.STRIPPED_LOG).get())) {
-                return true;
-            } else if ((state.is(tfcww.get(BlockType.DEBARKED_LOG).get()) ||
-                       state.is(tfcww.get(BlockType.DEBARKED_HALF).get()) ||
-                       state.is(tfcww.get(BlockType.DEBARKED_QUARTER).get())))
-            {
+                    state.is(tfc.get(Wood.BlockType.WOOD).get()) ||
+                    state.is(tfc.get(Wood.BlockType.STRIPPED_LOG).get()) ||
+                    state.is(tfc.get(Wood.BlockType.STRIPPED_WOOD).get()) ||
+                    state.is(tfcww.get(BlockType.DEBARKED_LOG).get()) ||
+                    state.is(tfcww.get(BlockType.DEBARKED_HALF).get()) ||
+                    state.is(tfcww.get(BlockType.DEBARKED_QUARTER).get())
+            ) {
                 return true;
             }
         }
@@ -119,59 +154,50 @@ public class useOnEventHandler {
     }
 
     //TODO: remove tfc recipes for handled blocks/items
-    //TODO: drops should drop in cross/perpendicular way
-    //TODO: new textures for blocks and items
-    //TODO: quarter -> fence
+    //TODO: more in-world recipes for wooden things
     //TODO: uses/tags for bark/bast/sawdust
-    //TODO: fix tool cooldown
-    //TODO: make Wood.BlockType == WOOD stripable
-    //TODO: make vanilla wood stripable leave vanilla implementation and just drop bark
     //TODO: if alive tree was debarked it should die after some time and fall, more debarked blocks = faster death
-    //TODO: relevant helper methods here from util
-    //TODO: make bark pileable
-    //TODO: make blocks bigged and heavier (tfc mechanics)
-    //TODO: chopped woods fly away when chopped
-    public static InteractionResult useTool(util.TOOL tool, Level level, Player player, BlockPos pos, ItemStack inHand, InteractionHand hand) {
+    //TODO: make bark/bast pileable
+    //TODO: factor out shared stuff from switches/ifs
+    //TODO: better recipe for WOOD and STRIPPED_WOOD (2 bark 1 log -> 1 wood)
+    public static InteractionResult useTool(util.TOOL tool, Level level, Player player, BlockPos pos) {
         BlockState state = level.getBlockState(pos);
         util.Pair<Wood, Wood.BlockType> pair1 = util.getWoodWoodTypePair(TFCBlocks.WOODS, state);
 
+        Direction dir = player.getDirection();
         if (pair1 != null) {
             BlockState newState;
-            Direction dir = player.getDirection();
             switch (pair1.value()) {
                 case LOG -> {
                     newState = util.getStateToPlace(TFCBlocks.WOODS, pair1.key(), Wood.BlockType.STRIPPED_LOG);
-                    util.spawnDrops(level, pos, ModItems.getBark(pair1.key()));
-
+                    util.spawnDropsCardinal(level, pos, ModItems.getBark(pair1.key()), 1);
                 }
-                case STRIPPED_LOG -> {
-                    newState = util.getStateToPlace(ModBlocks.WOODS, pair1.key(), BlockType.DEBARKED_LOG)
-                            .setValue(AbstractDebarkedWood.FACING, dir.getOpposite());
-                    util.spawnDrops(level, pos, ModItems.getBast(pair1.key()));
+                case WOOD -> {
+                    newState = util.getStateToPlace(TFCBlocks.WOODS, pair1.key(), Wood.BlockType.STRIPPED_WOOD);
+                    util.spawnDropsCardinal(level, pos, ModItems.getBark(pair1.key()), 1);
                 }
-                default -> {
-                    return InteractionResult.PASS;
+                case STRIPPED_LOG, STRIPPED_WOOD -> {
+                    newState = util.getStateToPlace(ModBlocks.WOODS, pair1.key(), BlockType.DEBARKED_LOG);
+                    util.spawnDropsCardinal(level, pos, ModItems.getBast(pair1.key()), 1);
                 }
+                default -> { return InteractionResult.PASS; }
             }
-            level.playSound(player, pos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0f, 1.0f);
-            util.damageTool(player, inHand, hand);
             level.setBlockAndUpdate(pos, newState);
+            level.playSound(player, pos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0f, 1.0f);
             return InteractionResult.sidedSuccess(level.isClientSide);
         } else {
             util.Pair<Wood, BlockType> pair2 = util.getWoodWoodTypePair(ModBlocks.WOODS, state);
             if (pair2 != null) {
                 if (tool == util.TOOL.AXE && level.getBlockState(pos.above()) == Blocks.AIR.defaultBlockState()) {
                     switch (pair2.value()) {
-                        case DEBARKED_LOG, DEBARKED_HALF -> {
-                            BlockState newState = state.setValue(AbstractDebarkedWood.CHOPPED, true);
-                            level.setBlockAndUpdate(pos, newState);
-                        }
+                        case DEBARKED_LOG -> util.shootLogHalves(level, pos, pair2.key(), dir);
+                        case DEBARKED_HALF -> util.shootLogQuarters(level, pos, pair2.key(), dir);
                         default -> {
                             return InteractionResult.PASS;
                         }
                     }
+                    level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
                     level.playSound(player, pos, ModSounds.LOG_CHOP.get(), SoundSource.BLOCKS, 0.6f, 1.0f);
-                    util.damageTool(player, inHand, hand);
                 } else if (tool == util.TOOL.SAW) {
                     switch (pair2.value()) {
                         case DEBARKED_HALF -> util.spawnDrops(level, pos, new ItemStack(TFCItems.SUPPORTS.get(pair2.key()).get(), 4));
@@ -183,7 +209,6 @@ public class useOnEventHandler {
                     util.spawnDrops(level, pos, new ItemStack(ModItems.SAWDUST.get(), 1));
                     level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
                     level.playSound(player, pos, ModSounds.LOG_SAWED.get(), SoundSource.BLOCKS, 0.6f, 1.0f);
-                    util.damageTool(player, inHand, hand);
                 }
                 return InteractionResult.sidedSuccess(level.isClientSide);
             }

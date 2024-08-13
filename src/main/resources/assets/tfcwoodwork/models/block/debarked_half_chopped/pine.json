@@ -1,9 +1,0 @@
-{
-  "parent": "tfcwoodwork:block/debarked_half_chopped/debarked_half_chopped",
-  "textures": {
-    "side": "tfc:block/wood/sheet/pine",
-    "top": "tfc:block/wood/log_top/pine",
-    "inner": "tfcwoodwork:block/log_inner/pine",
-    "particle": "tfc:block/wood/sheet/pine"
-  }
-}
