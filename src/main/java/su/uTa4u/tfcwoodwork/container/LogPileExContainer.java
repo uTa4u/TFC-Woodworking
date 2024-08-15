@@ -1,16 +1,11 @@
 package su.uTa4u.tfcwoodwork.container;
 
-import net.dries007.tfc.client.screen.LogPileScreen;
-import net.dries007.tfc.client.screen.TFCContainerScreen;
 import net.dries007.tfc.common.capabilities.Capabilities;
 import net.dries007.tfc.common.container.BlockEntityContainer;
 import net.dries007.tfc.common.container.CallbackSlot;
-import net.dries007.tfc.common.container.TFCContainerTypes;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import org.jetbrains.annotations.NotNull;
 import su.uTa4u.tfcwoodwork.blockentities.LogPileExBlockEntity;
 
 public class LogPileExContainer extends BlockEntityContainer<LogPileExBlockEntity> {

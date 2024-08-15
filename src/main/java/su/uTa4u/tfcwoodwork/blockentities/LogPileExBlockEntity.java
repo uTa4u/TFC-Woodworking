@@ -1,8 +1,6 @@
 package su.uTa4u.tfcwoodwork.blockentities;
 
-import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blockentities.InventoryBlockEntity;
-import net.dries007.tfc.common.blockentities.LogPileBlockEntity;
 import net.dries007.tfc.util.Helpers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -15,7 +13,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.registries.ForgeRegistries;
 import su.uTa4u.tfcwoodwork.ModTags;
 import su.uTa4u.tfcwoodwork.container.LogPileExContainer;
 
