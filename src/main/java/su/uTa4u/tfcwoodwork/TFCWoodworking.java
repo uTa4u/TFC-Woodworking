@@ -7,6 +7,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -55,8 +56,7 @@ public class TFCWoodworking {
 
         MinecraftForge.EVENT_BUS.register(useOnEventHandler.class);
 
-        // Register the commonSetup method for modloading
-        modEventBus.addListener(this::commonSetup);
+        modEventBus.addListener(EventPriority.HIGH, this::highPrioritySetup);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
@@ -65,6 +65,8 @@ public class TFCWoodworking {
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 
-    private void commonSetup(final FMLCommonSetupEvent event) {}
+    private void highPrioritySetup(final FMLCommonSetupEvent event) {
+        util.registerLogPileInteraction();
+    }
 
 }
