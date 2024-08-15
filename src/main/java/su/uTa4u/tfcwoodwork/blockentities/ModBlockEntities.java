@@ -1,5 +1,6 @@
 package su.uTa4u.tfcwoodwork.blockentities;
 
+import net.dries007.tfc.util.registry.RegistrationHelpers;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -23,6 +24,6 @@ public class ModBlockEntities {
     }
 
     private static <T extends BlockEntity> RegistryObject<BlockEntityType<T>> register(String name, BlockEntityType.BlockEntitySupplier<T> factory, Supplier<? extends Block> block) {
-        return BLOCK_ENTITIES.register(name, () -> BlockEntityType.Builder.of(factory, block.get()).build(null));
+        return RegistrationHelpers.register(BLOCK_ENTITIES, name, factory, block);
     }
 }

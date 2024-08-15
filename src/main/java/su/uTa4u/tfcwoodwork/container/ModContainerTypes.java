@@ -15,9 +15,12 @@ import net.minecraftforge.network.IContainerFactory;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import su.uTa4u.tfcwoodwork.TFCWoodworking;
+import su.uTa4u.tfcwoodwork.blockentities.LogPileExBlockEntity;
 import su.uTa4u.tfcwoodwork.blockentities.ModBlockEntities;
 
 import java.util.function.Supplier;
+
+import static net.dries007.tfc.util.registry.RegistrationHelpers.registerContainer;
 
 public class ModContainerTypes {
     public static final DeferredRegister<MenuType<?>> CONTAINERS;
@@ -27,12 +30,12 @@ public class ModContainerTypes {
     static {
         CONTAINERS = DeferredRegister.create(Registries.MENU, TFCWoodworking.MOD_ID);
 
-        LOG_PILE = registerBlock("log_pile", ModBlockEntities.LOG_PILE, LogPileExContainer::create);
+        LOG_PILE = registerContainer(CONTAINERS, "log_pile", (windowId, playerInventory, buffer) -> {
+            Level level = playerInventory.player.level();
+            BlockPos pos = buffer.readBlockPos();
+            LogPileExBlockEntity entity = level.getBlockEntity(pos, ModBlockEntities.LOG_PILE.get()).orElseThrow();
+            return LogPileExContainer.create(entity, playerInventory, windowId);
+        });
     }
-
-    private static <T extends InventoryBlockEntity<?>, C extends BlockEntityContainer<T>> RegistryObject<MenuType<C>> registerBlock(String name, Supplier<BlockEntityType<T>> type, Factory<T, C> factory) {
-        return RegistrationHelpers.registerBlockEntityContainer(CONTAINERS, name, type, factory);
-    }
-
 
 }

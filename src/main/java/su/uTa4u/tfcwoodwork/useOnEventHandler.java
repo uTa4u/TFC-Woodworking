@@ -153,12 +153,10 @@ public class useOnEventHandler {
         return false;
     }
 
-    //TODO: remove tfc recipes for handled blocks/items
     //TODO: more in-world recipes for wooden things
     //TODO: uses/tags for bark/bast/sawdust
     //TODO: if alive tree was debarked it should die after some time and fall, more debarked blocks = faster death
     //TODO: make bark/bast pileable
-    //TODO: factor out shared stuff from switches/ifs
     //TODO: better recipe for WOOD and STRIPPED_WOOD (2 bark 1 log -> 1 wood)
     public static InteractionResult useTool(util.TOOL tool, Level level, Player player, BlockPos pos) {
         BlockState state = level.getBlockState(pos);

@@ -1,5 +1,6 @@
 package su.uTa4u.tfcwoodwork.container;
 
+import net.dries007.tfc.client.screen.LogPileScreen;
 import net.dries007.tfc.client.screen.TFCContainerScreen;
 import net.dries007.tfc.common.capabilities.Capabilities;
 import net.dries007.tfc.common.container.BlockEntityContainer;
@@ -13,30 +14,21 @@ import org.jetbrains.annotations.NotNull;
 import su.uTa4u.tfcwoodwork.blockentities.LogPileExBlockEntity;
 
 public class LogPileExContainer extends BlockEntityContainer<LogPileExBlockEntity> {
+    public static LogPileExContainer create(LogPileExBlockEntity logPile, Inventory playerInventory, int windowId) {
+        return new LogPileExContainer(logPile, playerInventory, windowId).init(playerInventory);
+    }
+
     public LogPileExContainer(LogPileExBlockEntity logPile, Inventory playerInventory, int windowId) {
         super(ModContainerTypes.LOG_PILE.get(), windowId, logPile);
         logPile.onOpen(playerInventory.player);
     }
 
-    public static @NotNull LogPileExContainer create(LogPileExBlockEntity logPile, Inventory playerInventory, int windowId) {
-        return new LogPileExContainer(logPile, playerInventory, windowId).init(playerInventory);
-    }
-
     protected boolean moveStack(ItemStack stack, int slotIndex) {
-        boolean bool;
-        switch (this.typeOf(slotIndex)) {
-            case MAIN_INVENTORY:
-            case HOTBAR:
-                bool = !this.moveItemStackTo(stack, 0, LogPileExBlockEntity.SLOTS, false);
-                break;
-            case CONTAINER:
-                bool = !this.moveItemStackTo(stack, this.containerSlots, this.slots.size(), false);
-                break;
-            default:
-                throw new IncompatibleClassChangeError();
-        }
-
-        return bool;
+        return switch (this.typeOf(slotIndex)) {
+            case MAIN_INVENTORY, HOTBAR -> !this.moveItemStackTo(stack, 0, LogPileExBlockEntity.SLOTS, false);
+            case CONTAINER -> !this.moveItemStackTo(stack, this.containerSlots, this.slots.size(), false);
+            default -> throw new IncompatibleClassChangeError();
+        };
     }
 
     public void removed(Player player) {
@@ -47,10 +39,10 @@ public class LogPileExContainer extends BlockEntityContainer<LogPileExBlockEntit
     protected void addContainerSlots() {
         this.blockEntity.getCapability(Capabilities.ITEM).ifPresent((handler) -> {
             int index = 0;
-            for (int dy = 0; dy < 3; ++dy) {
-                for (int dx = 0; dx < 4; ++dx) {
-                    int y = 22 + dy * 18;
-                    int x = 52 + dy * 18;
+            for (int dy = 0; dy < LogPileExBlockEntity.ROWS; ++dy) {
+                for (int dx = 0; dx < LogPileExBlockEntity.COLUMNS; ++dx) {
+                    int y = 14 + dy * 18;
+                    int x = 53 + dx * 18;
                     this.addSlot(new CallbackSlot(this.blockEntity, handler, index, x, y));
                     ++index;
                 }

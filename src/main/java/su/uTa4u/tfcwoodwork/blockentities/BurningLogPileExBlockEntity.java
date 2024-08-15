@@ -25,13 +25,15 @@ public class BurningLogPileExBlockEntity extends TickCounterBlockEntity {
         super(ModBlockEntities.BURNING_LOG_PILE.get(), pos, state);
     }
 
+    //TODO: maybe make charcoal faster based on halves and quarters present when ignited
     public static void serverTick(Level level, BlockPos pos, BlockState state, BurningLogPileExBlockEntity entity) {
-        if (entity.lastUpdateTick > 0L && entity.getTicksSinceUpdate() > (long) (Integer) TFCConfig.SERVER.charcoalTicks.get()) {
+        if (entity.lastUpdateTick > 0L && entity.getTicksSinceUpdate() > (long) TFCConfig.SERVER.charcoalTicks.get()) {
             entity.createCharcoal();
         }
 
     }
 
+    //TODO: maybe play with charcoal output based on halves and quarters present when ignited
     private static int getCharcoalAmount(Level level, int logs) {
         return (int) Mth.clamp((double) logs * (0.25D + 0.25D * (double) level.getRandom().nextFloat()), 0.0D, 8.0D);
     }
