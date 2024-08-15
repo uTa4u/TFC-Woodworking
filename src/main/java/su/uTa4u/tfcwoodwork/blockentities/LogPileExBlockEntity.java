@@ -26,7 +26,6 @@ public class LogPileExBlockEntity extends InventoryBlockEntity<ItemStackHandler>
     public static final int ROWS = 3;
     public static final int COLUMNS = 4;
     public static final int SLOTS = ROWS * COLUMNS;
-    //TODO: set limits instead and calculate multipliers (capacity / limit = mult)
     public static final int[] CAPACITY = new int[]{16, 8, 4}; //item per slot
     private static final int LIMIT = 64;
     private static final Component NAME = Component.translatable("tfc.block_entity.log_pile");
