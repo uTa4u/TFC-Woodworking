@@ -45,6 +45,8 @@ public class TFCWoodworking {
     );
 
     public TFCWoodworking() {
+        util.registerLogPileInteraction();
+
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ModItems.ITEMS.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
@@ -56,17 +58,11 @@ public class TFCWoodworking {
 
         MinecraftForge.EVENT_BUS.register(useOnEventHandler.class);
 
-        modEventBus.addListener(EventPriority.HIGH, this::highPrioritySetup);
-
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
 
         // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
-    }
-
-    private void highPrioritySetup(final FMLCommonSetupEvent event) {
-        util.registerLogPileInteraction();
     }
 
 }

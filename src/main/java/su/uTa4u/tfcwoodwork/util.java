@@ -146,6 +146,7 @@ public class util {
     }
 
     public static void registerLogPileInteraction() {
+        LOGGER.info("Registering TFCWW Log Pile Interaction");
         BlockItemPlacement logPilePlacement = new BlockItemPlacement(() -> net.minecraft.world.item.Items.AIR, ModBlocks.LOG_PILE);
         InteractionManager.register(Ingredient.of(TFCTags.Items.LOG_PILE_LOGS), false, (stack, context) -> {
             Player player = context.getPlayer();
