@@ -18,9 +18,9 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import su.uTa4u.tfcwoodwork.blockentities.ModBlockEntities;
 import su.uTa4u.tfcwoodwork.blocks.ModBlocks;
+import su.uTa4u.tfcwoodwork.container.ModContainerTypes;
 import su.uTa4u.tfcwoodwork.entities.ModEntities;
 import su.uTa4u.tfcwoodwork.items.ModItems;
-import su.uTa4u.tfcwoodwork.container.ModContainerTypes;
 import su.uTa4u.tfcwoodwork.sounds.ModSounds;
 
 // The value here should match an entry in the META-INF/mods.toml file
