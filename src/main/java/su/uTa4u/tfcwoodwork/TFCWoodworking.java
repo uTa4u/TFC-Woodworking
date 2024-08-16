@@ -23,7 +23,6 @@ import su.uTa4u.tfcwoodwork.entities.ModEntities;
 import su.uTa4u.tfcwoodwork.items.ModItems;
 import su.uTa4u.tfcwoodwork.sounds.ModSounds;
 
-// The value here should match an entry in the META-INF/mods.toml file
 @Mod(TFCWoodworking.MOD_ID)
 public class TFCWoodworking {
     public static final String MOD_ID = "tfcwoodwork";
@@ -58,10 +57,8 @@ public class TFCWoodworking {
 
         MinecraftForge.EVENT_BUS.register(useOnEventHandler.class);
 
-        // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
 
-        // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 
