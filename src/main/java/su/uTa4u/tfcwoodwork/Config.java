@@ -53,6 +53,23 @@ public class Config
             .comment("How many trapdoors should drop from each slab interaction")
             .defineInRange("trapdoorFromSlab", 2, 0, 64);
 
+    private static final ForgeConfigSpec.IntValue LOG_PILE_LOG_CAP = BUILDER
+            .comment("How many logs can custom log pile store per slot")
+            .defineInRange("logPileLogCapacity", 4, 1, 64);
+
+    private static final ForgeConfigSpec.IntValue LOG_PILE_HALF_CAP = BUILDER
+            .comment("How many log halves can custom log pile store per slot")
+            .defineInRange("logPileLogHalfCapacity", 8, 1, 64);
+
+    private static final ForgeConfigSpec.IntValue LOG_PILE_QUAR_CAP = BUILDER
+            .comment("How many log quarters can custom log pile store per slot")
+            .defineInRange("logPileLogQuarterCapacity", 16, 1, 64);
+
+    private static final ForgeConfigSpec.IntValue LOG_PILE_LIMIT = BUILDER
+            .comment("How many log quarters can custom log pile store in total across all slots")
+            .comment("Maximum of 1792 is achieved when all slots are holding 64 items")
+            .defineInRange("logPileLimit", 64, 1, 1792);
+
     static final ForgeConfigSpec SPEC = BUILDER.build();
 
 
@@ -65,6 +82,10 @@ public class Config
     public static int fenceFromStair;
     public static int fenceFromLog;
     public static int trapdoorFromSlab;
+    public static int logPileLogCapacity;
+    public static int logPileLogHalfCapacity;
+    public static int logPileLogQuarterCapacity;
+    public static int logPileLimit;
 
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event)
@@ -78,5 +99,9 @@ public class Config
         fenceFromStair = FENCE_FROM_STAIR.get();
         fenceFromLog = FENCE_FROM_LOG.get();
         trapdoorFromSlab = TRAPDOOR_FROM_SLAB.get();
+        logPileLogCapacity = LOG_PILE_LOG_CAP.get();
+        logPileLogHalfCapacity = LOG_PILE_HALF_CAP.get();
+        logPileLogQuarterCapacity = LOG_PILE_QUAR_CAP.get();
+        logPileLimit = LOG_PILE_LIMIT.get();
     }
 }

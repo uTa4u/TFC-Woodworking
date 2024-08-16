@@ -13,6 +13,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.ItemStackHandler;
+import su.uTa4u.tfcwoodwork.Config;
 import su.uTa4u.tfcwoodwork.ModTags;
 import su.uTa4u.tfcwoodwork.container.LogPileExContainer;
 
@@ -23,8 +24,12 @@ public class LogPileExBlockEntity extends InventoryBlockEntity<ItemStackHandler>
     public static final int ROWS = 3;
     public static final int COLUMNS = 4;
     public static final int SLOTS = ROWS * COLUMNS;
-    public static final int[] CAPACITY = new int[]{16, 8, 4}; //item per slot
-    private static final int LIMIT = 64;
+    public static final int[] CAPACITY = new int[]{
+            Config.logPileLogQuarterCapacity,
+            Config.logPileLogHalfCapacity,
+            Config.logPileLogCapacity
+    };
+    private static final int LIMIT = Config.logPileLimit;
     private static final Component NAME = Component.translatable("tfc.block_entity.log_pile");
     private int playersUsing = 0;
 
