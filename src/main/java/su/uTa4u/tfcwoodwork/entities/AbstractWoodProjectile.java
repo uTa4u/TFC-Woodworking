@@ -1,6 +1,7 @@
 package su.uTa4u.tfcwoodwork.entities;
 
 import net.dries007.tfc.common.blocks.wood.Wood;
+import net.dries007.tfc.util.Helpers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.protocol.Packet;
@@ -18,6 +19,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraftforge.network.NetworkHooks;
+import su.uTa4u.tfcwoodwork.blockentities.ModBlockEntities;
 import su.uTa4u.tfcwoodwork.blocks.BlockType;
 import su.uTa4u.tfcwoodwork.blocks.ModBlocks;
 import su.uTa4u.tfcwoodwork.util;
@@ -102,11 +104,19 @@ public abstract class AbstractWoodProjectile extends AbstractArrow {
     protected void onHitEntity(EntityHitResult pResult) {
     }
 
-    //TODO: if woodpile block is hit, place wood in there immediately
+    //TODO: play sound?
     @Override
     protected void onHitBlock(BlockHitResult result) {
-        //TODO: play sound?
-        util.spawnDropsPrecise(this.level(), BlockPos.ZERO, result.getLocation(), this.getBlockState().getBlock().asItem().getDefaultInstance());
+        Level level = this.level();
+        ItemStack stack = this.getBlockState().getBlock().asItem().getDefaultInstance();
+        BlockPos pos = result.getBlockPos();
+        if (level.getBlockState(pos).is(ModBlocks.LOG_PILE.get())) {
+            if (!Helpers.insertOne(level, pos, ModBlockEntities.LOG_PILE.get(), stack)) {
+                util.spawnDropsPrecise(this.level(), BlockPos.ZERO, result.getLocation(), stack);
+            }
+        } else {
+            util.spawnDropsPrecise(this.level(), BlockPos.ZERO, result.getLocation(), stack);
+        }
         this.discard();
     }
 
