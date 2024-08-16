@@ -33,6 +33,7 @@ import su.uTa4u.tfcwoodwork.entities.LogHalfProjectile;
 import su.uTa4u.tfcwoodwork.entities.LogQuarterProjectile;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 
 
@@ -89,7 +90,7 @@ public class util {
             projLeft = new LogQuarterProjectile(pos, state, 0.5 + offsetX, offsetY, 0.5 + offsetZ, level, dir, true);
             projRight = new LogQuarterProjectile(pos, state, 0.5 - offsetX, offsetY, 0.5 - offsetZ, level, dir, false);
         } else {
-            LOGGER.debug("Attempted to shoot non existent projectile, why?");
+            LOGGER.error("Attempted to shoot non existent projectile, why?");
             return;
         }
         projLeft.shoot(deltaX, deltaY, deltaZ, 0.3f, 0.0f);
@@ -115,15 +116,15 @@ public class util {
         level.addFreshEntity(east);
     }
 
-    public static <T extends Enum<T>> Pair<Wood, T> getWoodWoodTypePair(Map<Wood, Map<T, RegistryObject<Block>>> map, BlockState state) {
+    public static <T extends Enum<T>> Optional<Pair<Wood, T>> getWoodWoodTypePair(Map<Wood, Map<T, RegistryObject<Block>>> map, BlockState state) {
         for (Map.Entry<Wood, Map<T, RegistryObject<Block>>> entry1 : map.entrySet()) {
             for (Map.Entry<T, RegistryObject<Block>> entry2 : entry1.getValue().entrySet()) {
                 if (state.is(entry2.getValue().get())) {
-                    return new Pair<>(entry1.getKey(), entry2.getKey());
+                    return Optional.of(new Pair<>(entry1.getKey(), entry2.getKey()));
                 }
             }
         }
-        return null;
+        return Optional.empty();
     }
 
     public static void damageTool(Player player, ItemStack inHand, InteractionHand hand) {
