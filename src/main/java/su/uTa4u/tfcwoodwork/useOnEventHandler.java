@@ -176,7 +176,7 @@ public class useOnEventHandler {
                 switch (pair1.value()) {
                     case LOG -> {
                         newState = Blocks.AIR.defaultBlockState();
-                        util.spawnDrops(level, pos, new ItemStack(util.getItemToDrop(TFCBlocks.WOODS, pair1.key(), Wood.BlockType.LOG_FENCE), 4));
+                        util.spawnDrops(level, pos, new ItemStack(util.getItemToDrop(TFCBlocks.WOODS, pair1.key(), Wood.BlockType.LOG_FENCE), Config.fenceFromLog));
                     }
                     case PLANKS -> {
                         newState = Blocks.AIR.defaultBlockState();
