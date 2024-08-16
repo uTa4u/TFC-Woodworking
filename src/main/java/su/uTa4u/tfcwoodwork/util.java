@@ -49,12 +49,12 @@ public class util {
         return getStateToPlace(map, wood, blockTypes).getBlock().asItem();
     }
 
-    public static void spawnDropsPrecise(Level level, BlockPos pos, Vec3 offset, ItemStack itemstack) {
-        level.addFreshEntity(new ItemEntity(level, pos.getX() + offset.x, pos.getY() + offset.y, pos.getZ() + offset.z, itemstack, 0, 0, 0));
+    public static void spawnDropsPrecise(Level level, BlockPos pos, Vec3 offset, ItemStack itemStack) {
+        level.addFreshEntity(new ItemEntity(level, pos.getX() + offset.x, pos.getY() + offset.y, pos.getZ() + offset.z, itemStack, 0, 0, 0));
     }
 
-    public static void spawnDrops(Level level, BlockPos pos, ItemStack itemstack) {
-        level.addFreshEntity(new ItemEntity(level, pos.getX(), pos.above().getY(), pos.getZ(), itemstack, 0, 0, 0));
+    public static void spawnDrops(Level level, BlockPos pos, ItemStack itemStack) {
+        level.addFreshEntity(new ItemEntity(level, pos.getX(), pos.above().getY(), pos.getZ(), itemStack, 0, 0, 0));
     }
 
     public static void shootLogHalves(Level level, BlockPos pos, Wood wood, Direction dir) {

@@ -12,6 +12,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemCooldowns;
@@ -156,11 +157,8 @@ public class useOnEventHandler {
         return false;
     }
 
-    //TODO: fix bark texture
-    //TODO: debarking a wood should drop additional bark/bast
-    //TODO: better recipe for WOOD and STRIPPED_WOOD (2 bark 1 log -> 1 wood)
-    //TODO: uses/tags for bark/bast/sawdust
     //TODO: more in-world recipes for wooden things
+
     //TODO: if alive tree was debarked it should die after some time and fall, more debarked blocks = faster death
     //TODO: make bark/bast pileable
     public static InteractionResult useTool(util.TOOL tool, Level level, Player player, BlockPos pos) {
@@ -177,10 +175,16 @@ public class useOnEventHandler {
                 case WOOD -> {
                     newState = util.getStateToPlace(TFCBlocks.WOODS, pair1.key(), Wood.BlockType.STRIPPED_WOOD);
                     toDrop = ModItems.getBark(pair1.key());
+                    level.addFreshEntity(new ItemEntity(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, new ItemStack(toDrop, 2), 0, 0.05, 0));
                 }
-                case STRIPPED_LOG, STRIPPED_WOOD -> {
+                case STRIPPED_LOG -> {
                     newState = util.getStateToPlace(ModBlocks.WOODS, pair1.key(), BlockType.DEBARKED_LOG);
                     toDrop = ModItems.getBast(pair1.key());
+                }
+                case STRIPPED_WOOD -> {
+                    newState = util.getStateToPlace(ModBlocks.WOODS, pair1.key(), BlockType.DEBARKED_LOG);
+                    toDrop = ModItems.getBast(pair1.key());
+                    level.addFreshEntity(new ItemEntity(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, new ItemStack(toDrop, 2), 0, 0.05, 0));
                 }
                 default -> {
                     return InteractionResult.PASS;
