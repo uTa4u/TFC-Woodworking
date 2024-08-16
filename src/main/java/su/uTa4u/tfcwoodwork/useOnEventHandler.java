@@ -1,15 +1,18 @@
 package su.uTa4u.tfcwoodwork;
 
 import com.mojang.logging.LogUtils;
+import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.blocks.rock.RockCategory;
 import net.dries007.tfc.common.blocks.wood.Wood;
 import net.dries007.tfc.common.items.TFCItems;
+import net.dries007.tfc.util.Helpers;
 import net.dries007.tfc.util.Metal;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -22,6 +25,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SupportType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -49,58 +53,44 @@ public class useOnEventHandler {
             event.setUseItem(Event.Result.DENY);
             return;
         }
-        if (isValidBlock(state)) {
-            InteractionHand hand = event.getHand();
-            if (hand == InteractionHand.OFF_HAND) {
-                event.setCanceled(true);
-                return;
-            }
+        if (!isValidBlock(state)) return;
+
+        InteractionHand hand = event.getHand();
+        if (isValidAxe(inMainHand)) {
             if (checkFourDirections(level, pos)) {
-                if (isValidAxe(inMainHand)) {
-                    InteractionResult result = useTool(util.TOOL.AXE, level, player, pos);
-                    if (result == InteractionResult.sidedSuccess(level.isClientSide)) {
-                        player.swing(InteractionHand.MAIN_HAND, true);
-                        util.damageTool(player, inMainHand, hand);
-                        setCooldownForAxes(player);
-                        event.setCanceled(true);
-                    }
-                } else if (isValidSaw(inMainHand)) {
-                    InteractionResult result = useTool(util.TOOL.SAW, level, player, pos);
-                    if (result == InteractionResult.sidedSuccess(level.isClientSide)) {
-                        player.swing(InteractionHand.MAIN_HAND, true);
-                        util.damageTool(player, inMainHand, hand);
-                        setCooldownForSaws(player);
-                        event.setCanceled(true);
-                    }
+                InteractionResult result = useTool(util.TOOL.AXE, level, player, pos);
+                if (result == InteractionResult.sidedSuccess(level.isClientSide)) {
+                    player.swing(InteractionHand.MAIN_HAND, true);
+                    util.damageTool(player, inMainHand, InteractionHand.MAIN_HAND);
+                    setCooldownForAxes(player);
+                    event.setCanceled(true);
                 }
             } else {
-                event.setUseItem(Event.Result.DENY);
+                if (hand == InteractionHand.MAIN_HAND) event.setUseItem(Event.Result.DENY);
+            }
+        } else if (isValidSaw(inMainHand)) {
+            if (checkFourDirections(level, pos)) {
+                InteractionResult result = useTool(util.TOOL.SAW, level, player, pos);
+                if (result == InteractionResult.sidedSuccess(level.isClientSide)) {
+                    player.swing(InteractionHand.MAIN_HAND, true);
+                    util.damageTool(player, inMainHand, InteractionHand.MAIN_HAND);
+                    setCooldownForSaws(player);
+                    event.setCanceled(true);
+                }
+            } else {
+                if (hand == InteractionHand.MAIN_HAND) event.setUseItem(Event.Result.DENY);
             }
         }
     }
 
     private static void setCooldownForAxes(Player player) {
         ItemCooldowns cds = player.getCooldowns();
-        for (RockCategory rock : RockCategory.values()) {
-            cds.addCooldown(TFCItems.ROCK_TOOLS.get(rock).get(RockCategory.ItemType.AXE).get(), TOOL_COOLDOWN);
-        }
-        for (Metal.Default metal : Metal.Default.values()) {
-            RegistryObject<Item> axe = TFCItems.METAL_ITEMS.get(metal).get(Metal.ItemType.AXE);
-            if (axe != null) {
-                cds.addCooldown(axe.get(), TOOL_COOLDOWN);
-            }
-        }
-
+        Helpers.allItems(ModTags.Items.TFC_AXES).forEach((axe) -> cds.addCooldown(axe.asItem(), TOOL_COOLDOWN));
     }
 
     private static void setCooldownForSaws(Player player) {
         ItemCooldowns cds = player.getCooldowns();
-        for (Metal.Default metal : Metal.Default.values()) {
-            RegistryObject<Item> saw = TFCItems.METAL_ITEMS.get(metal).get(Metal.ItemType.SAW);
-            if (saw != null) {
-                cds.addCooldown(saw.get(), TOOL_COOLDOWN);
-            }
-        }
+        Helpers.allItems(ModTags.Items.TFC_SAWS).forEach((saw) -> cds.addCooldown(saw.asItem(), TOOL_COOLDOWN));
     }
 
     private static boolean checkFourDirections(Level level, BlockPos pos) {
@@ -115,46 +105,15 @@ public class useOnEventHandler {
     }
 
     private static boolean isValidSaw(ItemStack inHand) {
-        for (Metal.Default metal : Metal.Default.values()) {
-            RegistryObject<Item> saw = TFCItems.METAL_ITEMS.get(metal).get(Metal.ItemType.SAW);
-            if (saw != null && inHand.is(saw.get())) {
-                return true;
-            }
-        }
-        return false;
+        return Helpers.isItem(inHand, ModTags.Items.TFC_SAWS);
     }
 
     private static boolean isValidAxe(ItemStack inHand) {
-        for (RockCategory rock : RockCategory.values()) {
-            if (inHand.is(TFCItems.ROCK_TOOLS.get(rock).get(RockCategory.ItemType.AXE).get())) {
-                return true;
-            }
-        }
-        for (Metal.Default metal : Metal.Default.values()) {
-            RegistryObject<Item> axe = TFCItems.METAL_ITEMS.get(metal).get(Metal.ItemType.AXE);
-            if (axe != null && inHand.is(axe.get())) {
-                return true;
-            }
-        }
-        return false;
+        return Helpers.isItem(inHand, ModTags.Items.TFC_AXES);
     }
 
     private static boolean isValidBlock(BlockState state) {
-        for (Wood wood : Wood.VALUES) {
-            Map<Wood.BlockType, RegistryObject<Block>> tfc = TFCBlocks.WOODS.get(wood);
-            Map<BlockType, RegistryObject<Block>> tfcww = ModBlocks.WOODS.get(wood);
-            if (state.is(tfc.get(Wood.BlockType.LOG).get()) ||
-                    state.is(tfc.get(Wood.BlockType.WOOD).get()) ||
-                    state.is(tfc.get(Wood.BlockType.STRIPPED_LOG).get()) ||
-                    state.is(tfc.get(Wood.BlockType.STRIPPED_WOOD).get()) ||
-                    state.is(tfcww.get(BlockType.DEBARKED_LOG).get()) ||
-                    state.is(tfcww.get(BlockType.DEBARKED_HALF).get()) ||
-                    state.is(tfcww.get(BlockType.DEBARKED_QUARTER).get())
-            ) {
-                return true;
-            }
-        }
-        return false;
+        return Helpers.isBlock(state, BlockTags.LOGS) || Helpers.isBlock(state, ModTags.Blocks.LOGS);
     }
 
     //TODO: more in-world recipes for wooden things

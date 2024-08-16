@@ -9,6 +9,7 @@ import net.dries007.tfc.util.Helpers;
 import net.dries007.tfc.util.InteractionManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -193,6 +194,10 @@ public class util {
 
             return InteractionResult.PASS;
         });
+    }
+
+    public static ResourceLocation identifier(String name) {
+        return new ResourceLocation(TFCWoodworking.MOD_ID, name);
     }
 
     public enum TOOL {
