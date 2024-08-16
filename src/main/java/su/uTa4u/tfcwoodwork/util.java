@@ -4,9 +4,11 @@ import com.mojang.logging.LogUtils;
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blocks.wood.Wood;
 import net.dries007.tfc.common.capabilities.Capabilities;
+import net.dries007.tfc.common.items.TFCItems;
 import net.dries007.tfc.util.BlockItemPlacement;
 import net.dries007.tfc.util.Helpers;
 import net.dries007.tfc.util.InteractionManager;
+import net.dries007.tfc.util.Metal;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -39,7 +41,6 @@ import java.util.Random;
 
 
 public class util {
-    private static final Random rng = new Random();
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public static <T extends Enum<T>> BlockState getStateToPlace(Map<Wood, Map<T, RegistryObject<Block>>> map, Wood wood, T blockTypes) {
@@ -51,11 +52,31 @@ public class util {
     }
 
     public static void spawnDropsPrecise(Level level, BlockPos pos, Vec3 offset, ItemStack itemStack) {
-        level.addFreshEntity(new ItemEntity(level, pos.getX() + offset.x, pos.getY() + offset.y, pos.getZ() + offset.z, itemStack, 0, 0, 0));
+        spawnDropsPrecise(level, pos, offset.x, offset.y, offset.z, itemStack);
     }
 
     public static void spawnDrops(Level level, BlockPos pos, ItemStack itemStack) {
-        level.addFreshEntity(new ItemEntity(level, pos.getX(), pos.above().getY(), pos.getZ(), itemStack, 0, 0, 0));
+        spawnDropsPrecise(level, pos, 0.5, 0.5, 0.5, itemStack);
+    }
+
+    public static void spawnDropsPrecise(Level level, BlockPos pos, double offsetX, double offsetY, double offsetZ, ItemStack itemStack) {
+        spawnDropsPrecise(level, pos, offsetX, offsetY, offsetZ, itemStack, 0, 0, 0);
+    }
+
+    public static void spawnDropsAbove(Level level, BlockPos pos, ItemStack itemStack) {
+        spawnDropsPrecise(level, pos, 0.5, 1.05, 0.5, itemStack);
+    }
+
+    public static void spawnDropsPrecise(Level level, BlockPos pos, double offsetX, double offsetY, double offsetZ, ItemStack itemStack, double deltaX, double deltaY, double deltaZ) {
+        if (itemStack.getCount() < 1) return;
+        level.addFreshEntity(new ItemEntity(level, pos.getX() + offsetX, pos.getY() + offsetY, pos.getZ() + offsetZ, itemStack, deltaX, deltaY, deltaZ));
+    }
+
+    public static void spawnDropsCardinal(Level level, BlockPos pos, ItemStack itemStack) {
+        spawnDropsPrecise(level, pos, 0.5, 0.5, -0.2, itemStack, 0, 0.05, -0.05);
+        spawnDropsPrecise(level, pos, 0.5, 0.5,  1.2, itemStack, 0, 0.05, 0.05);
+        spawnDropsPrecise(level, pos, -0.2, 0.5, 0.5, itemStack, -0.05, 0.05, 0);
+        spawnDropsPrecise(level, pos, 1.2, 0.5, 0.5, itemStack, 0.05, 0.05, 0);
     }
 
     public static void shootLogHalves(Level level, BlockPos pos, Wood wood, Direction dir) {
@@ -102,21 +123,6 @@ public class util {
 
     }
 
-    public static void spawnDropsCardinal(Level level, BlockPos pos, Item item, int count) {
-        double deltaX = 0.05;
-        double deltaY = 0.05;
-        double deltaZ = 0.05;
-        ItemStack itemStack = new ItemStack(item, count);
-        ItemEntity north = new ItemEntity(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() - 0.2, itemStack, 0, deltaY, -deltaZ);
-        ItemEntity south = new ItemEntity(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 1.2, itemStack, 0, deltaY, deltaZ);
-        ItemEntity west = new ItemEntity(level, pos.getX() - 0.2, pos.getY() + 0.5, pos.getZ() + 0.5, itemStack, -deltaX, deltaY, 0);
-        ItemEntity east = new ItemEntity(level, pos.getX() + 1.2, pos.getY() + 0.5, pos.getZ() + 0.5, itemStack, deltaX, deltaY, 0);
-        level.addFreshEntity(north);
-        level.addFreshEntity(south);
-        level.addFreshEntity(west);
-        level.addFreshEntity(east);
-    }
-
     public static <T extends Enum<T>> Optional<Pair<Wood, T>> getWoodWoodTypePair(Map<Wood, Map<T, RegistryObject<Block>>> map, BlockState state) {
         for (Map.Entry<Wood, Map<T, RegistryObject<Block>>> entry1 : map.entrySet()) {
             for (Map.Entry<T, RegistryObject<Block>> entry2 : entry1.getValue().entrySet()) {
@@ -126,12 +132,6 @@ public class util {
             }
         }
         return Optional.empty();
-    }
-
-    public static void damageTool(Player player, ItemStack inHand, InteractionHand hand) {
-        if (rng.nextBoolean()) {
-            inHand.hurtAndBreak(1, player, (p) -> p.broadcastBreakEvent(hand));
-        }
     }
 
     public static InteractionResult useTool(TOOL tool, UseOnContext context) {
