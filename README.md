@@ -12,9 +12,10 @@ Makes crafting wooden things more immersive through a tree (pun intended) of in-
 - Stripping logs/wood is only possible when 4 sides are empty (no solid blocks)
 - Chopping logs/wood is only possible when there is no block above
 - Fair wood recipe (2 bark + 1 log -> 1 wood) (2 bast + 1 stripped log for stripped wood)
-- Custom log pile stores logs, debarked logs, debarked log halves and debarked log quarters. Both total limit of the log pile as well as individual capacities for each type of item can be changed in the config file
+- Custom log pile stores logs, debarked logs, debarked log halves and debarked log quarters
 - Tools take damage with a chance dependant on tool's tier
 - If chopped log projectile hits a log pile, instead of dropping into the world it is inserted inside
+- A lot of config options to play with
 
 ### TODO:
 - Totem carving
