@@ -20,6 +20,7 @@ Makes crafting wooden things more immersive through a tree (pun intended) of in-
 ### TODO:
 - Totem carving
 - JEI/Patcholi integration
+- ArborFirmaCraft compat
 
 ### Axe Interactions:
 - Log -> Stripped Log + (4) bark
