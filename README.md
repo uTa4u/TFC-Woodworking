@@ -4,6 +4,10 @@ An addon for [TerraFirmaCraft](https://github.com/TerraFirmaCraft/TerraFirmaCraf
 
 Makes crafting wooden things more immersive through a tree (pun intended) of in-world crafting
 
+### Download:
+- [Curseforge](https://www.curseforge.com/minecraft/mc-mods/tfc-woodworking)
+- [Modrinth](https://modrinth.com/mod/tfc-woodworking)
+
 ### Notes:
 - Use [Axe Interactions section](#axe-interactions) and [Saw Interactions section](#saw-interactions) to see all recipes until JEI integration and/or Patchouli book page is implemented
 - Most amounts shown in parentheses are defaults, can be changed in config file
