@@ -31,6 +31,7 @@ public class LogPileExBlockEntity extends InventoryBlockEntity<ItemStackHandler>
     };
     private static final int TOTAL_LIMIT = Config.logPileLimit;
     private static final int SLOT_LIMIT = TOTAL_LIMIT / 4;
+    private int[] slotStackLimits = new int[SLOTS];
     private static final Component NAME = Component.translatable("tfc.block_entity.log_pile");
     private int playersUsing = 0;
 
@@ -42,12 +43,30 @@ public class LogPileExBlockEntity extends InventoryBlockEntity<ItemStackHandler>
         return Math.floorDiv(slot, COLUMNS);
     }
 
+    private void updateSlotStackLimits() {
+        int count = 0;
+        for (int row = 0; row < ROWS; ++row) {
+            for (int col = 0; col < COLUMNS; ++col) {
+                count += this.inventory.getStackInSlot(row * COLUMNS + col).getCount() * SLOT_LIMIT / ROW_LIMIT[row];
+            }
+        }
+
+        for (int row = 0; row < ROWS; ++row) {
+            for (int col = 0; col < COLUMNS; ++col) {
+                int slot = row * COLUMNS + col;
+                int current = this.inventory.getStackInSlot(slot).getCount() * SLOT_LIMIT / ROW_LIMIT[row];
+                slotStackLimits[slot] = Math.floorDiv(Math.min(TOTAL_LIMIT - count + current, SLOT_LIMIT), SLOT_LIMIT / ROW_LIMIT[row]);
+            }
+        }
+
+    }
+
     public void setAndUpdateSlots(int slot) {
         super.setAndUpdateSlots(slot);
         if (this.level != null && !this.level.isClientSide() && this.playersUsing == 0 && this.isEmpty()) {
             this.level.setBlockAndUpdate(this.worldPosition, Blocks.AIR.defaultBlockState());
         }
-
+        this.updateSlotStackLimits();
     }
 
     public void onOpen(Player player) {
@@ -85,20 +104,17 @@ public class LogPileExBlockEntity extends InventoryBlockEntity<ItemStackHandler>
     }
 
     public int logCount() {
-        int count = 0;
-        for (int s = 0; s < ROWS * COLUMNS; ++s) {
-            count += this.inventory.getStackInSlot(s).getCount() * ROW_LIMIT[2 - getRow(s)] / SLOT_LIMIT;
+        int logs = 0;
+        for (int row = 0; row < ROWS; ++row) {
+            for (int col = 0; col < COLUMNS; ++col) {
+                logs += this.inventory.getStackInSlot(row * COLUMNS + col).getCount() * ROW_LIMIT[2 - row] / SLOT_LIMIT;
+            }
         }
-        return count;
+        return logs;
     }
 
     public int getSlotStackLimit(int slot) {
-        int count = 0;
-        for (int s = 0; s < ROWS * COLUMNS; ++s) {
-            count += this.inventory.getStackInSlot(s).getCount() * SLOT_LIMIT / ROW_LIMIT[getRow(s)];
-        }
-        int current = this.inventory.getStackInSlot(slot).getCount() * SLOT_LIMIT / ROW_LIMIT[getRow(slot)];
-        return Math.floorDiv(Math.min(TOTAL_LIMIT - count + current, SLOT_LIMIT), SLOT_LIMIT / ROW_LIMIT[getRow(slot)]);
+        return this.slotStackLimits[slot];
     }
 
     public boolean isItemValid(int slot, ItemStack stack) {
