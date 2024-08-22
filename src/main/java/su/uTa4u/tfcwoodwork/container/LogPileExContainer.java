@@ -18,6 +18,7 @@ public class LogPileExContainer extends BlockEntityContainer<LogPileExBlockEntit
         logPile.onOpen(playerInventory.player);
     }
 
+    @Override
     protected boolean moveStack(ItemStack stack, int slotIndex) {
         return switch (this.typeOf(slotIndex)) {
             case MAIN_INVENTORY, HOTBAR -> !this.moveItemStackTo(stack, 0, LogPileExBlockEntity.SLOTS, false);
@@ -26,11 +27,13 @@ public class LogPileExContainer extends BlockEntityContainer<LogPileExBlockEntit
         };
     }
 
+    @Override
     public void removed(Player player) {
         this.blockEntity.onClose(player);
         super.removed(player);
     }
 
+    @Override
     protected void addContainerSlots() {
         this.blockEntity.getCapability(Capabilities.ITEM).ifPresent((handler) -> {
             int index = 0;

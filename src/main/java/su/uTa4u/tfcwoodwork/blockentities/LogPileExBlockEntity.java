@@ -24,12 +24,13 @@ public class LogPileExBlockEntity extends InventoryBlockEntity<ItemStackHandler>
     public static final int ROWS = 3;
     public static final int COLUMNS = 4;
     public static final int SLOTS = ROWS * COLUMNS;
-    public static final int[] CAPACITY = new int[]{
+    public static final int[] ROW_LIMIT = new int[]{
             Config.logPileLogQuarterCapacity,
             Config.logPileLogHalfCapacity,
             Config.logPileLogCapacity
     };
-    private static final int LIMIT = Config.logPileLimit;
+    private static final int TOTAL_LIMIT = Config.logPileLimit;
+    private static final int SLOT_LIMIT = TOTAL_LIMIT / 4;
     private static final Component NAME = Component.translatable("tfc.block_entity.log_pile");
     private int playersUsing = 0;
 
@@ -86,7 +87,7 @@ public class LogPileExBlockEntity extends InventoryBlockEntity<ItemStackHandler>
     public int logCount() {
         int count = 0;
         for (int s = 0; s < ROWS * COLUMNS; ++s) {
-            count += this.inventory.getStackInSlot(s).getCount()  * CAPACITY[2 - getRow(s)] * 4 / LIMIT;
+            count += this.inventory.getStackInSlot(s).getCount() * ROW_LIMIT[2 - getRow(s)] / SLOT_LIMIT;
         }
         return count;
     }
@@ -94,10 +95,11 @@ public class LogPileExBlockEntity extends InventoryBlockEntity<ItemStackHandler>
     public int getSlotStackLimit(int slot) {
         int count = 0;
         for (int s = 0; s < ROWS * COLUMNS; ++s) {
-            count += this.inventory.getStackInSlot(s).getCount() * LIMIT / 4 / CAPACITY[getRow(s)];
+            count += this.inventory.getStackInSlot(s).getCount() * SLOT_LIMIT / ROW_LIMIT[getRow(s)];
         }
-        int current = this.inventory.getStackInSlot(slot).getCount() * CAPACITY[getRow(slot)];
-        return Math.floorDiv(Math.min(LIMIT - count + current, LIMIT / 4), LIMIT / 4 / CAPACITY[getRow(slot)]);
+        int current = this.inventory.getStackInSlot(slot).getCount() * ROW_LIMIT[getRow(slot)];
+        
+        return Math.floorDiv(Math.min(TOTAL_LIMIT - count + current, SLOT_LIMIT), SLOT_LIMIT / ROW_LIMIT[getRow(slot)]);
     }
 
     public boolean isItemValid(int slot, ItemStack stack) {
