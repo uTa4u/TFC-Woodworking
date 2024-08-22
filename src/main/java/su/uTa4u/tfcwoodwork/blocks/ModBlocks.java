@@ -26,13 +26,17 @@ public class ModBlocks {
         BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, TFCWoodworking.MOD_ID);
         WOODS = Helpers.mapOfKeys(Wood.class, (wood) ->
                 Helpers.mapOfKeys(BlockType.class, (type) ->
-                        registerBlock(type.getName(wood), type.sup)));
+                        registerBlockWithItem(type.getName(wood), type.sup)));
         LOG_PILE = registerBlock("log_pile", LogPileExBlock::new);
         BURNING_LOG_PILE = registerBlock("burning_log_pile", BurningLogPileExBlock::new);
     }
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> blockSup) {
-        RegistryObject<T> toReturn = BLOCKS.register(name, blockSup);
+        return BLOCKS.register(name, blockSup);
+    }
+
+    private static <T extends Block> RegistryObject<T> registerBlockWithItem(String name, Supplier<T> blockSup) {
+        RegistryObject<T> toReturn = registerBlock(name, blockSup);
         registerBlockItem(name, toReturn);
         return toReturn;
     }
