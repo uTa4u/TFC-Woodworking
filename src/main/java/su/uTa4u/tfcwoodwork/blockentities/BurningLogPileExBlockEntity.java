@@ -15,12 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import su.uTa4u.tfcwoodwork.blocks.ModBlocks;
 
 public class BurningLogPileExBlockEntity extends TickCounterBlockEntity {
-    protected long lastUpdateTick;
     private int logs;
-
-    public BurningLogPileExBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.BURNING_LOG_PILE.get(), pos, state);
-    }
 
     //TODO: maybe make charcoal faster based on halves and quarters present when ignited
     public static void serverTick(Level level, BlockPos pos, BlockState state, BurningLogPileExBlockEntity entity) {
@@ -30,13 +25,8 @@ public class BurningLogPileExBlockEntity extends TickCounterBlockEntity {
 
     }
 
-    //TODO: maybe play with charcoal output based on halves and quarters present when ignited
-    private static int getCharcoalAmount(Level level, int logs) {
-        return (int) Mth.clamp((double) logs * (0.25D + 0.25D * (double) level.getRandom().nextFloat()), 0.0D, 8.0D);
-    }
-
-    private static boolean isPileBlock(BlockState state) {
-        return Helpers.isBlock(state, TFCBlocks.CHARCOAL_PILE.get()) || Helpers.isBlock(state, ModBlocks.BURNING_LOG_PILE.get());
+    public BurningLogPileExBlockEntity(BlockPos pos, BlockState state) {
+        super(ModBlockEntities.BURNING_LOG_PILE.get(), pos, state);
     }
 
     public void loadAdditional(CompoundTag nbt) {
@@ -101,5 +91,15 @@ public class BurningLogPileExBlockEntity extends TickCounterBlockEntity {
             }
         }
     }
+
+    //TODO: maybe play with charcoal output based on halves and quarters present when ignited
+    private static int getCharcoalAmount(Level level, int logs) {
+        return (int) Mth.clamp((double) logs * (0.25D + 0.25D * (double) level.getRandom().nextFloat()), 0.0D, 8.0D);
+    }
+
+    private static boolean isPileBlock(BlockState state) {
+        return Helpers.isBlock(state, TFCBlocks.CHARCOAL_PILE.get()) || Helpers.isBlock(state, ModBlocks.BURNING_LOG_PILE.get());
+    }
+
 
 }
