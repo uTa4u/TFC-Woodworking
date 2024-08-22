@@ -97,8 +97,7 @@ public class LogPileExBlockEntity extends InventoryBlockEntity<ItemStackHandler>
         for (int s = 0; s < ROWS * COLUMNS; ++s) {
             count += this.inventory.getStackInSlot(s).getCount() * SLOT_LIMIT / ROW_LIMIT[getRow(s)];
         }
-        int current = this.inventory.getStackInSlot(slot).getCount() * ROW_LIMIT[getRow(slot)];
-        
+        int current = this.inventory.getStackInSlot(slot).getCount() * SLOT_LIMIT / ROW_LIMIT[getRow(slot)];
         return Math.floorDiv(Math.min(TOTAL_LIMIT - count + current, SLOT_LIMIT), SLOT_LIMIT / ROW_LIMIT[getRow(slot)]);
     }
 
