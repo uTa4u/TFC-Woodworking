@@ -79,9 +79,11 @@ public class LogPileExBlock extends DeviceBlock implements IForgeBlockExtension,
             ItemStack stack = player.getItemInHand(hand);
             level.getBlockEntity(pos, ModBlockEntities.LOG_PILE.get()).ifPresent((logPile) -> {
                 if (Helpers.isItem(stack.getItem(), TFCTags.Items.LOG_PILE_LOGS)) {
-                    if (!level.isClientSide && Helpers.insertOne(Optional.of(logPile), stack)) {
-                        Helpers.playPlaceSound(level, pos, state);
-                        stack.shrink(1);
+                    if (!level.isClientSide) {
+                        if (Helpers.insertOne(Optional.of(logPile), stack)) {
+                            Helpers.playPlaceSound(level, pos, state);
+                            stack.shrink(1);
+                        }
                     }
                 } else if (player instanceof ServerPlayer) {
                     ServerPlayer serverPlayer = (ServerPlayer) player;
