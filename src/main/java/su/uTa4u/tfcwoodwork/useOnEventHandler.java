@@ -1,49 +1,42 @@
 package su.uTa4u.tfcwoodwork;
 
-import com.mojang.logging.LogUtils;
-import net.dries007.tfc.common.TFCTags;
-import net.dries007.tfc.common.TFCTiers;
 import net.dries007.tfc.common.blocks.TFCBlocks;
-import net.dries007.tfc.common.blocks.rock.RockCategory;
 import net.dries007.tfc.common.blocks.wood.Wood;
 import net.dries007.tfc.common.items.TFCItems;
 import net.dries007.tfc.util.Helpers;
-import net.dries007.tfc.util.Metal;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemCooldowns;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TieredItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.SupportType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.registries.RegistryObject;
-import org.checkerframework.checker.units.qual.C;
-import org.slf4j.Logger;
+import net.minecraftforge.registries.ForgeRegistries;
 import su.uTa4u.tfcwoodwork.blocks.BlockType;
 import su.uTa4u.tfcwoodwork.blocks.ModBlocks;
 import su.uTa4u.tfcwoodwork.items.ModItems;
 import su.uTa4u.tfcwoodwork.sounds.ModSounds;
 
-import java.util.Map;
-import java.util.Optional;
 import java.util.Random;
 
 public class useOnEventHandler {
-    private static final int TOOL_COOLDOWN = 10;
     private static final Random rng = new Random();
+
+    private static final Block[] DTTFC_LOGS = new Block[Wood.VALUES.length];
 
     @SubscribeEvent
     public static void useOn(PlayerInteractEvent.RightClickBlock event) {
@@ -57,6 +50,10 @@ public class useOnEventHandler {
             return;
         }
         if (!isValidBlock(state)) return;
+        if (DTTFC_LOGS.length != 0 && isBlockFromDTTFC(state)) {
+            event.setUseItem(Event.Result.DENY);
+            return;
+        }
 
         InteractionHand hand = event.getHand();
         if (isValidAxe(inMainHand)) {
@@ -88,12 +85,12 @@ public class useOnEventHandler {
 
     private static void setCooldownForAxes(Player player) {
         ItemCooldowns cds = player.getCooldowns();
-        Helpers.allItems(ModTags.Items.TFC_AXES).forEach((axe) -> cds.addCooldown(axe.asItem(), TOOL_COOLDOWN));
+        Helpers.allItems(ModTags.Items.TFC_AXES).forEach((axe) -> cds.addCooldown(axe.asItem(), Config.toolCooldowns.get(((TieredItem) axe).getTier().getLevel())));
     }
 
     private static void setCooldownForSaws(Player player) {
         ItemCooldowns cds = player.getCooldowns();
-        Helpers.allItems(ModTags.Items.TFC_SAWS).forEach((saw) -> cds.addCooldown(saw.asItem(), TOOL_COOLDOWN));
+        Helpers.allItems(ModTags.Items.TFC_SAWS).forEach((saw) -> cds.addCooldown(saw.asItem(), Config.toolCooldowns.get(((TieredItem) saw).getTier().getLevel())));
     }
 
     private static boolean checkFourDirections(Level level, BlockPos pos) {
@@ -116,6 +113,21 @@ public class useOnEventHandler {
         }
     }
 
+    public static void initDTTFCBlocks() {
+        for (int i = 0; i < Wood.VALUES.length; ++i) {
+            Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation("dttfc", Wood.VALUES[i].getSerializedName() + "_branch"));
+            if (block != null) {
+                DTTFC_LOGS[i] = block;
+            }
+        }
+    }
+
+    private static boolean isBlockFromDTTFC(BlockState state) {
+        for (int i = 0; i < Wood.VALUES.length; ++i) {
+            if (state.is(DTTFC_LOGS[i])) return true;
+        }
+        return false;
+    }
 
     private static boolean isValidSaw(ItemStack inHand) {
         return Helpers.isItem(inHand, ModTags.Items.TFC_SAWS);
