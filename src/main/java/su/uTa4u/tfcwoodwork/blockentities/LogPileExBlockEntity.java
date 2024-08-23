@@ -37,6 +37,7 @@ public class LogPileExBlockEntity extends InventoryBlockEntity<ItemStackHandler>
 
     public LogPileExBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.LOG_PILE.get(), pos, state, defaultInventory(SLOTS), NAME);
+        updateSlotStackLimits();
     }
 
     private static int getRow(int slot) {

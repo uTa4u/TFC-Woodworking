@@ -4,16 +4,15 @@ import com.mojang.logging.LogUtils;
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blocks.wood.Wood;
 import net.dries007.tfc.common.capabilities.Capabilities;
-import net.dries007.tfc.common.items.TFCItems;
 import net.dries007.tfc.util.BlockItemPlacement;
 import net.dries007.tfc.util.Helpers;
 import net.dries007.tfc.util.InteractionManager;
-import net.dries007.tfc.util.Metal;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -37,7 +36,6 @@ import su.uTa4u.tfcwoodwork.entities.LogQuarterProjectile;
 
 import java.util.Map;
 import java.util.Optional;
-import java.util.Random;
 
 
 public class util {
@@ -102,22 +100,27 @@ public class util {
             deltaZ = 0.75;
             offsetZ = 0.1875;
         }
-        AbstractWoodProjectile projLeft;
-        AbstractWoodProjectile projRight;
+        Entity projLeft;
+        Entity projRight;
         BlockState state = getStateToPlace(ModBlocks.WOODS, wood, type);
-        if (type == BlockType.DEBARKED_HALF) {
-            projLeft = new LogHalfProjectile(pos, state, 0.5 + offsetX, offsetY, 0.5 + offsetZ, level, dir, true);
-            projRight = new LogHalfProjectile(pos, state, 0.5 - offsetX, offsetY, 0.5 - offsetZ, level, dir, false);
-        } else if (type == BlockType.DEBARKED_QUARTER) {
-            projLeft = new LogQuarterProjectile(pos, state, 0.5 + offsetX, offsetY, 0.5 + offsetZ, level, dir, true);
-            projRight = new LogQuarterProjectile(pos, state, 0.5 - offsetX, offsetY, 0.5 - offsetZ, level, dir, false);
+        if (Config.logProjectileVsItem) {
+            if (type == BlockType.DEBARKED_HALF) {
+                projLeft  = new LogHalfProjectile(pos, state, 0.5 + offsetX, offsetY, 0.5 + offsetZ, level, dir, true);
+                projRight = new LogHalfProjectile(pos, state, 0.5 - offsetX, offsetY, 0.5 - offsetZ, level, dir, false);
+            } else if (type == BlockType.DEBARKED_QUARTER) {
+                projLeft  = new LogQuarterProjectile(pos, state, 0.5 + offsetX, offsetY, 0.5 + offsetZ, level, dir, true);
+                projRight = new LogQuarterProjectile(pos, state, 0.5 - offsetX, offsetY, 0.5 - offsetZ, level, dir, false);
+            } else {
+                LOGGER.error("Attempted to shoot non existent projectile, why?");
+                return;
+            }
+            ((AbstractWoodProjectile) projLeft).shoot(deltaX, deltaY, deltaZ, 0.3f, 0.0f);
+            ((AbstractWoodProjectile) projRight).shoot(-deltaX, deltaY, -deltaZ, 0.3f, 0.0f);
         } else {
-            LOGGER.error("Attempted to shoot non existent projectile, why?");
-            return;
+            ItemStack itemStack = new ItemStack(state.getBlock().asItem());
+            projLeft  = new ItemEntity(level, pos.getX() + 0.5 + offsetX, pos.getY() + offsetY, pos.getZ() + 0.5 + offsetZ, itemStack,  deltaX / 4, deltaY,  deltaZ / 4);
+            projRight = new ItemEntity(level, pos.getX() + 0.5 - offsetX, pos.getY() + offsetY, pos.getZ() + 0.5 - offsetZ, itemStack, -deltaX / 4, deltaY, -deltaZ / 4);
         }
-        projLeft.shoot(deltaX, deltaY, deltaZ, 0.3f, 0.0f);
-        projRight.shoot(-deltaX, deltaY, -deltaZ, 0.3f, 0.0f);
-
         level.addFreshEntity(projLeft);
         level.addFreshEntity(projRight);
 

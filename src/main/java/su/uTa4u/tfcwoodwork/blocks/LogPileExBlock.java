@@ -1,5 +1,6 @@
 package su.uTa4u.tfcwoodwork.blocks;
 
+import com.mojang.logging.LogUtils;
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blocks.EntityBlockExtension;
 import net.dries007.tfc.common.blocks.ExtendedProperties;
@@ -15,6 +16,8 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -30,11 +33,14 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
+import org.slf4j.Logger;
 import su.uTa4u.tfcwoodwork.blockentities.ModBlockEntities;
 
 import java.util.Optional;
 
 public class LogPileExBlock extends DeviceBlock implements IForgeBlockExtension, EntityBlockExtension {
+    private static final Logger LOGGER = LogUtils.getLogger();
+
     public static final EnumProperty<Direction.Axis> AXIS;
     private static final ExtendedProperties prop = ExtendedProperties.of(MapColor.WOOD)
             .strength(0.6F)
@@ -53,6 +59,19 @@ public class LogPileExBlock extends DeviceBlock implements IForgeBlockExtension,
 
     public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         BurningLogPileExBlock.lightLogPile(level, pos);
+    }
+
+    @Override
+    public void updateEntityAfterFallOn(BlockGetter level, Entity entity) {
+        super.updateEntityAfterFallOn(level, entity);
+        if (entity instanceof ItemEntity itemEntity) {
+            ItemStack itemStack = itemEntity.getItem();
+            if (Helpers.isItem(itemStack, TFCTags.Items.LOG_PILE_LOGS)) {
+                if (Helpers.insertOne(itemEntity.level(), itemEntity.getOnPos(), ModBlockEntities.LOG_PILE.get(), itemStack)) {
+                    itemEntity.discard();
+                }
+            }
+        }
     }
 
     public BlockState getStateForPlacement(BlockPlaceContext context) {

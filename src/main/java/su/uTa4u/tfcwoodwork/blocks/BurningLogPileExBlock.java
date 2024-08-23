@@ -4,7 +4,6 @@ import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blocks.EntityBlockExtension;
 import net.dries007.tfc.common.blocks.ExtendedProperties;
 import net.dries007.tfc.common.blocks.IForgeBlockExtension;
-import net.dries007.tfc.common.blocks.devices.BurningLogPileBlock;
 import net.dries007.tfc.util.Helpers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

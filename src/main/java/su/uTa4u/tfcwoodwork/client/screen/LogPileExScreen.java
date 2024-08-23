@@ -1,7 +1,6 @@
 package su.uTa4u.tfcwoodwork.client.screen;
 
 import net.dries007.tfc.client.screen.BlockEntityScreen;
-import net.dries007.tfc.client.screen.TFCContainerScreen;
 import net.dries007.tfc.common.capabilities.Capabilities;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
