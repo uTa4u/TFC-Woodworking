@@ -60,6 +60,10 @@ public class TFCWoodworking {
         MinecraftForge.EVENT_BUS.register(this);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+
+        if (ModList.get().isLoaded("dttfc")) {
+            useOnEventHandler.initDTTFCBlocks();
+        }
     }
 
 }
