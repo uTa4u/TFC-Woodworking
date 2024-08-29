@@ -1,0 +1,10 @@
+{
+  "ingredient": [
+    {
+      "item": "tfcwoodwork:debarked_log/kapok"
+    }
+  ],
+  "duration": 1000,
+  "temperature": 645,
+  "purity": 0.95
+}

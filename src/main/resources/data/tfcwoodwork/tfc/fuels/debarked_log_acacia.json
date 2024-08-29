@@ -1,0 +1,10 @@
+{
+  "ingredient": [
+    {
+      "item": "tfcwoodwork:debarked_log/acacia"
+    }
+  ],
+  "duration": 1000,
+  "temperature": 650,
+  "purity": 0.95
+}

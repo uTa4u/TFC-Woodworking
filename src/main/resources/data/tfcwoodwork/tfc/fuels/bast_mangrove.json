@@ -1,0 +1,10 @@
+{
+  "ingredient": [
+    {
+      "item": "tfcwoodwork:bast/mangrove"
+    }
+  ],
+  "duration": 300,
+  "temperature": 94,
+  "purity": 0.25
+}

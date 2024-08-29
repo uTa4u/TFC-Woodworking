@@ -1,0 +1,10 @@
+{
+  "ingredient": [
+    {
+      "item": "tfcwoodwork:bast/white_cedar"
+    }
+  ],
+  "duration": 450,
+  "temperature": 90,
+  "purity": 0.25
+}

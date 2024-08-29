@@ -1,0 +1,10 @@
+{
+  "ingredient": [
+    {
+      "item": "tfcwoodwork:debarked_log/white_cedar"
+    }
+  ],
+  "duration": 1500,
+  "temperature": 625,
+  "purity": 0.95
+}

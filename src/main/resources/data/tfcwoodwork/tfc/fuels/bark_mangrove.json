@@ -1,0 +1,10 @@
+{
+  "ingredient": [
+    {
+      "item": "tfcwoodwork:bark/mangrove"
+    }
+  ],
+  "duration": 400,
+  "temperature": 110,
+  "purity": 0.25
+}

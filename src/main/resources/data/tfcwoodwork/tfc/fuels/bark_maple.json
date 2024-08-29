@@ -1,0 +1,10 @@
+{
+  "ingredient": [
+    {
+      "item": "tfcwoodwork:bark/maple"
+    }
+  ],
+  "duration": 800,
+  "temperature": 125,
+  "purity": 0.25
+}

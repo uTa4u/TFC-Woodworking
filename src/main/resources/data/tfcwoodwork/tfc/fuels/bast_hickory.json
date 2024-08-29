@@ -1,0 +1,10 @@
+{
+  "ingredient": [
+    {
+      "item": "tfcwoodwork:bast/hickory"
+    }
+  ],
+  "duration": 600,
+  "temperature": 109,
+  "purity": 0.25
+}

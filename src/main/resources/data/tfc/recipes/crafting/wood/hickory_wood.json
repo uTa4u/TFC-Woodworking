@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " Y ",
+    " X ",
+    " Y "
+  ],
+  "key": {
+    "X": {
+      "item": "tfc:wood/log/hickory"
+    },
+    "Y": {
+      "item": "tfcwoodwork:bark/hickory"
+    }
+  },
+  "result": {
+    "item": "tfc:wood/wood/hickory",
+    "count": 1
+  }
+}

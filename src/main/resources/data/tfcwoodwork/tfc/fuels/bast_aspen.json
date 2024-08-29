@@ -1,0 +1,10 @@
+{
+  "ingredient": [
+    {
+      "item": "tfcwoodwork:bast/aspen"
+    }
+  ],
+  "duration": 300,
+  "temperature": 88,
+  "purity": 0.25
+}

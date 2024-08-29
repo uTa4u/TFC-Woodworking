@@ -1,0 +1,10 @@
+{
+  "ingredient": [
+    {
+      "item": "tfcwoodwork:bark/hickory"
+    }
+  ],
+  "duration": 800,
+  "temperature": 127,
+  "purity": 0.25
+}

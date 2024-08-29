@@ -1,0 +1,25 @@
+{
+  "replace": false,
+  "values": [
+    "tfcwoodwork:debarked_log/acacia",
+    "tfcwoodwork:debarked_log/ash",
+    "tfcwoodwork:debarked_log/aspen",
+    "tfcwoodwork:debarked_log/birch",
+    "tfcwoodwork:debarked_log/blackwood",
+    "tfcwoodwork:debarked_log/chestnut",
+    "tfcwoodwork:debarked_log/douglas_fir",
+    "tfcwoodwork:debarked_log/hickory",
+    "tfcwoodwork:debarked_log/kapok",
+    "tfcwoodwork:debarked_log/mangrove",
+    "tfcwoodwork:debarked_log/maple",
+    "tfcwoodwork:debarked_log/oak",
+    "tfcwoodwork:debarked_log/palm",
+    "tfcwoodwork:debarked_log/pine",
+    "tfcwoodwork:debarked_log/rosewood",
+    "tfcwoodwork:debarked_log/sequoia",
+    "tfcwoodwork:debarked_log/spruce",
+    "tfcwoodwork:debarked_log/sycamore",
+    "tfcwoodwork:debarked_log/white_cedar",
+    "tfcwoodwork:debarked_log/willow"
+  ]
+}

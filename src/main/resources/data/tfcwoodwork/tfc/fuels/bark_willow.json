@@ -1,0 +1,10 @@
+{
+  "ingredient": [
+    {
+      "item": "tfcwoodwork:bark/willow"
+    }
+  ],
+  "duration": 400,
+  "temperature": 101,
+  "purity": 0.25
+}

@@ -1,0 +1,10 @@
+{
+  "ingredient": [
+    {
+      "item": "tfcwoodwork:bast/pine"
+    }
+  ],
+  "duration": 375,
+  "temperature": 90,
+  "purity": 0.25
+}
