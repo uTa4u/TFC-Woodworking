@@ -20,7 +20,6 @@ public class ModBlocks {
 
     public static final Map<Wood, Map<BlockType, RegistryObject<Block>>> WOODS;
     public static final RegistryObject<Block> LOG_PILE;
-    public static final RegistryObject<Block> BURNING_LOG_PILE;
 
     static {
         BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, TFCWoodworking.MOD_ID);
@@ -28,7 +27,6 @@ public class ModBlocks {
                 Helpers.mapOfKeys(BlockType.class, (type) ->
                         registerBlockWithItem(type.getName(wood), type.sup)));
         LOG_PILE = registerBlock("log_pile", LogPileExBlock::new);
-        BURNING_LOG_PILE = registerBlock("burning_log_pile", BurningLogPileExBlock::new);
     }
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> blockSup) {

@@ -5,6 +5,7 @@ import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blocks.EntityBlockExtension;
 import net.dries007.tfc.common.blocks.ExtendedProperties;
 import net.dries007.tfc.common.blocks.IForgeBlockExtension;
+import net.dries007.tfc.common.blocks.devices.BurningLogPileBlock;
 import net.dries007.tfc.common.blocks.devices.DeviceBlock;
 import net.dries007.tfc.common.capabilities.Capabilities;
 import net.dries007.tfc.util.Helpers;
@@ -58,7 +59,7 @@ public class LogPileExBlock extends DeviceBlock implements IForgeBlockExtension,
     }
 
     public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-        BurningLogPileExBlock.lightLogPile(level, pos);
+        BurningLogPileBlock.lightLogPile(level, pos);
     }
 
     @Override
@@ -83,10 +84,9 @@ public class LogPileExBlock extends DeviceBlock implements IForgeBlockExtension,
     }
 
     public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor levelAccess, BlockPos currentPos, BlockPos facingPos) {
-        if (!levelAccess.isClientSide() && levelAccess instanceof Level) {
-            Level level = (Level) levelAccess;
+        if (!levelAccess.isClientSide() && levelAccess instanceof Level level) {
             if (Helpers.isBlock(facingState, BlockTags.FIRE)) {
-                BurningLogPileExBlock.lightLogPile(level, currentPos);
+                BurningLogPileBlock.lightLogPile(level, currentPos);
             }
         }
 

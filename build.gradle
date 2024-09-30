@@ -4,6 +4,7 @@ plugins {
     id 'maven-publish'
     id 'net.minecraftforge.gradle' version '[6.0,6.2)'
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
+    id 'org.spongepowered.mixin' version '0.7.+'
 }
 
 version = mod_version
@@ -78,6 +79,8 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
+    annotationProcessor "org.spongepowered:mixin:${mixinVersion}:processor"
+
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouliVersion}")
     compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouliVersion}:api")
 
@@ -85,6 +88,11 @@ dependencies {
 
     runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jeiVersion}")
     runtimeOnly fg.deobf("curse.maven:jade-324717:${jadeVersion}")
+}
+
+mixin {
+    add sourceSets.main, "${mod_id}.mixins.refmap.json"
+    config "${mod_id}.mixins.json"
 }
 
 tasks.named('processResources', ProcessResources).configure {

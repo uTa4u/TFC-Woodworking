@@ -31,7 +31,7 @@ public class LogPileExBlockEntity extends InventoryBlockEntity<ItemStackHandler>
     };
     private static final int TOTAL_LIMIT = Config.logPileLimit;
     private static final int SLOT_LIMIT = TOTAL_LIMIT / 4;
-    private int[] slotStackLimits = new int[SLOTS];
+    private final int[] slotStackLimits = new int[SLOTS];
     private static final Component NAME = Component.translatable("tfc.block_entity.log_pile");
     private int playersUsing = 0;
 

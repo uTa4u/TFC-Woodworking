@@ -15,12 +15,10 @@ import java.util.function.Supplier;
 public class ModBlockEntities {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES;
     public static final RegistryObject<BlockEntityType<LogPileExBlockEntity>> LOG_PILE;
-    public static final RegistryObject<BlockEntityType<BurningLogPileExBlockEntity>> BURNING_LOG_PILE;
 
     static {
         BLOCK_ENTITIES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, TFCWoodworking.MOD_ID);
         LOG_PILE = register("log_pile", LogPileExBlockEntity::new, ModBlocks.LOG_PILE);
-        BURNING_LOG_PILE = register("burning_log_pile", BurningLogPileExBlockEntity::new, ModBlocks.BURNING_LOG_PILE);
     }
 
     private static <T extends BlockEntity> RegistryObject<BlockEntityType<T>> register(String name, BlockEntityType.BlockEntitySupplier<T> factory, Supplier<? extends Block> block) {
