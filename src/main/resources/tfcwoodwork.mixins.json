@@ -4,7 +4,7 @@
   "package": "su.uTa4u.tfcwoodwork.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "BurningLogPileBlockMixin"
+    "BurningLogPileBlockMixin", "AxeItemMixin"
   ],
   "injectors": {
     "defaultRequire": 1

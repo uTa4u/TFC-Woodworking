@@ -20,6 +20,7 @@ import net.minecraft.world.item.TieredItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SupportType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -54,7 +55,6 @@ public class useOnEventHandler {
             event.setUseItem(Event.Result.DENY);
             return;
         }
-
         InteractionHand hand = event.getHand();
         if (isValidAxe(inMainHand)) {
             if (checkFourDirections(level, pos)) {
@@ -138,7 +138,7 @@ public class useOnEventHandler {
     }
 
     private static boolean isValidBlock(BlockState state) {
-        return Helpers.isBlock(state, BlockTags.LOGS)
+        return (Helpers.isBlock(state, BlockTags.LOGS) && state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y)
                 || Helpers.isBlock(state, ModTags.Blocks.LOGS)
                 || Helpers.isBlock(state, BlockTags.WOODEN_STAIRS)
                 || Helpers.isBlock(state, BlockTags.WOODEN_SLABS)

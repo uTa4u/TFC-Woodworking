@@ -1,5 +1,6 @@
 package su.uTa4u.tfcwoodwork;
 
+import com.mojang.logging.LogUtils;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -15,6 +16,7 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
+import org.slf4j.Logger;
 import su.uTa4u.tfcwoodwork.blockentities.ModBlockEntities;
 import su.uTa4u.tfcwoodwork.blocks.ModBlocks;
 import su.uTa4u.tfcwoodwork.container.ModContainerTypes;
@@ -25,8 +27,7 @@ import su.uTa4u.tfcwoodwork.sounds.ModSounds;
 @Mod(TFCWoodworking.MOD_ID)
 public class TFCWoodworking {
     public static final String MOD_ID = "tfcwoodwork";
-
-//    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
 
     public static final DeferredRegister<CreativeModeTab> CREATIVE_TABS =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MOD_ID);
