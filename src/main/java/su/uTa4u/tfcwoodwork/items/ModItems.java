@@ -3,6 +3,7 @@ package su.uTa4u.tfcwoodwork.items;
 import net.dries007.tfc.common.blocks.wood.Wood;
 import net.dries007.tfc.util.Helpers;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -22,7 +23,7 @@ public class ModItems {
     public static final Map<Wood, RegistryObject<Item>> TREE_BARK;
     public static final Map<Wood, RegistryObject<Item>> TREE_BAST;
     public static final RegistryObject<Item> SAWDUST;
-
+    public static final RegistryObject<Item> SAWDUST_SOUP_1;
 
     static {
         ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, TFCWoodworking.MOD_ID);
@@ -31,10 +32,11 @@ public class ModItems {
         TREE_BARK = Helpers.mapOfKeys(Wood.class, (wood) -> registerItemFamily("bark/" + wood.name()));
         TREE_BAST = Helpers.mapOfKeys(Wood.class, (wood) -> registerItemFamily("bast/" + wood.name()));
         SAWDUST = registerItem("sawdust", () -> new Item(new Item.Properties()));
+        SAWDUST_SOUP_1 = registerItem("sawdust_soup", () -> new Item((new Item.Properties().food((new FoodProperties.Builder()).nutrition(0).saturationMod(1).build()))));
     }
 
     private static RegistryObject<Item> registerItem(String name, Supplier<Item> itemSup) {
-        return ITEMS.register(name, itemSup);
+        return ITEMS.register(name.toLowerCase(Locale.ROOT), itemSup);
     }
 
     private static RegistryObject<Item> registerItemFamily(String name) {

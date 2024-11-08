@@ -12,8 +12,7 @@ public abstract class AxeItemMixin {
 
     @ModifyVariable(method = "useOn",
             at = @At("STORE"),
-            ordinal = 0,
-            print = true
+            ordinal = 0
     )
     private Optional useOn(Optional value) {
         return Optional.empty();
