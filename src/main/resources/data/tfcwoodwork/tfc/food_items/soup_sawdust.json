@@ -3,7 +3,7 @@
     "item": "tfcwoodwork:sawdust_soup"
   },
   "hunger": 0,
-  "saturation": 1.5,
+  "saturation": 1.25,
   "water": 0.5,
-  "decay_modifier": 0.75
+  "decay_modifier": 1
 }

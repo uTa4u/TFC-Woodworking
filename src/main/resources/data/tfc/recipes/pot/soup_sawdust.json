@@ -1,14 +1,9 @@
 {
   "type": "tfc:pot",
   "ingredients": [
-    [
-      {
-        "item": "minecraft:bowl"
-      },
-      {
-        "item": "tfc:ceramic/bowl"
-      }
-    ],
+    {
+      "item": "tfc:ceramic/bowl"
+    },
     {
       "item": "tfcwoodwork:sawdust"
     },
