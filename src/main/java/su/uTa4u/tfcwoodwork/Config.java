@@ -85,7 +85,7 @@ public class Config
             .define("logProjectileVsItem", true);
 
     //maybe for higher tier tools -> less cooldown
-    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> TOOL_COOLDOWNS = BUILDER
+    private static final ForgeConfigSpec.ConfigValue<List<Integer>> TOOL_COOLDOWNS = BUILDER
             .comment("Cooldown on tools after log interaction succeeded")
             .comment("Level 0: IGNEOUS_INTRUSIVE, IGNEOUS_EXTRUSIVE, SEDIMENTARY, METAMORPHIC")
             .comment("Level 1: COPPER")
@@ -94,9 +94,9 @@ public class Config
             .comment("Level 4: STEEL")
             .comment("Level 5: BLACK_STEEL")
             .comment("Level 6: BLUE_STEEL, RED_STEEL")
-            .comment("Default: 10 for every tool level")
+            .comment("Default: [10, 10, 10, 10, 10, 10, 10]")
             .comment("Range: [0, 1200]")
-            .defineList("toolCooldowns", Arrays.asList(10, 10, 10, 10, 10, 10, 10), val -> ( val instanceof Integer && (0 <= ((Integer) val)) && ( ((Integer) val) <= 1200)));
+            .define("toolCooldowns", Arrays.asList(10, 10, 10, 10, 10, 10, 10), val -> ( val instanceof Integer intVal && (0 <= intVal) && ( intVal <= 1200)));
 
     static final ForgeConfigSpec SPEC = BUILDER.build();
 
@@ -135,6 +135,6 @@ public class Config
         logPileLogQuarterCapacity = LOG_PILE_QUAR_CAP.get();
         logPileLimit = LOG_PILE_LIMIT.get();
         logProjectileVsItem = LOG_PROJECTILE_VS_ITEM.get();
-        toolCooldowns = (List<Integer>) TOOL_COOLDOWNS.get();
+        toolCooldowns = TOOL_COOLDOWNS.get();
     }
 }

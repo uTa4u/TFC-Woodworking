@@ -1,6 +1,7 @@
 package su.uTa4u.tfcwoodwork.mixin;
 
 import net.minecraft.world.item.AxeItem;
+import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
@@ -14,7 +15,7 @@ public abstract class AxeItemMixin {
             at = @At("STORE"),
             ordinal = 0
     )
-    private Optional useOn(Optional value) {
+    private Optional<BlockState> useOn(Optional<BlockState> value) {
         return Optional.empty();
     }
 }
