@@ -19,10 +19,10 @@
   ],
   "fluid_ingredient": {
     "ingredient": "minecraft:water",
-    "amount": 500
+    "amount": 250
   },
-  "duration": 1200,
-  "temperature": 300,
+  "duration": 300,
+  "temperature": 250,
   "item_output": [
     {
       "item": "tfcwoodwork:sawdust_soup"
