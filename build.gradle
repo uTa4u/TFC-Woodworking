@@ -79,18 +79,18 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
-    annotationProcessor "org.spongepowered:mixin:${mixinVersion}:processor"
+    annotationProcessor "org.spongepowered:mixin:${mixin_version}:processor"
 
-    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouliVersion}")
-    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouliVersion}:api")
+    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
+    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
 
-    implementation fg.deobf("curse.maven:terrafirmacraft-302973:${tfcVersion}")
+    implementation fg.deobf("curse.maven:terrafirmacraft-302973:${tfc_version}")
 
-    runtimeOnly fg.deobf("curse.maven:firmaciv-714158:5737719")
-    runtimeOnly fg.deobf("curse.maven:alekiships-1068445:5815914")
+    runtimeOnly fg.deobf("curse.maven:firmaciv-714158:${firmaciv_version}")
+    runtimeOnly fg.deobf("curse.maven:alekiships-1068445:${alekiships_version}")
 
-    runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jeiVersion}")
-    runtimeOnly fg.deobf("curse.maven:jade-324717:${jadeVersion}")
+    runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
+    runtimeOnly fg.deobf("curse.maven:jade-324717:${jade_version}")
 }
 
 mixin {
@@ -104,8 +104,7 @@ tasks.named('processResources', ProcessResources).configure {
             forge_version: forge_version, forge_version_range: forge_version_range,
             loader_version_range: loader_version_range,
             mod_id: mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
-            mod_authors: mod_authors, mod_description: mod_description,
-            patchouliVersion: patchouliVersion, tfcVersion: tfcVersion,
+            mod_authors: mod_authors, mod_description: mod_description
     ]
     inputs.properties replaceProperties
 
@@ -129,19 +128,6 @@ tasks.named('jar', Jar).configure {
 
     finalizedBy 'reobfJar'
 }
-
-//publishing {
-//    publications {
-//        register('mavenJava', MavenPublication) {
-//            artifact jar
-//        }
-//    }
-//    repositories {
-//        maven {
-//            url "file://${project.projectDir}/mcmodsrepo"
-//        }
-//    }
-//}
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
