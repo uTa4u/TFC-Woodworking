@@ -11,13 +11,14 @@ Makes crafting wooden things more immersive through a tree (pun intended) of in-
 ### Notes:
 - Use [Axe Interactions section](#axe-interactions) and [Saw Interactions section](#saw-interactions) to see all recipes until JEI integration and/or Patchouli book page is implemented
 - Most amounts shown in parentheses are defaults, can be changed in config file
+- Canoes from FirmaCiv is possible. It requires 3 stripped logs placed facing horizontally. You will need to strip them separately beforehand.
 
 ### Features:
 - Stripping logs/wood is only possible when 4 sides are empty (no solid blocks)
 - Chopping logs/wood is only possible when there is no block above
 - Fair wood recipe (2 bark + 1 log -> 1 wood) (2 bast + 1 stripped log for stripped wood)
 - Custom log pile stores logs, debarked logs, debarked log halves and debarked log quarters
-- Tools take damage with a chance dependant on tool's tier
+- Tools take damage with a chance dependent on tool's tier
 - If chopped log projectile hits a log pile, instead of dropping into the world it is inserted inside
 - A lot of config options to play with
 
