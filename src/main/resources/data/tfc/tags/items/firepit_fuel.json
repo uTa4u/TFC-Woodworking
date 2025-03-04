@@ -1,7 +1,9 @@
 {
   "replace": false,
   "values": [
-    "#tfcwoodwork:logs",
+    "#tfcwoodwork:logs_log",
+    "#tfcwoodwork:logs_half",
+    "#tfcwoodwork:logs_quarter",
     "#tfcwoodwork:bark",
     "#tfcwoodwork:bast"
   ]
