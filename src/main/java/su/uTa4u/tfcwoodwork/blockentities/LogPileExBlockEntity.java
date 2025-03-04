@@ -122,7 +122,7 @@ public class LogPileExBlockEntity extends InventoryBlockEntity<ItemStackHandler>
         return switch (getRow(slot)) {
             case 0 -> Helpers.isItem(stack.getItem(), ModTags.Items.LOGS_QUARTER);
             case 1 -> Helpers.isItem(stack.getItem(), ModTags.Items.LOGS_HALF);
-            case 2 -> Helpers.isItem(stack.getItem(), ItemTags.LOGS);
+            case 2 -> Helpers.isItem(stack.getItem(), ModTags.Items.LOGS_LOG);
             default -> false;
         };
     }

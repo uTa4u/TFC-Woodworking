@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "tfc:stick_bundle",
     "tfcwoodwork:debarked_log/acacia",
     "tfcwoodwork:debarked_log/ash",
     "tfcwoodwork:debarked_log/aspen",
