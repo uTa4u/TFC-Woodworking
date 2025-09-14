@@ -16,5 +16,4 @@ public class LogHalfProjectile extends AbstractWoodProjectile {
         super(ModEntities.LOG_HALF_PROJ.get(), pos, state, offsetX, offsetY, offsetZ, level, dir, isMirrored);
     }
 
-
 }

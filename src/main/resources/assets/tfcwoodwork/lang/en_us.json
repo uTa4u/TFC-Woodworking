@@ -1,4 +1,7 @@
 {
+  "entity.tfcwoodwork.log_half_proj": "Half Log",
+  "entity.tfcwoodwork.log_quarter_proj": "Quarter Log",
+
   "item_group.tfcwoodwork.woodworking": "TFC Woodworking",
 
   "item.tfcwoodwork.testaxe": "DEGUG Axe",

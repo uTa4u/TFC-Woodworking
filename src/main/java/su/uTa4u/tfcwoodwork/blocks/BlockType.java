@@ -20,7 +20,6 @@ public enum BlockType {
         this.sup = sup;
     }
 
-
     public String getName(RegistryWood wood) {
         return this.name + "/" + wood.getSerializedName();
     }

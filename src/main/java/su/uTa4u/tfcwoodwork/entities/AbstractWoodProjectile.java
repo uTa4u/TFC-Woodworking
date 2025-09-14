@@ -1,14 +1,19 @@
 package su.uTa4u.tfcwoodwork.entities;
 
 import net.dries007.tfc.common.blocks.wood.Wood;
-import net.dries007.tfc.util.Helpers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerEntity;
+import net.minecraft.world.entity.EntityAttachments;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.projectile.AbstractArrow;
@@ -18,20 +23,29 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
-import net.minecraftforge.network.NetworkHooks;
+import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import su.uTa4u.tfcwoodwork.Util;
-import su.uTa4u.tfcwoodwork.blockentities.ModBlockEntities;
 import su.uTa4u.tfcwoodwork.blocks.BlockType;
 import su.uTa4u.tfcwoodwork.blocks.ModBlocks;
 
 public abstract class AbstractWoodProjectile extends AbstractArrow {
-    //TODO: make these into regular variables?
+    private static final String KEY_MIRRORED = "Mirrored";
+    private static final String KEY_DIRECTION = "Direction";
+    private static final String KEY_START_BLOCKPOS = "StartBlockpos";
+    private static final String KEY_BLOCKSTATE = "Blockstate";
+    private static final String KEY_HROT = "Hrot";
+    private static final String KEY_HROT0 = "Hrot0";
+    // TODO: save these to nbt
+    // TODO: add translation string of projectile
     protected static final EntityDataAccessor<Boolean> MIRRORED = SynchedEntityData.defineId(AbstractWoodProjectile.class, EntityDataSerializers.BOOLEAN);
     protected static final EntityDataAccessor<Direction> DIRECTION = SynchedEntityData.defineId(AbstractWoodProjectile.class, EntityDataSerializers.DIRECTION);
     protected static final EntityDataAccessor<BlockPos> START_BLOCKPOS = SynchedEntityData.defineId(AbstractWoodProjectile.class, EntityDataSerializers.BLOCK_POS);
     protected static final EntityDataAccessor<BlockState> BLOCKSTATE = SynchedEntityData.defineId(AbstractWoodProjectile.class, EntityDataSerializers.BLOCK_STATE);
 
-    private static final EntityDimensions DIMENSIONS = new EntityDimensions(0.375f, 0.375f, true);
+    private static final float DIM_SIZE = 0.375f;
+    private static final EntityDimensions DIMENSIONS = new EntityDimensions(DIM_SIZE, DIM_SIZE, DIM_SIZE * 0.5f, EntityAttachments.createDefault(DIM_SIZE, DIM_SIZE), true);
     private static final int HOR_ROT_PERIOD = 30; // Ticks for 360.0f degree rotation
     private float hRot0 = 0.0f;
     private float hRot = 0.0f;
@@ -41,14 +55,17 @@ public abstract class AbstractWoodProjectile extends AbstractArrow {
     }
 
     public AbstractWoodProjectile(EntityType<? extends AbstractArrow> entityType, BlockPos pos, BlockState state, double offsetX, double offsetY, double offsetZ, Level level, Direction dir, boolean isMirrored) {
-        super(entityType, pos.getX() + offsetX, pos.getY() + offsetY, pos.getZ() + offsetZ, level);
+        super(entityType, pos.getX() + offsetX, pos.getY() + offsetY, pos.getZ() + offsetZ, level, ItemStack.EMPTY, null);
         this.setMirrored(isMirrored);
         this.setDirection(dir);
         this.setStartBlockpos(pos);
         this.setBlockState(state);
+        this.pickup = Pickup.ALLOWED;
+        this.setPickupItemStack(this.getBlockState().getBlock().asItem().getDefaultInstance());
     }
 
     public float getHRot() {
+        if (this.inGround) return this.hRot;
         this.hRot0 = this.hRot;
         this.hRot = (this.tickCount % HOR_ROT_PERIOD) * (360.0f / HOR_ROT_PERIOD);
         return this.hRot;
@@ -59,12 +76,42 @@ public abstract class AbstractWoodProjectile extends AbstractArrow {
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(MIRRORED, Boolean.FALSE);
-        this.entityData.define(DIRECTION, Direction.NORTH);
-        this.entityData.define(START_BLOCKPOS, BlockPos.ZERO);
-        this.entityData.define(BLOCKSTATE, Util.getStateToPlace(ModBlocks.WOODS, Wood.ACACIA, BlockType.DEBARKED_HALF));
+    protected void defineSynchedData(@NotNull SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(MIRRORED, Boolean.FALSE);
+        builder.define(DIRECTION, Direction.NORTH);
+        builder.define(START_BLOCKPOS, BlockPos.ZERO);
+        builder.define(BLOCKSTATE, Util.getStateToPlace(ModBlocks.WOODS, Wood.ACACIA, BlockType.DEBARKED_HALF));
+    }
+
+    @Override
+    public void addAdditionalSaveData(@NotNull CompoundTag nbt) {
+        super.addAdditionalSaveData(nbt);
+
+        nbt.putBoolean(KEY_MIRRORED, this.getMirrored());
+        nbt.putString(KEY_DIRECTION, this.getDirection().getName());
+        nbt.put(KEY_START_BLOCKPOS, NbtUtils.writeBlockPos(this.getStartBlockpos()));
+        nbt.putString(KEY_BLOCKSTATE, BuiltInRegistries.BLOCK.getKey(this.getBlockState().getBlock()).toString());
+        nbt.putFloat(KEY_HROT, this.hRot);
+        nbt.putFloat(KEY_HROT0, this.hRot0);
+    }
+
+    @Override
+    public void readAdditionalSaveData(@NotNull CompoundTag nbt) {
+        super.readAdditionalSaveData(nbt);
+
+        this.setMirrored(nbt.getBoolean(KEY_MIRRORED));
+        var dir = Direction.byName(nbt.getString(KEY_DIRECTION));
+        if (dir != null) {
+            this.setDirection(dir);
+        }
+        NbtUtils.readBlockPos(nbt, KEY_START_BLOCKPOS).ifPresent(this::setStartBlockpos);
+        String state = nbt.getString(KEY_BLOCKSTATE);
+        if (!state.isEmpty()) {
+            this.setBlockState(BuiltInRegistries.BLOCK.get(ResourceLocation.parse(state)).defaultBlockState());
+        }
+        this.hRot = nbt.getFloat(KEY_HROT);
+        this.hRot0 = nbt.getFloat(KEY_HROT0);
     }
 
     public BlockState getBlockState() {
@@ -83,6 +130,7 @@ public abstract class AbstractWoodProjectile extends AbstractArrow {
         this.entityData.set(MIRRORED, isMirrored);
     }
 
+    @NotNull
     public Direction getDirection() {
         return this.entityData.get(DIRECTION);
     }
@@ -99,41 +147,52 @@ public abstract class AbstractWoodProjectile extends AbstractArrow {
         this.entityData.set(START_BLOCKPOS, pos);
     }
 
-    //TODO: do damage?
+    // TODO: do damage?
     @Override
-    protected void onHitEntity(EntityHitResult pResult) {
+    protected void onHitEntity(@NotNull EntityHitResult result) {
     }
 
-    //TODO: play sound?
+    // TODO: play sound?
+    // TODO: insert into log pile
     @Override
-    protected void onHitBlock(BlockHitResult result) {
-        Level level = this.level();
-        ItemStack stack = this.getBlockState().getBlock().asItem().getDefaultInstance();
-        BlockPos pos = result.getBlockPos();
-        if (level.getBlockState(pos).is(ModBlocks.LOG_PILE.get())) {
-            if (!Helpers.insertOne(level, pos, ModBlockEntities.LOG_PILE.get(), stack)) {
-                Util.spawnDropsPrecise(this.level(), BlockPos.ZERO, result.getLocation(), stack);
-            }
-        } else {
-            Util.spawnDropsPrecise(this.level(), BlockPos.ZERO, result.getLocation(), stack);
-        }
-        this.discard();
+    protected void onHitBlock(@NotNull BlockHitResult result) {
+        super.onHitBlock(result);
+//        this.setDeltaMovement(Vec3.ZERO);
+//        this.setPosRaw(this.getX(), this.getY() + 0.05, this.getZ());
+//        Level level = this.level();
+//        ItemStack stack = this.getBlockState().getBlock().asItem().getDefaultInstance();
+//        BlockPos pos = result.getBlockPos();
+//        if (level.getBlockState(pos).is(ModBlocks.LOG_PILE.get())) {
+//            if (!Helpers.insertOne(level, pos, ModBlockEntities.LOG_PILE.get(), stack)) {
+//                Util.spawnDropsPrecise(this.level(), BlockPos.ZERO, result.getLocation(), stack);
+//            }
+//        } else {
+//            Util.spawnDropsPrecise(this.level(), BlockPos.ZERO, result.getLocation(), stack);
+//        }
+//        this.discard();
     }
 
     @Override
+    @NotNull
     protected AABB makeBoundingBox() {
         return DIMENSIONS.makeBoundingBox(this.position());
     }
 
     @Override
-    protected ItemStack getPickupItem() {
+    @NotNull
+    protected ItemStack getDefaultPickupItem() {
         return ItemStack.EMPTY;
     }
 
     @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
+    public float getPickRadius() {
+        return 0.5f;
     }
 
-
+    @Override
+    protected void tickDespawn() {
+        if (this.pickup != Pickup.ALLOWED) {
+            super.tickDespawn();
+        }
+    }
 }

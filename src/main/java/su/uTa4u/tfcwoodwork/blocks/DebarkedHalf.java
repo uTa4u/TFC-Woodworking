@@ -10,6 +10,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 
 public class DebarkedHalf extends AbstractDebarkedWood {
     private static final VoxelShape AABB_NS = Shapes.box(0.0625, 0, 0.3125, 0.9375, 1, 0.6875);
@@ -21,6 +22,7 @@ public class DebarkedHalf extends AbstractDebarkedWood {
     }
 
     @Override
+    @NotNull
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         if (state.getValue(FACING) == Direction.NORTH || state.getValue(FACING) == Direction.SOUTH) {
             return AABB_NS;
@@ -37,7 +39,7 @@ public class DebarkedHalf extends AbstractDebarkedWood {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(@NotNull StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
         builder.add(FACING);
     }

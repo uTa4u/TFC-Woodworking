@@ -6,24 +6,24 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
-public class ModTags {
-
-
-    public static class Items {
-        // Anything that goes into 3rd row of TFCWoodworking's log pile
-        public static final TagKey<Item> LOGS_LOG = TagKey.create(Registries.ITEM, Util.identifier("logs_log"));
-        // Anything that goes into 2nd row of TFCWoodworking's log pile
-        public static final TagKey<Item> LOGS_HALF = TagKey.create(Registries.ITEM, Util.identifier("logs_half"));
-        // Anything that goes into 1st row of TFCWoodworking's log pile
-        public static final TagKey<Item> LOGS_QUARTER = TagKey.create(Registries.ITEM, Util.identifier("logs_quarter"));
-
-        //TFC doesn't have TagKeys for these tags, so we create them ourselves
-        public static final TagKey<Item> TFC_AXES = TagKey.create(Registries.ITEM, Helpers.identifier("axes"));
-        public static final TagKey<Item> TFC_SAWS = TagKey.create(Registries.ITEM, Helpers.identifier("saws"));
-
+public final class ModTags {
+    private ModTags() {
     }
 
-    public static class Blocks {
-        public static final TagKey<Block> LOGS = TagKey.create(Registries.BLOCK, Util.identifier("logs"));
+    public static final class Items {
+        public static final TagKey<Item> LOGS_LOG = TagKey.create(Registries.ITEM, TFCWoodworking.getResource("logs_log"));
+        public static final TagKey<Item> LOGS_HALF = TagKey.create(Registries.ITEM, TFCWoodworking.getResource("logs_half"));
+        public static final TagKey<Item> LOGS_QUARTER = TagKey.create(Registries.ITEM, TFCWoodworking.getResource("logs_quarter"));
+
+        public static final TagKey<Item> BARK = TagKey.create(Registries.ITEM, TFCWoodworking.getResource("bark"));
+        public static final TagKey<Item> BAST = TagKey.create(Registries.ITEM, TFCWoodworking.getResource("bast"));
+    }
+
+    public static final class Blocks {
+        public static final TagKey<Block> LOGS_LOG = TagKey.create(Registries.BLOCK, TFCWoodworking.getResource("logs_log"));
+        public static final TagKey<Block> LOGS_HALF = TagKey.create(Registries.BLOCK, TFCWoodworking.getResource("logs_half"));
+        public static final TagKey<Block> LOGS_QUARTER = TagKey.create(Registries.BLOCK, TFCWoodworking.getResource("logs_quarter"));
+
+        public static final TagKey<Block> LOGS = TagKey.create(Registries.BLOCK, TFCWoodworking.getResource("logs"));
     }
 }

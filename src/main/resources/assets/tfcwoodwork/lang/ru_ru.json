@@ -1,4 +1,7 @@
 {
+  "entity.tfcwoodwork.log_half_proj": "Плаха",
+  "entity.tfcwoodwork.log_quarter_proj": "Четвертина",
+
   "item_group.tfcwoodwork.woodworking": "TFC Деревообработка",
 
   "item.tfcwoodwork.testaxe": "ДЕБАГ топор",

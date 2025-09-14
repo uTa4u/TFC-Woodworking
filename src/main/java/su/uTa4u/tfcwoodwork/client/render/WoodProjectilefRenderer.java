@@ -17,8 +17,12 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.client.RenderTypeHelper;
+import net.neoforged.neoforge.client.model.data.ModelData;
+import org.jetbrains.annotations.NotNull;
+import su.uTa4u.tfcwoodwork.ModTags;
 import su.uTa4u.tfcwoodwork.TFCWoodworking;
 import su.uTa4u.tfcwoodwork.entities.AbstractWoodProjectile;
 
@@ -30,39 +34,71 @@ public class WoodProjectilefRenderer extends EntityRenderer<AbstractWoodProjecti
     private final BlockRenderDispatcher dispatcher;
 
     static {
-        TEXTURE_BY_WOOD = Helpers.mapOfKeys(Wood.class, (wood) -> new ResourceLocation(TFCWoodworking.MOD_ID, "textures/entity/log_half/" + wood.getSerializedName() + ".png"));
+        TEXTURE_BY_WOOD = Helpers.mapOf(Wood.class, (wood) -> TFCWoodworking.getResource("textures/entity/log_half/" + wood.getSerializedName() + ".png"));
     }
 
-    public WoodProjectilefRenderer(EntityRendererProvider.Context pContext) {
-        super(pContext);
-        this.shadowRadius = 0.5F;
-        this.dispatcher = pContext.getBlockRenderDispatcher();
+    public WoodProjectilefRenderer(EntityRendererProvider.Context context) {
+        super(context);
+        this.shadowRadius = 0.25F;
+        this.dispatcher = context.getBlockRenderDispatcher();
     }
 
-    public void render(AbstractWoodProjectile entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+    public void render(AbstractWoodProjectile entity, float entityYaw, float partialTicks, @NotNull PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         BlockState blockstate = entity.getBlockState();
         if (blockstate.getRenderShape() == RenderShape.MODEL) {
             Level level = entity.level();
             if (blockstate != level.getBlockState(entity.blockPosition()) && blockstate.getRenderShape() != RenderShape.INVISIBLE) {
                 poseStack.pushPose();
 
-                Direction chopperDir = entity.getDirection();
-                if (chopperDir == Direction.SOUTH || chopperDir == Direction.NORTH) poseStack.mulPose(Axis.YP.rotationDegrees(90.0f));
+                final boolean isMirrored = entity.getMirrored();
+                final Direction dir = entity.getDirection();
 
-                if (entity.getMirrored()) poseStack.mulPose(Axis.YP.rotationDegrees(180.0f));
                 poseStack.translate(0, -0.3125, 0);
 
                 poseStack.translate(0, 0.5, 0);
-                poseStack.mulPose(Axis.XN.rotationDegrees(Mth.rotLerp(partialTicks, entity.getHRot0(), entity.getHRot())));
+
+                if (blockstate.is(ModTags.Blocks.LOGS_QUARTER)) {
+                    final Direction.Axis axis = dir.getAxis();
+                    if (axis == Direction.Axis.X) {
+                        poseStack.mulPose(mojandAxisFromDir(dir, isMirrored).rotationDegrees(Mth.rotLerp(partialTicks, entity.getHRot0(), entity.getHRot())));
+                        if (isMirrored) {
+                            poseStack.mulPose(Axis.YP.rotationDegrees(90.0f));
+                        }
+                    }
+                    if (axis == Direction.Axis.Z) {
+                        poseStack.mulPose(mojandAxisFromDir(dir, !isMirrored).rotationDegrees(Mth.rotLerp(partialTicks, entity.getHRot0(), entity.getHRot())));
+                        if (isMirrored) {
+                            poseStack.mulPose(Axis.YP.rotationDegrees(-90.0f));
+                        }
+                    }
+                    if (dir.getAxisDirection() == Direction.AxisDirection.POSITIVE) {
+                        poseStack.mulPose(Axis.YP.rotationDegrees(180.0f));
+                    }
+                } else if (blockstate.is(ModTags.Blocks.LOGS_HALF)) {
+                    final Direction.Axis axis = dir.getAxis();
+                    if (axis == Direction.Axis.X) {
+                        poseStack.mulPose(mojandAxisFromDir(dir, isMirrored).rotationDegrees(Mth.rotLerp(partialTicks, entity.getHRot0(), entity.getHRot())));
+                    }
+                    if (axis == Direction.Axis.Z) {
+                        poseStack.mulPose(mojandAxisFromDir(dir, !isMirrored).rotationDegrees(Mth.rotLerp(partialTicks, entity.getHRot0(), entity.getHRot())));
+                        poseStack.mulPose(Axis.YP.rotationDegrees(90.0f));
+                    }
+                    if (isMirrored) {
+                        poseStack.mulPose(Axis.YP.rotationDegrees(180.0f));
+                    }
+                    if (dir.getAxisDirection() == Direction.AxisDirection.POSITIVE) {
+                        poseStack.mulPose(Axis.YP.rotationDegrees(180.0f));
+                    }
+                }
+
                 poseStack.translate(0, -0.5, 0);
 
                 poseStack.translate(-0.5, 0, -0.5);
 
                 BlockPos blockpos = entity.blockPosition();
                 var model = this.dispatcher.getBlockModel(blockstate);
-                for (var renderType : model.getRenderTypes(blockstate, RandomSource.create(blockstate.getSeed(entity.getStartBlockpos())), net.minecraftforge.client.model.data.ModelData.EMPTY)) {
-                    renderType = net.minecraftforge.client.RenderTypeHelper.getMovingBlockRenderType(renderType);
-                    this.dispatcher.getModelRenderer().tesselateBlock(level, model, blockstate, blockpos, poseStack, buffer.getBuffer(renderType), false, RandomSource.create(), blockstate.getSeed(entity.getStartBlockpos()), OverlayTexture.NO_OVERLAY, net.minecraftforge.client.model.data.ModelData.EMPTY, renderType);
+                for (var renderType : model.getRenderTypes(blockstate, RandomSource.create(blockstate.getSeed(entity.getStartBlockpos())), ModelData.EMPTY)) {
+                    this.dispatcher.getModelRenderer().tesselateBlock(level, model, blockstate, blockpos, poseStack, buffer.getBuffer(RenderTypeHelper.getMovingBlockRenderType(renderType)), false, RandomSource.create(), blockstate.getSeed(entity.getStartBlockpos()), OverlayTexture.NO_OVERLAY, ModelData.EMPTY, renderType);
                 }
                 poseStack.popPose();
                 super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
@@ -70,10 +106,20 @@ public class WoodProjectilefRenderer extends EntityRenderer<AbstractWoodProjecti
         }
     }
 
-    //Is this even used by the renderer? Idk, but didn't want to return null
-    //If it is used, need to handle log_quarter
     @Override
-    public ResourceLocation getTextureLocation(AbstractWoodProjectile pEntity) {
+    @NotNull
+    public ResourceLocation getTextureLocation(@NotNull AbstractWoodProjectile entity) {
         return TEXTURE_BY_WOOD.get(Wood.ACACIA);
+    }
+
+    private static Axis mojandAxisFromDir(Direction dir, boolean isMirrored) {
+        return switch (dir) {
+            case DOWN -> isMirrored ? Axis.YP : Axis.YN;
+            case UP -> isMirrored ? Axis.YN : Axis.YP;
+            case NORTH -> isMirrored ? Axis.ZP : Axis.ZN;
+            case SOUTH -> isMirrored ? Axis.ZN : Axis.ZP;
+            case WEST -> isMirrored ? Axis.XP : Axis.XN;
+            case EAST -> isMirrored ? Axis.XN : Axis.XP;
+        };
     }
 }
