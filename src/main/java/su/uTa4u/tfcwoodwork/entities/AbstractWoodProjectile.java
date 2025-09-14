@@ -19,10 +19,10 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraftforge.network.NetworkHooks;
+import su.uTa4u.tfcwoodwork.Util;
 import su.uTa4u.tfcwoodwork.blockentities.ModBlockEntities;
 import su.uTa4u.tfcwoodwork.blocks.BlockType;
 import su.uTa4u.tfcwoodwork.blocks.ModBlocks;
-import su.uTa4u.tfcwoodwork.util;
 
 public abstract class AbstractWoodProjectile extends AbstractArrow {
     //TODO: make these into regular variables?
@@ -64,7 +64,7 @@ public abstract class AbstractWoodProjectile extends AbstractArrow {
         this.entityData.define(MIRRORED, Boolean.FALSE);
         this.entityData.define(DIRECTION, Direction.NORTH);
         this.entityData.define(START_BLOCKPOS, BlockPos.ZERO);
-        this.entityData.define(BLOCKSTATE, util.getStateToPlace(ModBlocks.WOODS, Wood.ACACIA, BlockType.DEBARKED_HALF));
+        this.entityData.define(BLOCKSTATE, Util.getStateToPlace(ModBlocks.WOODS, Wood.ACACIA, BlockType.DEBARKED_HALF));
     }
 
     public BlockState getBlockState() {
@@ -112,10 +112,10 @@ public abstract class AbstractWoodProjectile extends AbstractArrow {
         BlockPos pos = result.getBlockPos();
         if (level.getBlockState(pos).is(ModBlocks.LOG_PILE.get())) {
             if (!Helpers.insertOne(level, pos, ModBlockEntities.LOG_PILE.get(), stack)) {
-                util.spawnDropsPrecise(this.level(), BlockPos.ZERO, result.getLocation(), stack);
+                Util.spawnDropsPrecise(this.level(), BlockPos.ZERO, result.getLocation(), stack);
             }
         } else {
-            util.spawnDropsPrecise(this.level(), BlockPos.ZERO, result.getLocation(), stack);
+            Util.spawnDropsPrecise(this.level(), BlockPos.ZERO, result.getLocation(), stack);
         }
         this.discard();
     }

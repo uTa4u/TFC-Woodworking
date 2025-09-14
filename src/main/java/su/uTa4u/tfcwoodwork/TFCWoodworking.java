@@ -44,7 +44,7 @@ public class TFCWoodworking {
     );
 
     public TFCWoodworking() {
-        util.registerLogPileInteraction();
+        Util.registerLogPileInteraction();
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ModItems.ITEMS.register(modEventBus);
@@ -55,14 +55,14 @@ public class TFCWoodworking {
         ModContainerTypes.CONTAINERS.register(modEventBus);
         CREATIVE_TABS.register(modEventBus);
 
-        MinecraftForge.EVENT_BUS.register(useOnEventHandler.class);
+        MinecraftForge.EVENT_BUS.register(UseOnEventHandler.class);
 
         MinecraftForge.EVENT_BUS.register(this);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
 
         if (ModList.get().isLoaded("dttfc")) {
-            useOnEventHandler.initDTTFCBlocks();
+            UseOnEventHandler.initDTTFCBlocks();
         }
     }
 

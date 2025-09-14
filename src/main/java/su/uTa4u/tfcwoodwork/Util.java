@@ -38,7 +38,7 @@ import java.util.Map;
 import java.util.Optional;
 
 
-public class util {
+public class Util {
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public static <T extends Enum<T>> BlockState getStateToPlace(Map<Wood, Map<T, RegistryObject<Block>>> map, Wood wood, T blockTypes) {
@@ -147,7 +147,7 @@ public class util {
         InteractionHand hand = context.getHand();
         ItemStack inHand = context.getItemInHand();
 
-        return useOnEventHandler.useTool(tool, level, player, pos);
+        return UseOnEventHandler.useTool(tool, level, player, pos);
     }
 
     public static void registerLogPileInteraction() {
