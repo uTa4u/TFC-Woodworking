@@ -1,5 +1,8 @@
 package su.uTa4u.tfcwoodwork.blocks;
 
+import net.dries007.tfc.common.blockentities.TFCBlockEntities;
+import net.dries007.tfc.common.blocks.ExtendedBlock;
+import net.dries007.tfc.common.blocks.ExtendedProperties;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.blocks.wood.Wood;
 import net.dries007.tfc.util.Helpers;
@@ -7,9 +10,12 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.material.MapColor;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import su.uTa4u.tfcwoodwork.TFCWoodworking;
+import su.uTa4u.tfcwoodwork.blockentities.ModBlockEntities;
 import su.uTa4u.tfcwoodwork.items.ModItems;
 
 import java.util.Map;
@@ -21,11 +27,14 @@ public class ModBlocks {
 
     public static final Map<Wood, Map<BlockType, TFCBlocks.Id<Block>>> WOODS;
 
+    public static final DeferredHolder<Block, Block> LOG_PILE_EX;
+
     static {
         BLOCKS = DeferredRegister.create(BuiltInRegistries.BLOCK, TFCWoodworking.MOD_ID);
         WOODS = Helpers.mapOf(Wood.class, (wood) ->
                 Helpers.mapOf(BlockType.class, (type) -> registerBlockWithItem(type.getName(wood), type.sup))
         );
+        LOG_PILE_EX = registerBlock("log_pile_ex", () -> new LogPileExBlock(ExtendedProperties.of(MapColor.WOOD).strength(0.6F).sound(SoundType.WOOD).flammable(60, 30).blockEntity(ModBlockEntities.LOG_PILE_EX)));
     }
 
     private static <T extends Block> DeferredHolder<Block, T> registerBlock(String name, Supplier<T> blockSup) {

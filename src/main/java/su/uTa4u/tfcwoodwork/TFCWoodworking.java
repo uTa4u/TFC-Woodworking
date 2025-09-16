@@ -13,14 +13,13 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModList;
-import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import org.slf4j.Logger;
+import su.uTa4u.tfcwoodwork.blockentities.ModBlockEntities;
 import su.uTa4u.tfcwoodwork.blocks.ModBlocks;
 import su.uTa4u.tfcwoodwork.client.render.WoodProjectilefRenderer;
 import su.uTa4u.tfcwoodwork.entities.ModEntities;
@@ -46,11 +45,12 @@ public class TFCWoodworking {
         // TODO: use EventBusSubscriber
         ModItems.ITEMS.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
+        ModBlockEntities.BLOCK_ENTITIES.register(modEventBus);
         ModSounds.SOUND_EVENTS.register(modEventBus);
         ModEntities.ENTITY_TYPES.register(modEventBus);
         CREATIVE_TABS.register(modEventBus);
 
-        modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+        modContainer.registerConfig(net.neoforged.fml.config.ModConfig.Type.COMMON, ModConfig.SPEC);
 
         if (ModList.get().isLoaded("dttfc")) {
             UseOnEventHandler.initDTTFCBlocks();

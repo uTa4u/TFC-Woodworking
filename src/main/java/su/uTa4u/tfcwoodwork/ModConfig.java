@@ -5,7 +5,7 @@ import net.neoforged.neoforge.common.ModConfigSpec;
 import java.util.Arrays;
 import java.util.List;
 
-public class Config
+public class ModConfig
 {
     private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
 
@@ -54,33 +54,12 @@ public class Config
             .comment("Default: 2")
             .defineInRange("trapdoorFromSlab", 2, 0, 64);
 
-    public static final ModConfigSpec.IntValue LOG_PILE_LOG_CAP = BUILDER
-            .comment("How many logs can custom log pile store per slot")
-            .comment("Default: 4")
-            .defineInRange("logPileLogCapacity", 4, 1, 64);
-
-    public static final ModConfigSpec.IntValue LOG_PILE_HALF_CAP = BUILDER
-            .comment("How many log halves can custom log pile store per slot")
-            .comment("Default: 8")
-            .defineInRange("logPileLogHalfCapacity", 8, 1, 64);
-
-    public static final ModConfigSpec.IntValue LOG_PILE_QUAR_CAP = BUILDER
-            .comment("How many log quarters can custom log pile store per slot")
-            .comment("Default: 16")
-            .defineInRange("logPileLogQuarterCapacity", 16, 1, 64);
-
-    public static final ModConfigSpec.IntValue LOG_PILE_LIMIT = BUILDER
-            .comment("How many log quarters can custom log pile store in total across all slots")
-            .comment("Maximum of 1792 is achieved when all slots are configured to hold 64 items")
-            .comment("Default: 64")
-            .defineInRange("logPileLimit", 64, 1, 1792);
-
     public static final ModConfigSpec.BooleanValue LOG_PROJECTILE_VS_ITEM = BUILDER
-            .comment("Should the custom wood projectile be shot instead of a ItemEntity")
+            .comment("Should the custom wood projectile be shot instead of an ItemEntity")
             .comment("Default: true")
             .define("logProjectileVsItem", true);
 
-    //maybe for higher tier tools -> less cooldown
+    // TODO: maybe for higher tier tools -> less cooldown
     public static final ModConfigSpec.ConfigValue<List<Integer>> TOOL_COOLDOWNS = BUILDER
             .comment("Cooldown on tools after log interaction succeeded")
             .comment("Level 0: IGNEOUS_INTRUSIVE, IGNEOUS_EXTRUSIVE, SEDIMENTARY, METAMORPHIC")

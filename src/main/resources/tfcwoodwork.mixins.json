@@ -4,7 +4,8 @@
   "package": "su.uTa4u.tfcwoodwork.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "AxeItemMixin"
+    "AxeItemMixin",
+    "InteractionManagerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,18 +1,13 @@
 package su.uTa4u.tfcwoodwork;
 
-import com.mojang.math.Axis;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.blocks.wood.Wood;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -104,7 +99,7 @@ public class Util {
         Entity projLeft;
         Entity projRight;
         BlockState state = getStateToPlace(ModBlocks.WOODS, wood, type);
-        if (Config.LOG_PROJECTILE_VS_ITEM.get()) {
+        if (ModConfig.LOG_PROJECTILE_VS_ITEM.get()) {
             if (type == BlockType.DEBARKED_HALF) {
                 projLeft  = new LogHalfProjectile(pos, state, 0.5 + offsetX, offsetY, 0.5 + offsetZ, level, dir, true);
                 projRight = new LogHalfProjectile(pos, state, 0.5 - offsetX, offsetY, 0.5 - offsetZ, level, dir, false);
