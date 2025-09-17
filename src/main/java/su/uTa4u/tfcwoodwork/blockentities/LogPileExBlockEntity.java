@@ -31,7 +31,7 @@ public class LogPileExBlockEntity extends InventoryBlockEntity<ItemStackHandler>
             if (this.isEmpty()) {
                 this.level.setBlockAndUpdate(this.worldPosition, Blocks.AIR.defaultBlockState());
             } else {
-                this.level.setBlockAndUpdate(this.worldPosition, this.getBlockState().setValue(LogPileExBlock.COUNT, Mth.clamp(Math.ceilDiv(this.logQuarterCount(), 4), 1, 16)));
+                this.level.setBlockAndUpdate(this.worldPosition, this.getBlockState().setValue(LogPileExBlock.COUNT, this.logCount()));
             }
         }
     }
@@ -50,20 +50,16 @@ public class LogPileExBlockEntity extends InventoryBlockEntity<ItemStackHandler>
         for (int i : this.stackLimitBySlot) {
             limit += i;
         }
-        return this.logCount() == limit;
-    }
-
-    public int logCount() {
         int count = 0;
         for (ItemStack stack : Helpers.iterate(this.inventory)) {
             if (!stack.isEmpty()) {
                 count += stack.getCount();
             }
         }
-        return count;
+        return count == limit;
     }
 
-    private int logQuarterCount() {
+    public int logCount() {
         int count = 0;
         for (ItemStack stack : Helpers.iterate(this.inventory)) {
             if (!stack.isEmpty()) {
@@ -76,7 +72,7 @@ public class LogPileExBlockEntity extends InventoryBlockEntity<ItemStackHandler>
                 }
             }
         }
-        return count;
+        return Mth.clamp(Math.ceilDiv(count, 4), 1, 16);
     }
 
     private void suckLogsFromAbove() {

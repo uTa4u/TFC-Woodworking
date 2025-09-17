@@ -17,11 +17,13 @@ public class ModBlockEntities {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES;
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<LogPileExBlockEntity>> LOG_PILE_EX;
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BurningLogPileExBlockEntity>> BURNING_LOG_PILE_EX;
 
     static {
         BLOCK_ENTITIES = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, TFCWoodworking.MOD_ID);
 
         LOG_PILE_EX = register("log_pile_ex", LogPileExBlockEntity::new, ModBlocks.LOG_PILE_EX);
+        BURNING_LOG_PILE_EX = register("burning_log_pile_ex", BurningLogPileExBlockEntity::new, ModBlocks.BURNING_LOG_PILE_EX);
     }
 
     private static <T extends BlockEntity> DeferredHolder<BlockEntityType<?>, BlockEntityType<T>> register(String name, BlockEntityType.BlockEntitySupplier<T> factory, Supplier<? extends Block> blockSup) {

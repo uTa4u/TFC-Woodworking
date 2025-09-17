@@ -2,7 +2,6 @@ package su.uTa4u.tfcwoodwork.blocks;
 
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.blocks.*;
-import net.dries007.tfc.common.blocks.devices.BurningLogPileBlock;
 import net.dries007.tfc.common.blocks.devices.DeviceBlock;
 import net.dries007.tfc.util.Helpers;
 import net.minecraft.Util;
@@ -76,7 +75,7 @@ public class LogPileExBlock extends DeviceBlock implements IForgeBlockExtension,
 
     @Override
     protected void tick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
-        BurningLogPileBlock.lightLogPile(level, pos);
+        BurningLogPileExBlock.lightLogPile(level, pos);
     }
 
     @Override
@@ -97,7 +96,7 @@ public class LogPileExBlock extends DeviceBlock implements IForgeBlockExtension,
                 return Blocks.AIR.defaultBlockState();
             }
             if (Helpers.isBlock(facingState, BlockTags.FIRE)) {
-                BurningLogPileBlock.lightLogPile(level, currentPos);
+                BurningLogPileExBlock.lightLogPile(level, currentPos);
             }
         }
         return super.updateShape(state, facing, facingState, levelAccess, currentPos, facingPos);
