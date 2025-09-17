@@ -118,17 +118,15 @@ public class LogPileExBlock extends DeviceBlock implements IForgeBlockExtension,
     }
 
     public static void extractFromTop(Level level, BlockPos pos, Player player, boolean all) {
-        if (level.getBlockState(pos.above()).is(TFCBlocks.LOG_PILE.get())) {
+        if (level.getBlockState(pos.above()).is(ModBlocks.LOG_PILE_EX.get())) {
             extractFromTop(level, pos.above(), player, all);
         } else if (level.getBlockEntity(pos) instanceof LogPileExBlockEntity logPile) {
-            for (int i = 0; i < LogPileExBlockEntity.SLOTS; i++) {
-                ItemStack slotStack = logPile.getInventory().getStackInSlot(i);
-                if (!slotStack.isEmpty()) {
-                    ItemHandlerHelper.giveItemToPlayer(player, slotStack.split(1));
+            for (int i = LogPileExBlockEntity.SLOTS - 1; i >= 0; --i) {
+                ItemStack stack = logPile.getInventory().getStackInSlot(i);
+                if (!stack.isEmpty()) {
+                    ItemHandlerHelper.giveItemToPlayer(player, stack.split(1));
                     logPile.setAndUpdateSlots(-1);
-                    if (!all) {
-                        break;
-                    }
+                    if (!all) break;
                 }
             }
         }

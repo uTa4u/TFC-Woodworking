@@ -4,6 +4,7 @@ import net.dries007.tfc.common.TFCTags.Items;
 import net.dries007.tfc.common.blockentities.InventoryBlockEntity;
 import net.dries007.tfc.util.Helpers;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -30,7 +31,7 @@ public class LogPileExBlockEntity extends InventoryBlockEntity<ItemStackHandler>
             if (this.isEmpty()) {
                 this.level.setBlockAndUpdate(this.worldPosition, Blocks.AIR.defaultBlockState());
             } else {
-                this.level.setBlockAndUpdate(this.worldPosition, this.getBlockState().setValue(LogPileExBlock.COUNT, Math.ceilDiv(this.logQuarterCount(), 4)));
+                this.level.setBlockAndUpdate(this.worldPosition, this.getBlockState().setValue(LogPileExBlock.COUNT, Mth.clamp(Math.ceilDiv(this.logQuarterCount(), 4), 1, 16)));
             }
         }
     }
@@ -102,6 +103,7 @@ public class LogPileExBlockEntity extends InventoryBlockEntity<ItemStackHandler>
     private void disperseLogsToNewSlots() {
         for (int i = 0; i < SLOTS; ++i) {
             ItemStack stack = this.inventory.getStackInSlot(i);
+            if (stack.getCount() <= this.stackLimitBySlot[i]) continue;
             for (int j = 0; j < SLOTS; ++j) {
                 if (i == j) continue;
                 if (stack.isEmpty()) break;
@@ -113,7 +115,9 @@ public class LogPileExBlockEntity extends InventoryBlockEntity<ItemStackHandler>
                 } else {
                     count = stackLimitBySlot[j] - moveToStack.getCount();
                 }
-                this.inventory.setStackInSlot(j, stack.split(count));
+                if (count > 0) {
+                    this.inventory.setStackInSlot(j, stack.split(count));
+                }
             }
         }
     }

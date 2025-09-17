@@ -30,27 +30,29 @@ public abstract class InteractionManagerMixin {
     private static void registerLogPileExInteraction(CallbackInfo ci) {
         BlockItemPlacement logPilePlacement = new BlockItemPlacement(net.minecraft.world.item.Items.AIR, ModBlocks.LOG_PILE_EX);
         InteractionManager.registerBlock(Ingredient.of(TFCTags.Items.LOG_PILE_LOGS), (stack, context) -> {
-            Player player = context.getPlayer();
+            final Player player = context.getPlayer();
             if (player != null && player.mayBuild() && player.isShiftKeyDown()) {
-                Level level = context.getLevel();
-                Direction direction = context.getClickedFace();
-                BlockPos posClicked = context.getClickedPos();
-                BlockState stateClicked = level.getBlockState(posClicked);
-                BlockPos relativePos = posClicked.relative(direction);
+                final Level level = context.getLevel();
+                final Direction direction = context.getClickedFace();
+                final BlockPos posClicked = context.getClickedPos();
+                final BlockState stateClicked = level.getBlockState(posClicked);
+                final BlockPos relativePos = posClicked.relative(direction);
+                final BlockPos belowPos = relativePos.below();
                 if (Helpers.isBlock(stateClicked, ModBlocks.LOG_PILE_EX.get())) {
-                    return level.getBlockEntity(posClicked, ModBlockEntities.LOG_PILE_EX.get()).map((logPileBlockEntity) -> {
-                        if (!level.isClientSide()) {
-                            LogPileExBlock.insertAndPushUp(stack, stateClicked, level, posClicked, logPileBlockEntity, true);
-                        }
-                        return InteractionResult.sidedSuccess(level.isClientSide);
-                    }).orElse(InteractionResult.PASS);
-                }
-                if (level.getBlockState(relativePos.below()).isFaceSturdy(level, relativePos.below(), Direction.UP)) {
-                    ItemStack stackBefore = stack.copy();
-                    BlockPos actualPlacedPos = new BlockPlaceContext(context).getClickedPos();
-                    InteractionResult result = logPilePlacement.onItemUse(stack, context);
+                    return level.getBlockEntity(posClicked, ModBlockEntities.LOG_PILE_EX.get())
+                            .map(logPileBlockEntity -> {
+                                if (!level.isClientSide()) {
+                                    LogPileExBlock.insertAndPushUp(stack, stateClicked, level, posClicked, logPileBlockEntity, true);
+                                    return InteractionResult.sidedSuccess(level.isClientSide);
+                                }
+                                return InteractionResult.sidedSuccess(level.isClientSide);
+                            }).orElse(InteractionResult.PASS);
+                } else if (level.getBlockState(belowPos).isFaceSturdy(level, belowPos, Direction.UP)) {
+                    final ItemStack stackBefore = stack.copy();
+                    final BlockPos actualPlacedPos = new BlockPlaceContext(context).getClickedPos();
+                    final InteractionResult result = logPilePlacement.onItemUse(stack, context);
                     if (result.consumesAction()) {
-                        Helpers.insertOne(level, actualPlacedPos, ModBlockEntities.LOG_PILE_EX, stackBefore);
+                        level.getBlockEntity(actualPlacedPos, ModBlockEntities.LOG_PILE_EX.get()).ifPresent(logPile -> logPile.insertItemStack(stackBefore.copyWithCount(1)));
                     }
                     return result;
                 }
