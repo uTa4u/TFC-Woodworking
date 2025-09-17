@@ -4,6 +4,7 @@ import net.dries007.tfc.common.TFCTags.Items;
 import net.dries007.tfc.common.blockentities.InventoryBlockEntity;
 import net.dries007.tfc.util.Helpers;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
@@ -12,6 +13,7 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 import su.uTa4u.tfcwoodwork.ModTags;
 import su.uTa4u.tfcwoodwork.blocks.LogPileExBlock;
 
+import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
 public class LogPileExBlockEntity extends InventoryBlockEntity<ItemStackHandler> {
