@@ -1,0 +1,37 @@
+{
+  "type": "tfcwoodwork:in_world",
+  "inputState": {
+    "Name": "tfc:wood/log/sycamore",
+    "Properties": {
+      "axis": "y",
+      "branch_direction": "none"
+    }
+  },
+  "requiredTool": "saw",
+  "resultItems": [
+    {
+      "action": "drop_center",
+      "itemStack": {
+        "count": 4,
+        "id": "tfc:wood/log_fence/sycamore"
+      }
+    },
+    {
+      "action": "drop_center",
+      "itemStack": {
+        "count": 1,
+        "id": "tfcwoodwork:sawdust"
+      }
+    }
+  ],
+  "resultState": {
+    "Name": "minecraft:air"
+  },
+  "sound": {
+    "pitch": 1.0,
+    "sound": {
+      "sound_id": "tfcwoodwork:wood_sawed"
+    },
+    "volume": 0.6
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "type": "tfcwoodwork:in_world",
+  "inputState": {
+    "Name": "tfc:wood/stripped_log/blackwood",
+    "Properties": {
+      "axis": "y",
+      "branch_direction": "none"
+    }
+  },
+  "requiredTool": "axe",
+  "resultItems": [
+    {
+      "action": "drop_cardinal",
+      "itemStack": {
+        "count": 1,
+        "id": "tfcwoodwork:bast/blackwood"
+      }
+    }
+  ],
+  "resultState": {
+    "Name": "tfcwoodwork:debarked_log/blackwood"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "type": "tfcwoodwork:in_world",
+  "inputState": {
+    "Name": "tfcwoodwork:debarked_log/palm"
+  },
+  "requiredTool": "axe",
+  "resultItems": [
+    {
+      "action": "shoot_as_block",
+      "itemStack": {
+        "count": 1,
+        "id": "tfcwoodwork:debarked_half/palm"
+      }
+    }
+  ],
+  "resultState": {
+    "Name": "minecraft:air"
+  },
+  "sound": {
+    "pitch": 1.0,
+    "sound": {
+      "sound_id": "tfcwoodwork:wood_chop"
+    },
+    "volume": 0.6
+  }
+}

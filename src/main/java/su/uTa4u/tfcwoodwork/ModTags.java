@@ -1,6 +1,5 @@
 package su.uTa4u.tfcwoodwork;
 
-import net.dries007.tfc.util.Helpers;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;

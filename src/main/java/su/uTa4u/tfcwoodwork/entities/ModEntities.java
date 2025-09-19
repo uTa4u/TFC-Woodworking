@@ -8,7 +8,10 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import su.uTa4u.tfcwoodwork.TFCWoodworking;
 
-public class ModEntities {
+public final class ModEntities {
+    private ModEntities() {
+    }
+
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES;
 
     public static final DeferredHolder<EntityType<?>, EntityType<LogHalfProjectile>> LOG_HALF_PROJ;

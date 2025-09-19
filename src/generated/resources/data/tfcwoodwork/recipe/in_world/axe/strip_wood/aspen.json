@@ -1,0 +1,41 @@
+{
+  "type": "tfcwoodwork:in_world",
+  "inputState": {
+    "Name": "tfc:wood/wood/aspen",
+    "Properties": {
+      "axis": "y",
+      "branch_direction": "none"
+    }
+  },
+  "requiredTool": "axe",
+  "resultItems": [
+    {
+      "action": "drop_cardinal",
+      "itemStack": {
+        "count": 1,
+        "id": "tfcwoodwork:bark/aspen"
+      }
+    },
+    {
+      "action": "drop_above",
+      "itemStack": {
+        "count": 2,
+        "id": "tfcwoodwork:bark/aspen"
+      }
+    }
+  ],
+  "resultState": {
+    "Name": "tfc:wood/stripped_wood/aspen",
+    "Properties": {
+      "axis": "y",
+      "branch_direction": "none"
+    }
+  },
+  "sound": {
+    "pitch": 1.0,
+    "sound": {
+      "sound_id": "minecraft:item.axe.strip"
+    },
+    "volume": 1.0
+  }
+}

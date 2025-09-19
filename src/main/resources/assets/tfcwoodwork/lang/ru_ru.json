@@ -1,4 +1,6 @@
 {
+  "config.jade.plugin_tfcwoodwork.log_pile_ex": "Кладка брёвен",
+
   "entity.tfcwoodwork.log_half_proj": "Плаха",
   "entity.tfcwoodwork.log_quarter_proj": "Четвертина",
 

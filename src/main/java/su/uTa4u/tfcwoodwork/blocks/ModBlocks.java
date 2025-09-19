@@ -1,8 +1,5 @@
 package su.uTa4u.tfcwoodwork.blocks;
 
-import net.dries007.tfc.common.blockentities.BurningLogPileBlockEntity;
-import net.dries007.tfc.common.blockentities.TFCBlockEntities;
-import net.dries007.tfc.common.blocks.ExtendedBlock;
 import net.dries007.tfc.common.blocks.ExtendedProperties;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.blocks.wood.Wood;
@@ -24,7 +21,9 @@ import su.uTa4u.tfcwoodwork.items.ModItems;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public class ModBlocks {
+public final class ModBlocks {
+    private ModBlocks() {
+    }
 
     public static final DeferredRegister<Block> BLOCKS;
 
@@ -36,8 +35,9 @@ public class ModBlocks {
     static {
         BLOCKS = DeferredRegister.create(BuiltInRegistries.BLOCK, TFCWoodworking.MOD_ID);
         WOODS = Helpers.mapOf(Wood.class, (wood) ->
-                Helpers.mapOf(BlockType.class, (type) -> registerBlockWithItem(type.getName(wood), type.sup))
-        );
+                        Helpers.mapOf(BlockType.class, (type) ->
+                                new TFCBlocks.Id<>(registerBlockWithItem(type.getName(wood), type.sup)))
+                );
         LOG_PILE_EX = registerBlock("log_pile_ex", () -> new LogPileExBlock(ExtendedProperties.of(MapColor.WOOD).strength(0.6F).sound(SoundType.WOOD).flammable(60, 30).blockEntity(ModBlockEntities.LOG_PILE_EX)));
         BURNING_LOG_PILE_EX = registerBlock("burning_log_pile_ex", () -> new BurningLogPileExBlock(ExtendedProperties.of(MapColor.WOOD).randomTicks().strength(0.6F).sound(SoundType.WOOD).flammableLikeLogs().blockEntity(ModBlockEntities.BURNING_LOG_PILE_EX).serverTicks(BurningLogPileExBlockEntity::serverTick).cloneItem(Items.CHARCOAL).noOcclusion()));
     }
@@ -46,10 +46,10 @@ public class ModBlocks {
         return BLOCKS.register(name, blockSup);
     }
 
-    private static <T extends Block> TFCBlocks.Id<T> registerBlockWithItem(String name, Supplier<T> blockSup) {
+    private static <T extends Block> DeferredHolder<Block, T> registerBlockWithItem(String name, Supplier<T> blockSup) {
         DeferredHolder<Block, T> ret = registerBlock(name, blockSup);
         registerBlockItem(name, ret);
-        return new TFCBlocks.Id<>(ret);
+        return ret;
     }
 
     private static <T extends Block> void registerBlockItem(String name, DeferredHolder<Block, T> block) {

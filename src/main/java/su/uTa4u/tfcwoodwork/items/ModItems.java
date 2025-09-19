@@ -13,7 +13,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public class ModItems {
+public final class ModItems {
+    private ModItems() {
+    }
 
     public static final DeferredRegister<Item> ITEMS;
 

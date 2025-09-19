@@ -1,0 +1,37 @@
+{
+  "type": "tfcwoodwork:in_world",
+  "inputState": {
+    "Name": "tfc:wood/planks/willow_slab",
+    "Properties": {
+      "type": "bottom",
+      "waterlogged": "false"
+    }
+  },
+  "requiredTool": "saw",
+  "resultItems": [
+    {
+      "action": "drop_center",
+      "itemStack": {
+        "count": 2,
+        "id": "tfc:wood/trapdoor/willow"
+      }
+    },
+    {
+      "action": "drop_center",
+      "itemStack": {
+        "count": 1,
+        "id": "tfcwoodwork:sawdust"
+      }
+    }
+  ],
+  "resultState": {
+    "Name": "minecraft:air"
+  },
+  "sound": {
+    "pitch": 1.0,
+    "sound": {
+      "sound_id": "tfcwoodwork:wood_sawed"
+    },
+    "volume": 0.6
+  }
+}

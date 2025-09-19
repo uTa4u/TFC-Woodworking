@@ -1,0 +1,30 @@
+{
+  "type": "tfcwoodwork:in_world",
+  "inputState": {
+    "Name": "tfc:wood/stripped_wood/pine",
+    "Properties": {
+      "axis": "y",
+      "branch_direction": "none"
+    }
+  },
+  "requiredTool": "axe",
+  "resultItems": [
+    {
+      "action": "drop_cardinal",
+      "itemStack": {
+        "count": 1,
+        "id": "tfcwoodwork:bast/pine"
+      }
+    },
+    {
+      "action": "drop_above",
+      "itemStack": {
+        "count": 2,
+        "id": "tfcwoodwork:bast/pine"
+      }
+    }
+  ],
+  "resultState": {
+    "Name": "tfcwoodwork:debarked_log/pine"
+  }
+}

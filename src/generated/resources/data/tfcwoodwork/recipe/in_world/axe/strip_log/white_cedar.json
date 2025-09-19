@@ -1,0 +1,34 @@
+{
+  "type": "tfcwoodwork:in_world",
+  "inputState": {
+    "Name": "tfc:wood/log/white_cedar",
+    "Properties": {
+      "axis": "y",
+      "branch_direction": "none"
+    }
+  },
+  "requiredTool": "axe",
+  "resultItems": [
+    {
+      "action": "drop_cardinal",
+      "itemStack": {
+        "count": 1,
+        "id": "tfcwoodwork:bark/white_cedar"
+      }
+    }
+  ],
+  "resultState": {
+    "Name": "tfc:wood/stripped_log/white_cedar",
+    "Properties": {
+      "axis": "y",
+      "branch_direction": "none"
+    }
+  },
+  "sound": {
+    "pitch": 1.0,
+    "sound": {
+      "sound_id": "minecraft:item.axe.strip"
+    },
+    "volume": 1.0
+  }
+}

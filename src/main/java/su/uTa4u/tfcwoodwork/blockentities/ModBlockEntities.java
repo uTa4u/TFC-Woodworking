@@ -12,7 +12,9 @@ import su.uTa4u.tfcwoodwork.blocks.ModBlocks;
 
 import java.util.function.Supplier;
 
-public class ModBlockEntities {
+public final class ModBlockEntities {
+    private ModBlockEntities() {
+    }
 
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES;
 

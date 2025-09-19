@@ -41,6 +41,7 @@ public final class JadeIntegration implements IWailaPlugin {
                 ListTag listTag = accessor.getServerData().getList(KEY_ITEMSTACK_LIST, Tag.TAG_COMPOUND);
                 for (int i = 0; i < listTag.size(); ++i) {
                     CompoundTag stackTag = listTag.getCompound(i);
+                    // TODO: add item icon before this
                     tooltip.add(Component.empty().append(stackTag.getInt(KEY_ITEMSTACK_COUNT) + "x ").append(stackTag.getString(KEY_ITEMSTACK_NAME)));
                 }
             }

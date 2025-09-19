@@ -1,0 +1,41 @@
+{
+  "type": "tfcwoodwork:in_world",
+  "inputState": {
+    "Name": "tfc:wood/wood/spruce",
+    "Properties": {
+      "axis": "y",
+      "branch_direction": "none"
+    }
+  },
+  "requiredTool": "axe",
+  "resultItems": [
+    {
+      "action": "drop_cardinal",
+      "itemStack": {
+        "count": 1,
+        "id": "tfcwoodwork:bark/spruce"
+      }
+    },
+    {
+      "action": "drop_above",
+      "itemStack": {
+        "count": 2,
+        "id": "tfcwoodwork:bark/spruce"
+      }
+    }
+  ],
+  "resultState": {
+    "Name": "tfc:wood/stripped_wood/spruce",
+    "Properties": {
+      "axis": "y",
+      "branch_direction": "none"
+    }
+  },
+  "sound": {
+    "pitch": 1.0,
+    "sound": {
+      "sound_id": "minecraft:item.axe.strip"
+    },
+    "volume": 1.0
+  }
+}

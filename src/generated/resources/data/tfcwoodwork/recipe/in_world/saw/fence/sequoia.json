@@ -1,0 +1,40 @@
+{
+  "type": "tfcwoodwork:in_world",
+  "inputState": {
+    "Name": "tfc:wood/planks/sequoia"
+  },
+  "requiredTool": "saw",
+  "resultItems": [
+    {
+      "action": "drop_center",
+      "itemStack": {
+        "count": 4,
+        "id": "tfc:wood/fence/sequoia"
+      }
+    },
+    {
+      "action": "drop_center",
+      "itemStack": {
+        "count": 1,
+        "id": "tfc:wood/planks/sequoia_stairs"
+      }
+    },
+    {
+      "action": "drop_center",
+      "itemStack": {
+        "count": 1,
+        "id": "tfcwoodwork:sawdust"
+      }
+    }
+  ],
+  "resultState": {
+    "Name": "minecraft:air"
+  },
+  "sound": {
+    "pitch": 1.0,
+    "sound": {
+      "sound_id": "tfcwoodwork:wood_sawed"
+    },
+    "volume": 0.6
+  }
+}

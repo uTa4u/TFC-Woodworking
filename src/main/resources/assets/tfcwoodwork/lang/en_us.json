@@ -1,4 +1,6 @@
 {
+  "config.jade.plugin_tfcwoodwork.log_pile_ex": "Log Pile",
+
   "entity.tfcwoodwork.log_half_proj": "Half Log",
   "entity.tfcwoodwork.log_quarter_proj": "Quarter Log",
 

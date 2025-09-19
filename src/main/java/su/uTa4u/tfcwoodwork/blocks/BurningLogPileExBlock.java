@@ -1,7 +1,10 @@
 package su.uTa4u.tfcwoodwork.blocks;
 
 import net.dries007.tfc.common.TFCTags.Blocks;
-import net.dries007.tfc.common.blocks.*;
+import net.dries007.tfc.common.blocks.EntityBlockExtension;
+import net.dries007.tfc.common.blocks.ExtendedProperties;
+import net.dries007.tfc.common.blocks.IForgeBlockExtension;
+import net.dries007.tfc.common.blocks.TFCBlockStateProperties;
 import net.dries007.tfc.util.Helpers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -20,7 +23,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
@@ -29,7 +31,7 @@ import su.uTa4u.tfcwoodwork.blockentities.LogPileExBlockEntity;
 
 public class BurningLogPileExBlock extends Block implements IForgeBlockExtension, EntityBlockExtension {
     public static final EnumProperty<Direction.Axis> AXIS = BlockStateProperties.HORIZONTAL_AXIS;
-    public static final IntegerProperty COUNT = TFCBlockStateProperties.COUNT_1_64;
+    public static final IntegerProperty COUNT = TFCBlockStateProperties.COUNT_1_16;
     private static final int TICK_DELAY = 30;
     private final ExtendedProperties properties;
 

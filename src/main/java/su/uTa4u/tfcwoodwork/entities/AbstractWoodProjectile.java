@@ -6,13 +6,11 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerEntity;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityAttachments;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
@@ -23,12 +21,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import su.uTa4u.tfcwoodwork.Util;
 import su.uTa4u.tfcwoodwork.blocks.BlockType;
 import su.uTa4u.tfcwoodwork.blocks.ModBlocks;
+import su.uTa4u.tfcwoodwork.sounds.ModSounds;
 
 public abstract class AbstractWoodProjectile extends AbstractArrow {
     private static final String KEY_MIRRORED = "Mirrored";
@@ -147,12 +144,17 @@ public abstract class AbstractWoodProjectile extends AbstractArrow {
         this.entityData.set(START_BLOCKPOS, pos);
     }
 
-    // TODO: do damage?
+    @Override
+    @NotNull
+    protected SoundEvent getDefaultHitGroundSoundEvent() {
+        return ModSounds.LOG_HIT_GROUND.get();
+    }
+
+    // TODO: do damage
     @Override
     protected void onHitEntity(@NotNull EntityHitResult result) {
     }
 
-    // TODO: play sound?
     // TODO: insert into log pile
     @Override
     protected void onHitBlock(@NotNull BlockHitResult result) {

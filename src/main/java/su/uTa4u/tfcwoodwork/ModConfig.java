@@ -5,8 +5,10 @@ import net.neoforged.neoforge.common.ModConfigSpec;
 import java.util.Arrays;
 import java.util.List;
 
-public class ModConfig
-{
+public final class ModConfig {
+    private ModConfig() {
+    }
+
     private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
 
     public static final ModConfigSpec.IntValue BARK_DROP = BUILDER
@@ -71,7 +73,7 @@ public class ModConfig
             .comment("Level 6: BLUE_STEEL, RED_STEEL")
             .comment("Default: [10, 10, 10, 10, 10, 10, 10]")
             .comment("Range: [0, 1200]")
-            .define("toolCooldowns", Arrays.asList(10, 10, 10, 10, 10, 10, 10), val -> ( val instanceof Integer intVal && (0 <= intVal) && ( intVal <= 1200)));
+            .define("toolCooldowns", Arrays.asList(10, 10, 10, 10, 10, 10, 10), val -> (val instanceof Integer intVal && (0 <= intVal) && (intVal <= 1200)));
 
     public static final ModConfigSpec SPEC = BUILDER.build();
 }

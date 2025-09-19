@@ -1,7 +1,10 @@
 package su.uTa4u.tfcwoodwork.blocks;
 
 import net.dries007.tfc.common.TFCTags;
-import net.dries007.tfc.common.blocks.*;
+import net.dries007.tfc.common.blocks.EntityBlockExtension;
+import net.dries007.tfc.common.blocks.ExtendedProperties;
+import net.dries007.tfc.common.blocks.IForgeBlockExtension;
+import net.dries007.tfc.common.blocks.TFCBlockStateProperties;
 import net.dries007.tfc.common.blocks.devices.DeviceBlock;
 import net.dries007.tfc.util.Helpers;
 import net.minecraft.Util;

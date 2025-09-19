@@ -23,7 +23,7 @@ public class DebarkedHalf extends AbstractDebarkedWood {
 
     @Override
     @NotNull
-    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+    public VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
         if (state.getValue(FACING) == Direction.NORTH || state.getValue(FACING) == Direction.SOUTH) {
             return AABB_NS;
         } else if (state.getValue(FACING) == Direction.WEST || state.getValue(FACING) == Direction.EAST) {

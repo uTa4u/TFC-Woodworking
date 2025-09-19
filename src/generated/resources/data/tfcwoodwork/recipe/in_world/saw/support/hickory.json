@@ -1,0 +1,36 @@
+{
+  "type": "tfcwoodwork:in_world",
+  "inputState": {
+    "Name": "tfcwoodwork:debarked_half/hickory",
+    "Properties": {
+      "facing": "north"
+    }
+  },
+  "requiredTool": "saw",
+  "resultItems": [
+    {
+      "action": "drop_center",
+      "itemStack": {
+        "count": 4,
+        "id": "tfc:wood/support/hickory"
+      }
+    },
+    {
+      "action": "drop_center",
+      "itemStack": {
+        "count": 1,
+        "id": "tfcwoodwork:sawdust"
+      }
+    }
+  ],
+  "resultState": {
+    "Name": "minecraft:air"
+  },
+  "sound": {
+    "pitch": 1.0,
+    "sound": {
+      "sound_id": "tfcwoodwork:wood_sawed"
+    },
+    "volume": 0.6
+  }
+}

@@ -22,6 +22,7 @@ import su.uTa4u.tfcwoodwork.entities.LogQuarterProjectile;
 import java.util.Map;
 import java.util.Optional;
 
+// TODO: delete this class
 public class Util {
     public static <T extends Enum<T>> BlockState getStateToPlace(Map<Wood, Map<T, TFCBlocks.Id<Block>>> map, Wood wood, T blockType) {
         return map.get(wood).get(blockType).get().defaultBlockState();
@@ -132,16 +133,12 @@ public class Util {
         return Optional.empty();
     }
 
-    public enum Tool {
-        AXE,
-        SAW
-    }
-
+    // TODO: Just use Mojang's pair
     public record Pair<K, V>(K key, V value) {
     }
 
-    //https://ru.wikipedia.org/wiki/Лесоматериалы
-    //https://ru.wikipedia.org/wiki/Ствол_(ботаника)
-    //"Луб" == "Bast"
+    // https://ru.wikipedia.org/wiki/Лесоматериалы
+    // https://ru.wikipedia.org/wiki/Ствол_(ботаника)
+    // "Луб" == "Bast"
     // https://en.wikipedia.org/wiki/Cambium
 }

@@ -7,8 +7,8 @@ import java.util.function.Supplier;
 
 public enum BlockType {
     DEBARKED_LOG("debarked_log", true, DebarkedLog::new),
-    DEBARKED_QUARTER("debarked_quarter", true, DebarkedQuarter::new),
-    DEBARKED_HALF("debarked_half", true, DebarkedHalf::new);
+    DEBARKED_HALF("debarked_half", true, DebarkedHalf::new),
+    DEBARKED_QUARTER("debarked_quarter", true, DebarkedQuarter::new);
 
     public final String name;
     public final Boolean toItem;
