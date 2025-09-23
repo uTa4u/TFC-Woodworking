@@ -1,10 +1,7 @@
 {
   "type": "tfcwoodwork:in_world",
   "inputState": {
-    "Name": "tfcwoodwork:debarked_half/sequoia",
-    "Properties": {
-      "facing": "north"
-    }
+    "block": "tfcwoodwork:debarked_half/sequoia"
   },
   "requiredTool": "axe",
   "resultItems": [

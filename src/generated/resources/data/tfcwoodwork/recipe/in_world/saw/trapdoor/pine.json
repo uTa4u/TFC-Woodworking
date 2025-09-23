@@ -1,11 +1,7 @@
 {
   "type": "tfcwoodwork:in_world",
   "inputState": {
-    "Name": "tfc:wood/planks/pine_slab",
-    "Properties": {
-      "type": "bottom",
-      "waterlogged": "false"
-    }
+    "block": "tfc:wood/planks/pine_slab"
   },
   "requiredTool": "saw",
   "resultItems": [

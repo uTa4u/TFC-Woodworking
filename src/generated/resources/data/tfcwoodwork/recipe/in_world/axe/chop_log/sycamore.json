@@ -1,7 +1,7 @@
 {
   "type": "tfcwoodwork:in_world",
   "inputState": {
-    "Name": "tfcwoodwork:debarked_log/sycamore"
+    "block": "tfcwoodwork:debarked_log/sycamore"
   },
   "requiredTool": "axe",
   "resultItems": [

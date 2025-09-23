@@ -1,7 +1,7 @@
 {
   "type": "tfcwoodwork:in_world",
   "inputState": {
-    "Name": "tfcwoodwork:debarked_log/willow"
+    "block": "tfcwoodwork:debarked_log/willow"
   },
   "requiredTool": "axe",
   "resultItems": [

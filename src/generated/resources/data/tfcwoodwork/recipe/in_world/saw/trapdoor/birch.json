@@ -1,11 +1,7 @@
 {
   "type": "tfcwoodwork:in_world",
   "inputState": {
-    "Name": "tfc:wood/planks/birch_slab",
-    "Properties": {
-      "type": "bottom",
-      "waterlogged": "false"
-    }
+    "block": "tfc:wood/planks/birch_slab"
   },
   "requiredTool": "saw",
   "resultItems": [

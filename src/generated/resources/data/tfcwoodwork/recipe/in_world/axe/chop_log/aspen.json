@@ -1,7 +1,7 @@
 {
   "type": "tfcwoodwork:in_world",
   "inputState": {
-    "Name": "tfcwoodwork:debarked_log/aspen"
+    "block": "tfcwoodwork:debarked_log/aspen"
   },
   "requiredTool": "axe",
   "resultItems": [

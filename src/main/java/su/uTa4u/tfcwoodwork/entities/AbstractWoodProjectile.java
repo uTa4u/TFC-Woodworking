@@ -22,7 +22,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import org.jetbrains.annotations.NotNull;
-import su.uTa4u.tfcwoodwork.Util;
 import su.uTa4u.tfcwoodwork.blocks.BlockType;
 import su.uTa4u.tfcwoodwork.blocks.ModBlocks;
 import su.uTa4u.tfcwoodwork.sounds.ModSounds;
@@ -34,8 +33,6 @@ public abstract class AbstractWoodProjectile extends AbstractArrow {
     private static final String KEY_BLOCKSTATE = "Blockstate";
     private static final String KEY_HROT = "Hrot";
     private static final String KEY_HROT0 = "Hrot0";
-    // TODO: save these to nbt
-    // TODO: add translation string of projectile
     protected static final EntityDataAccessor<Boolean> MIRRORED = SynchedEntityData.defineId(AbstractWoodProjectile.class, EntityDataSerializers.BOOLEAN);
     protected static final EntityDataAccessor<Direction> DIRECTION = SynchedEntityData.defineId(AbstractWoodProjectile.class, EntityDataSerializers.DIRECTION);
     protected static final EntityDataAccessor<BlockPos> START_BLOCKPOS = SynchedEntityData.defineId(AbstractWoodProjectile.class, EntityDataSerializers.BLOCK_POS);
@@ -44,6 +41,7 @@ public abstract class AbstractWoodProjectile extends AbstractArrow {
     private static final float DIM_SIZE = 0.375f;
     private static final EntityDimensions DIMENSIONS = new EntityDimensions(DIM_SIZE, DIM_SIZE, DIM_SIZE * 0.5f, EntityAttachments.createDefault(DIM_SIZE, DIM_SIZE), true);
     private static final int HOR_ROT_PERIOD = 30; // Ticks for 360.0f degree rotation
+    // TODO: this doesn't seem to save correctly...
     private float hRot0 = 0.0f;
     private float hRot = 0.0f;
 
@@ -78,7 +76,7 @@ public abstract class AbstractWoodProjectile extends AbstractArrow {
         builder.define(MIRRORED, Boolean.FALSE);
         builder.define(DIRECTION, Direction.NORTH);
         builder.define(START_BLOCKPOS, BlockPos.ZERO);
-        builder.define(BLOCKSTATE, Util.getStateToPlace(ModBlocks.WOODS, Wood.ACACIA, BlockType.DEBARKED_HALF));
+        builder.define(BLOCKSTATE, ModBlocks.WOODS.get(Wood.ACACIA).get(BlockType.DEBARKED_HALF).get().defaultBlockState());
     }
 
     @Override

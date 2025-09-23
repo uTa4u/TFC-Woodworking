@@ -1,10 +1,7 @@
 {
   "type": "tfcwoodwork:in_world",
   "inputState": {
-    "Name": "tfcwoodwork:debarked_half/spruce",
-    "Properties": {
-      "facing": "north"
-    }
+    "block": "tfcwoodwork:debarked_half/spruce"
   },
   "requiredTool": "axe",
   "resultItems": [

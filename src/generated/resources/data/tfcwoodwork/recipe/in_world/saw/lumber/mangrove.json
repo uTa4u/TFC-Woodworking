@@ -1,10 +1,7 @@
 {
   "type": "tfcwoodwork:in_world",
   "inputState": {
-    "Name": "tfcwoodwork:debarked_quarter/mangrove",
-    "Properties": {
-      "facing": "north"
-    }
+    "block": "tfcwoodwork:debarked_quarter/mangrove"
   },
   "requiredTool": "saw",
   "resultItems": [

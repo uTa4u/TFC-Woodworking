@@ -52,6 +52,9 @@ public final class InWorldRecipeHandler {
 
         final var level = event.getLevel();
         final var pos = event.getPos();
+
+        if (!checkFiveDirections(level, pos)) return;
+
         final var blockState = level.getBlockState(pos);
         final var recipes = level.getRecipeManager();
 
@@ -59,8 +62,6 @@ public final class InWorldRecipeHandler {
         final var resultOpt = recipes.getRecipeFor(ModRecipeTypes.IN_WORLD.get(), input, level);
 
         resultOpt.map(RecipeHolder::value).ifPresent((recipe) -> {
-            if (!checkFiveDirections(level, pos)) return;
-
             final var resultItems = recipe.resultItems();
             if (!resultItems.isEmpty()) {
                 final var dir = player.getDirection();
@@ -81,7 +82,6 @@ public final class InWorldRecipeHandler {
         });
     }
 
-
     private static void setCooldownForItems(Player player, TagKey<Item> tag) {
         ItemCooldowns cds = player.getCooldowns();
         for (var axe : BuiltInRegistries.ITEM.getOrCreateTag(tag)) {
@@ -96,7 +96,7 @@ public final class InWorldRecipeHandler {
     }
 
     private static boolean checkFiveDirections(Level level, BlockPos pos) {
-        for (int i = 1; i < 5; ++i) {
+        for (int i = 1; i <= 5; ++i) {
             Direction dir = Direction.from3DDataValue(i);
             BlockPos nbour = pos.relative(dir);
             if (level.getBlockState(nbour).isFaceSturdy(level, nbour, dir.getOpposite(), SupportType.FULL)) {

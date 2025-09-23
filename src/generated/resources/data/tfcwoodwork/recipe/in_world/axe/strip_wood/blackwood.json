@@ -1,11 +1,7 @@
 {
   "type": "tfcwoodwork:in_world",
   "inputState": {
-    "Name": "tfc:wood/wood/blackwood",
-    "Properties": {
-      "axis": "y",
-      "branch_direction": "none"
-    }
+    "block": "tfc:wood/wood/blackwood"
   },
   "requiredTool": "axe",
   "resultItems": [

@@ -1,7 +1,7 @@
 {
   "type": "tfcwoodwork:in_world",
   "inputState": {
-    "Name": "tfcwoodwork:debarked_log/acacia"
+    "block": "tfcwoodwork:debarked_log/acacia"
   },
   "requiredTool": "axe",
   "resultItems": [

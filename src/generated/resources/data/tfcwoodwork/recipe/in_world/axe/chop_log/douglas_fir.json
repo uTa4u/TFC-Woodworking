@@ -1,7 +1,7 @@
 {
   "type": "tfcwoodwork:in_world",
   "inputState": {
-    "Name": "tfcwoodwork:debarked_log/douglas_fir"
+    "block": "tfcwoodwork:debarked_log/douglas_fir"
   },
   "requiredTool": "axe",
   "resultItems": [

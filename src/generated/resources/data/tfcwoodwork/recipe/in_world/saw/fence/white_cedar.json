@@ -1,7 +1,7 @@
 {
   "type": "tfcwoodwork:in_world",
   "inputState": {
-    "Name": "tfc:wood/planks/white_cedar"
+    "block": "tfc:wood/planks/white_cedar"
   },
   "requiredTool": "saw",
   "resultItems": [

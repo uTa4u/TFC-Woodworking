@@ -8,14 +8,14 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 import java.util.Optional;
 
-@Mixin(value = AxeItem.class)
+@Mixin(AxeItem.class)
 public abstract class AxeItemMixin {
 
-    @ModifyVariable(method = "useOn",
+    @ModifyVariable(method = "evaluateNewBlockState",
             at = @At("STORE"),
             ordinal = 0
     )
-    private Optional<BlockState> useOn(Optional<BlockState> value) {
+    private Optional<BlockState> disableVanillaStripping(Optional<BlockState> value) {
         return Optional.empty();
     }
 }

@@ -1,10 +1,7 @@
 {
   "type": "tfcwoodwork:in_world",
   "inputState": {
-    "Name": "tfcwoodwork:debarked_half/birch",
-    "Properties": {
-      "facing": "north"
-    }
+    "block": "tfcwoodwork:debarked_half/birch"
   },
   "requiredTool": "axe",
   "resultItems": [

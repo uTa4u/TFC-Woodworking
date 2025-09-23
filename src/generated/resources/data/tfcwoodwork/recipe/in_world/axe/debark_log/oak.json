@@ -1,11 +1,16 @@
 {
   "type": "tfcwoodwork:in_world",
   "inputState": {
-    "Name": "tfc:wood/stripped_log/oak",
-    "Properties": {
-      "axis": "y",
-      "branch_direction": "none"
-    }
+    "acceptableStates": [
+      {
+        "Name": "tfc:wood/stripped_log/oak",
+        "Properties": {
+          "axis": "y",
+          "branch_direction": "none"
+        }
+      }
+    ],
+    "block": "tfc:wood/stripped_log/oak"
   },
   "requiredTool": "axe",
   "resultItems": [
@@ -19,5 +24,12 @@
   ],
   "resultState": {
     "Name": "tfcwoodwork:debarked_log/oak"
+  },
+  "sound": {
+    "pitch": 0.8,
+    "sound": {
+      "sound_id": "tfcwoodwork:wood_chop"
+    },
+    "volume": 0.6
   }
 }

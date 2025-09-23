@@ -1,7 +1,7 @@
 {
   "type": "tfcwoodwork:in_world",
   "inputState": {
-    "Name": "tfc:wood/planks/hickory"
+    "block": "tfc:wood/planks/hickory"
   },
   "requiredTool": "saw",
   "resultItems": [

@@ -1,7 +1,7 @@
 {
   "type": "tfcwoodwork:in_world",
   "inputState": {
-    "Name": "tfc:wood/planks/sycamore"
+    "block": "tfc:wood/planks/sycamore"
   },
   "requiredTool": "saw",
   "resultItems": [

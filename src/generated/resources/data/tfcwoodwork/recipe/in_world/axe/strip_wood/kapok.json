@@ -1,11 +1,7 @@
 {
   "type": "tfcwoodwork:in_world",
   "inputState": {
-    "Name": "tfc:wood/wood/kapok",
-    "Properties": {
-      "axis": "y",
-      "branch_direction": "none"
-    }
+    "block": "tfc:wood/wood/kapok"
   },
   "requiredTool": "axe",
   "resultItems": [

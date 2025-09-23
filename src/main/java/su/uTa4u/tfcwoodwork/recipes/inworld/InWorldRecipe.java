@@ -27,26 +27,13 @@ import java.util.List;
 import java.util.Optional;
 
 public record InWorldRecipe(
-        @NotNull BlockState inputState,
+        @NotNull BlockStatePredicate inputState,
         @NotNull Tool tool,
         @NotNull BlockState resultState,
         @NotNull Optional<SoundInstance> soundInstance,
         @NotNull List<Pair<ItemStack, Action>> resultItems
 ) implements Recipe<InWorldRecipeInput> {
     public static final String NAME = "in_world";
-    private static final StreamCodec<RegistryFriendlyByteBuf, Pair<ItemStack, Action>> RESULT_ITEMS_STREAM_CODEC = new StreamCodec<>() {
-        @Override
-        @NotNull
-        public Pair<ItemStack, Action> decode(@NotNull RegistryFriendlyByteBuf input) {
-            return Pair.of(ItemStack.STREAM_CODEC.decode(input), Action.STREAM_CODEC.decode(input));
-        }
-
-        @Override
-        public void encode(@NotNull RegistryFriendlyByteBuf output, @NotNull Pair<ItemStack, Action> pair) {
-            ItemStack.STREAM_CODEC.encode(output, pair.getFirst());
-            Action.STREAM_CODEC.encode(output, pair.getSecond());
-        }
-    };
 
     @Override
     @NotNull
@@ -63,7 +50,7 @@ public record InWorldRecipe(
 
     @Override
     public boolean matches(@NotNull InWorldRecipeInput input, @NotNull Level level) {
-        return this.inputState == input.state() && this.tool.getInputItem().test(input.stack());
+        return this.inputState.test(input.state()) && this.tool.getInputItem().test(input.stack());
     }
 
     @Override
@@ -91,9 +78,23 @@ public record InWorldRecipe(
     }
 
     public static final class Serializer implements RecipeSerializer<InWorldRecipe> {
+        private static final StreamCodec<RegistryFriendlyByteBuf, Pair<ItemStack, Action>> RESULT_ITEMS_STREAM_CODEC = new StreamCodec<>() {
+            @Override
+            @NotNull
+            public Pair<ItemStack, Action> decode(@NotNull RegistryFriendlyByteBuf input) {
+                return Pair.of(ItemStack.STREAM_CODEC.decode(input), Action.STREAM_CODEC.decode(input));
+            }
+
+            @Override
+            public void encode(@NotNull RegistryFriendlyByteBuf output, @NotNull Pair<ItemStack, Action> pair) {
+                ItemStack.STREAM_CODEC.encode(output, pair.getFirst());
+                Action.STREAM_CODEC.encode(output, pair.getSecond());
+            }
+        };
+
         public static final MapCodec<InWorldRecipe> CODEC =
                 RecordCodecBuilder.mapCodec((inst) -> inst.group(
-                        BlockState.CODEC.fieldOf("inputState").forGetter(InWorldRecipe::inputState),
+                        BlockStatePredicate.CODEC.fieldOf("inputState").forGetter(InWorldRecipe::inputState),
                         StringRepresentable.fromEnum(Tool::values).fieldOf("requiredTool").forGetter(InWorldRecipe::tool),
                         BlockState.CODEC.fieldOf("resultState").forGetter(InWorldRecipe::resultState),
                         SoundInstance.CODEC.optionalFieldOf("sound").forGetter(InWorldRecipe::soundInstance),
@@ -105,7 +106,7 @@ public record InWorldRecipe(
 
         public static final StreamCodec<RegistryFriendlyByteBuf, InWorldRecipe> STREAM_CODEC =
                 StreamCodec.composite(
-                        ByteBufCodecs.idMapper(Block.BLOCK_STATE_REGISTRY), InWorldRecipe::inputState,
+                        BlockStatePredicate.STREAM_CODEC, InWorldRecipe::inputState,
                         Tool.STREAM_CODEC, InWorldRecipe::tool,
                         ByteBufCodecs.idMapper(Block.BLOCK_STATE_REGISTRY), InWorldRecipe::resultState,
                         SoundInstance.STREAM_CODEC.apply(ByteBufCodecs::optional), InWorldRecipe::soundInstance,

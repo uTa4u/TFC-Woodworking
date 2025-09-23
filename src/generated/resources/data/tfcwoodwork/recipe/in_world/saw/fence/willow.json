@@ -1,7 +1,7 @@
 {
   "type": "tfcwoodwork:in_world",
   "inputState": {
-    "Name": "tfc:wood/planks/willow"
+    "block": "tfc:wood/planks/willow"
   },
   "requiredTool": "saw",
   "resultItems": [

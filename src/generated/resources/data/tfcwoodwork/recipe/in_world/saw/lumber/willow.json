@@ -1,10 +1,7 @@
 {
   "type": "tfcwoodwork:in_world",
   "inputState": {
-    "Name": "tfcwoodwork:debarked_quarter/willow",
-    "Properties": {
-      "facing": "north"
-    }
+    "block": "tfcwoodwork:debarked_quarter/willow"
   },
   "requiredTool": "saw",
   "resultItems": [

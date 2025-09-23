@@ -1,11 +1,7 @@
 {
   "type": "tfcwoodwork:in_world",
   "inputState": {
-    "Name": "tfc:wood/planks/willow_slab",
-    "Properties": {
-      "type": "bottom",
-      "waterlogged": "false"
-    }
+    "block": "tfc:wood/planks/willow_slab"
   },
   "requiredTool": "saw",
   "resultItems": [

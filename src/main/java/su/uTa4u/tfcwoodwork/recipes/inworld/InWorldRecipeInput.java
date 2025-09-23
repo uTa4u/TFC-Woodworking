@@ -8,9 +8,6 @@ import org.jetbrains.annotations.NotNull;
 // TODO: Also include a EnumMap<Direction, BlockState> nbours here and in the recipe to easily check for
 //  conditions (no blocks around, no blocks above etc.)
 
-// TODO: need to handle the case where we don't care about BlockState for our recipe
-//  try using BlockStatePredicate or make my own version
-
 public record InWorldRecipeInput(BlockState state, ItemStack stack) implements RecipeInput {
 
     @Override

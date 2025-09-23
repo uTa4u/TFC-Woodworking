@@ -1,10 +1,7 @@
 {
   "type": "tfcwoodwork:in_world",
   "inputState": {
-    "Name": "tfcwoodwork:debarked_quarter/ash",
-    "Properties": {
-      "facing": "north"
-    }
+    "block": "tfcwoodwork:debarked_quarter/ash"
   },
   "requiredTool": "saw",
   "resultItems": [

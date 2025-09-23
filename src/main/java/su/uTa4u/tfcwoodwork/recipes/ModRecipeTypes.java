@@ -15,7 +15,6 @@ public final class ModRecipeTypes {
 
     public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES;
 
-    // TODO: rename to USE_ITEM_ON_BLOCK
     // TODO: add offhand item as an input Ingredient
     public static final Supplier<RecipeType<InWorldRecipe>> IN_WORLD;
 

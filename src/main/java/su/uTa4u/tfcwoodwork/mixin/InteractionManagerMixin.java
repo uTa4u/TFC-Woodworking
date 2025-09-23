@@ -21,7 +21,7 @@ import su.uTa4u.tfcwoodwork.blockentities.ModBlockEntities;
 import su.uTa4u.tfcwoodwork.blocks.LogPileExBlock;
 import su.uTa4u.tfcwoodwork.blocks.ModBlocks;
 
-@Mixin(value = InteractionManager.class)
+@Mixin(InteractionManager.class)
 public abstract class InteractionManagerMixin {
 
     @Inject(method = "registerDefaultInteractions",

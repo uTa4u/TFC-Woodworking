@@ -1,7 +1,7 @@
 {
   "type": "tfcwoodwork:in_world",
   "inputState": {
-    "Name": "tfc:wood/planks/birch"
+    "block": "tfc:wood/planks/birch"
   },
   "requiredTool": "saw",
   "resultItems": [

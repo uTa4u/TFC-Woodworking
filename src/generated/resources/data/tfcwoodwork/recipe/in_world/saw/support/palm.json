@@ -1,10 +1,7 @@
 {
   "type": "tfcwoodwork:in_world",
   "inputState": {
-    "Name": "tfcwoodwork:debarked_half/palm",
-    "Properties": {
-      "facing": "north"
-    }
+    "block": "tfcwoodwork:debarked_half/palm"
   },
   "requiredTool": "saw",
   "resultItems": [

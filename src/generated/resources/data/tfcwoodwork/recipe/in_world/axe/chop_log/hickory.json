@@ -1,7 +1,7 @@
 {
   "type": "tfcwoodwork:in_world",
   "inputState": {
-    "Name": "tfcwoodwork:debarked_log/hickory"
+    "block": "tfcwoodwork:debarked_log/hickory"
   },
   "requiredTool": "axe",
   "resultItems": [

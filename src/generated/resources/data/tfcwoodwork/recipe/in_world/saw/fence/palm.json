@@ -1,7 +1,7 @@
 {
   "type": "tfcwoodwork:in_world",
   "inputState": {
-    "Name": "tfc:wood/planks/palm"
+    "block": "tfc:wood/planks/palm"
   },
   "requiredTool": "saw",
   "resultItems": [

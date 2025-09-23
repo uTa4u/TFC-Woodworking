@@ -15,10 +15,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import su.uTa4u.tfcwoodwork.recipes.inworld.Action;
-import su.uTa4u.tfcwoodwork.recipes.inworld.InWorldRecipe;
-import su.uTa4u.tfcwoodwork.recipes.inworld.SoundInstance;
-import su.uTa4u.tfcwoodwork.recipes.inworld.Tool;
+import su.uTa4u.tfcwoodwork.recipes.inworld.*;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -28,7 +25,7 @@ import java.util.Optional;
 // TODO: add group string
 public final class InWorldRecipeBuilder implements RecipeBuilder {
     @NotNull
-    private final BlockState inputState;
+    private final BlockStatePredicate inputState;
     @NotNull
     private final Tool tool;
     @NotNull
@@ -41,7 +38,7 @@ public final class InWorldRecipeBuilder implements RecipeBuilder {
     private final Map<String, Criterion<?>> criteria = new LinkedHashMap<>();
 
     public InWorldRecipeBuilder(
-            @NotNull BlockState inputState,
+            @NotNull BlockStatePredicate inputState,
             @NotNull Tool tool,
             @NotNull BlockState resultState,
             @NotNull Optional<SoundInstance> sound,

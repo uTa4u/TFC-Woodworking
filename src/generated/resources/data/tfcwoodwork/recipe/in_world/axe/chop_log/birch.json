@@ -1,7 +1,7 @@
 {
   "type": "tfcwoodwork:in_world",
   "inputState": {
-    "Name": "tfcwoodwork:debarked_log/birch"
+    "block": "tfcwoodwork:debarked_log/birch"
   },
   "requiredTool": "axe",
   "resultItems": [

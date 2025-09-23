@@ -1,7 +1,7 @@
 {
   "type": "tfcwoodwork:in_world",
   "inputState": {
-    "Name": "tfcwoodwork:debarked_log/blackwood"
+    "block": "tfcwoodwork:debarked_log/blackwood"
   },
   "requiredTool": "axe",
   "resultItems": [

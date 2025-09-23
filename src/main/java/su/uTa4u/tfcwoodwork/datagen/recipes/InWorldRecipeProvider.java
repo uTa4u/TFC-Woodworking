@@ -4,6 +4,7 @@ import com.mojang.datafixers.util.Pair;
 import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.blocks.wood.Wood;
 import net.dries007.tfc.common.items.TFCItems;
+import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -11,18 +12,17 @@ import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import su.uTa4u.tfcwoodwork.TFCWoodworking;
 import su.uTa4u.tfcwoodwork.blocks.BlockType;
 import su.uTa4u.tfcwoodwork.blocks.ModBlocks;
 import su.uTa4u.tfcwoodwork.items.ModItems;
-import su.uTa4u.tfcwoodwork.recipes.inworld.Action;
-import su.uTa4u.tfcwoodwork.recipes.inworld.InWorldRecipe;
-import su.uTa4u.tfcwoodwork.recipes.inworld.SoundInstance;
-import su.uTa4u.tfcwoodwork.recipes.inworld.Tool;
+import su.uTa4u.tfcwoodwork.recipes.inworld.*;
 import su.uTa4u.tfcwoodwork.sounds.ModSounds;
 
 import java.util.List;
@@ -50,7 +50,9 @@ public final class InWorldRecipeProvider extends RecipeProvider {
         final var bast = ModItems.getBast(wood);
         buildRecipe(output, Tool.AXE,
                 "strip_log/" + wood.getSerializedName(),
-                getState(wood, LOG),
+                BlockStatePredicate
+                        .forBlock(getBlock(wood, LOG))
+                        .where(BlockStateProperties.AXIS, Direction.Axis.Y),
                 getState(wood, STRIPPED_LOG),
                 new SoundInstance(SoundEvents.AXE_STRIP, 1.0f, 1.0f),
                 List.of(
@@ -62,7 +64,7 @@ public final class InWorldRecipeProvider extends RecipeProvider {
         );
         buildRecipe(output, Tool.AXE,
                 "strip_wood/" + wood.getSerializedName(),
-                getState(wood, WOOD),
+                BlockStatePredicate.forBlock(getBlock(wood, WOOD)),
                 getState(wood, STRIPPED_WOOD),
                 new SoundInstance(SoundEvents.AXE_STRIP, 1.0f, 1.0f),
                 List.of(
@@ -78,7 +80,9 @@ public final class InWorldRecipeProvider extends RecipeProvider {
         );
         buildRecipe(output, Tool.AXE,
                 "debark_log/" + wood.getSerializedName(),
-                getState(wood, STRIPPED_LOG),
+                BlockStatePredicate
+                        .forBlock(getBlock(wood, STRIPPED_LOG))
+                        .where(BlockStateProperties.AXIS, Direction.Axis.Y),
                 getState(wood, DEBARKED_LOG),
                 new SoundInstance(ModSounds.LOG_CHOP.get(), 0.6f, 0.8f),
                 List.of(
@@ -90,7 +94,7 @@ public final class InWorldRecipeProvider extends RecipeProvider {
         );
         buildRecipe(output, Tool.AXE,
                 "debark_wood/" + wood.getSerializedName(),
-                getState(wood, STRIPPED_WOOD),
+                BlockStatePredicate.forBlock(getBlock(wood, STRIPPED_WOOD)),
                 getState(wood, DEBARKED_LOG),
                 new SoundInstance(ModSounds.LOG_CHOP.get(), 0.6f, 0.8f),
                 List.of(
@@ -106,7 +110,7 @@ public final class InWorldRecipeProvider extends RecipeProvider {
         );
         buildRecipe(output, Tool.AXE,
                 "chop_log/" + wood.getSerializedName(),
-                getState(wood, DEBARKED_LOG),
+                BlockStatePredicate.forBlock(getBlock(wood, DEBARKED_LOG)),
                 Blocks.AIR.defaultBlockState(),
                 new SoundInstance(ModSounds.LOG_CHOP.get(), 0.6f, 1.0f),
                 List.of(
@@ -118,7 +122,7 @@ public final class InWorldRecipeProvider extends RecipeProvider {
         );
         buildRecipe(output, Tool.AXE,
                 "chop_log_half/" + wood.getSerializedName(),
-                getState(wood, DEBARKED_HALF),
+                BlockStatePredicate.forBlock(getBlock(wood, DEBARKED_HALF)),
                 Blocks.AIR.defaultBlockState(),
                 new SoundInstance(ModSounds.LOG_CHOP.get(), 0.6f, 1.0f),
                 List.of(
@@ -134,7 +138,9 @@ public final class InWorldRecipeProvider extends RecipeProvider {
     private static void buildSawRecipes(@NotNull RecipeOutput output, Wood wood) {
         buildRecipe(output, Tool.SAW,
                 "log_fence/" + wood.getSerializedName(),
-                getState(wood, LOG),
+                BlockStatePredicate
+                        .forBlock(getBlock(wood, LOG))
+                        .where(BlockStateProperties.AXIS, Direction.Axis.Y),
                 Blocks.AIR.defaultBlockState(),
                 new SoundInstance(ModSounds.LOG_SAWED.get(), 0.6f, 1.0f),
                 List.of(
@@ -150,7 +156,7 @@ public final class InWorldRecipeProvider extends RecipeProvider {
         );
         buildRecipe(output, Tool.SAW,
                 "fence/" + wood.getSerializedName(),
-                getState(wood, PLANKS),
+                BlockStatePredicate.forBlock(getBlock(wood, PLANKS)),
                 Blocks.AIR.defaultBlockState(),
                 new SoundInstance(ModSounds.LOG_SAWED.get(), 0.6f, 1.0f),
                 List.of(
@@ -170,7 +176,7 @@ public final class InWorldRecipeProvider extends RecipeProvider {
         );
         buildRecipe(output, Tool.SAW,
                 "trapdoor/" + wood.getSerializedName(),
-                getState(wood, SLAB),
+                BlockStatePredicate.forBlock(getBlock(wood, SLAB)),
                 Blocks.AIR.defaultBlockState(),
                 new SoundInstance(ModSounds.LOG_SAWED.get(), 0.6f, 1.0f),
                 List.of(
@@ -186,7 +192,7 @@ public final class InWorldRecipeProvider extends RecipeProvider {
         );
         buildRecipe(output, Tool.SAW,
                 "support/" + wood.getSerializedName(),
-                getState(wood, DEBARKED_HALF),
+                BlockStatePredicate.forBlock(getBlock(wood, DEBARKED_HALF)),
                 Blocks.AIR.defaultBlockState(),
                 new SoundInstance(ModSounds.LOG_SAWED.get(), 0.6f, 1.0f),
                 List.of(
@@ -202,7 +208,7 @@ public final class InWorldRecipeProvider extends RecipeProvider {
         );
         buildRecipe(output, Tool.SAW,
                 "lumber/" + wood.getSerializedName(),
-                getState(wood, DEBARKED_QUARTER),
+                BlockStatePredicate.forBlock(getBlock(wood, DEBARKED_QUARTER)),
                 Blocks.AIR.defaultBlockState(),
                 new SoundInstance(ModSounds.LOG_SAWED.get(), 0.6f, 1.0f),
                 List.of(
@@ -222,7 +228,7 @@ public final class InWorldRecipeProvider extends RecipeProvider {
             @NotNull RecipeOutput output,
             @NotNull Tool tool,
             @NotNull String recipeName,
-            @NotNull BlockState inputState,
+            @NotNull BlockStatePredicate inputState,
             @NotNull BlockState resultState,
             @Nullable SoundInstance sound,
             @NotNull List<Pair<ItemStack, Action>> resultItems
@@ -237,12 +243,20 @@ public final class InWorldRecipeProvider extends RecipeProvider {
         ).unlockedBy(tool.getUnlockedByName(), has(tool.getToolTagKey())).save(output, id);
     }
 
+    private static Block getBlock(Wood wood, Wood.BlockType type) {
+        return TFCBlocks.WOODS.get(wood).get(type).get();
+    }
+
+    private static Block getBlock(Wood wood, BlockType type) {
+        return ModBlocks.WOODS.get(wood).get(type).get();
+    }
+
     private static BlockState getState(Wood wood, Wood.BlockType type) {
-        return TFCBlocks.WOODS.get(wood).get(type).get().defaultBlockState();
+        return getBlock(wood, type).defaultBlockState();
     }
 
     private static BlockState getState(Wood wood, BlockType type) {
-        return ModBlocks.WOODS.get(wood).get(type).get().defaultBlockState();
+        return getBlock(wood, type).defaultBlockState();
     }
 
     private static Item getItem(Wood wood, Wood.BlockType type) {

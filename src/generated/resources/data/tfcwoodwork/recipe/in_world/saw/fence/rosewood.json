@@ -1,7 +1,7 @@
 {
   "type": "tfcwoodwork:in_world",
   "inputState": {
-    "Name": "tfc:wood/planks/rosewood"
+    "block": "tfc:wood/planks/rosewood"
   },
   "requiredTool": "saw",
   "resultItems": [

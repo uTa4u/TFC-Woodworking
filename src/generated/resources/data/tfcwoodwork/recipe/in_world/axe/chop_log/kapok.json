@@ -1,7 +1,7 @@
 {
   "type": "tfcwoodwork:in_world",
   "inputState": {
-    "Name": "tfcwoodwork:debarked_log/kapok"
+    "block": "tfcwoodwork:debarked_log/kapok"
   },
   "requiredTool": "axe",
   "resultItems": [

@@ -1,7 +1,7 @@
 {
   "type": "tfcwoodwork:in_world",
   "inputState": {
-    "Name": "tfc:wood/planks/sequoia"
+    "block": "tfc:wood/planks/sequoia"
   },
   "requiredTool": "saw",
   "resultItems": [
