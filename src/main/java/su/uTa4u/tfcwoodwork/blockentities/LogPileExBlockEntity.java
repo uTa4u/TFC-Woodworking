@@ -107,9 +107,9 @@ public class LogPileExBlockEntity extends InventoryBlockEntity<ItemStackHandler>
                 int count;
                 if (moveToStack.isEmpty()) {
                     this.stackLimitBySlot[j] = getStackLimitForItem(stack);
-                    count = stackLimitBySlot[j];
+                    count = this.stackLimitBySlot[j];
                 } else {
-                    count = stackLimitBySlot[j] - moveToStack.getCount();
+                    count = this.stackLimitBySlot[j] - moveToStack.getCount();
                 }
                 if (count > 0) {
                     this.inventory.setStackInSlot(j, stack.split(count));
@@ -129,10 +129,6 @@ public class LogPileExBlockEntity extends InventoryBlockEntity<ItemStackHandler>
         return this.stackLimitBySlot[slot];
     }
 
-    private void setStackLimitBySlot(int slot, int limit) {
-        this.stackLimitBySlot[slot] = limit;
-    }
-
     public boolean isItemValid(int slot, ItemStack stack) {
         return Helpers.isItem(stack.getItem(), Items.LOG_PILE_LOGS);
     }
@@ -140,7 +136,7 @@ public class LogPileExBlockEntity extends InventoryBlockEntity<ItemStackHandler>
     public ItemStack insertItemStack(ItemStack stack) {
         for (int slot = 0; slot < this.inventory.getSlots(); ++slot) {
             if (this.inventory.getStackInSlot(slot).isEmpty()) {
-                this.setStackLimitBySlot(slot, getStackLimitForItem(stack));
+                this.stackLimitBySlot[slot] = getStackLimitForItem(stack);
             }
             stack = this.inventory.insertItem(slot, stack, false);
             if (stack.isEmpty()) {
@@ -151,10 +147,10 @@ public class LogPileExBlockEntity extends InventoryBlockEntity<ItemStackHandler>
     }
 
     public static int getStackLimitForItem(ItemStack stack) {
-        if (stack.is(ModTags.Items.LOGS_HALF)) {
-            return 2;
-        } else if (stack.is(ModTags.Items.LOGS_QUARTER)) {
+        if (stack.is(ModTags.Items.LOGS_QUARTER)) {
             return 4;
+        } else if (stack.is(ModTags.Items.LOGS_HALF)) {
+            return 2;
         } else {
             return 1;
         }

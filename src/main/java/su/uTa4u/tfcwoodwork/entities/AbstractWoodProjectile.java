@@ -14,6 +14,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityAttachments;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -23,9 +24,12 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
+import su.uTa4u.tfcwoodwork.blockentities.LogPileExBlockEntity;
 import su.uTa4u.tfcwoodwork.blocks.BlockType;
 import su.uTa4u.tfcwoodwork.blocks.ModBlocks;
 import su.uTa4u.tfcwoodwork.sounds.ModSounds;
+
+import java.io.IOException;
 
 public abstract class AbstractWoodProjectile extends AbstractArrow {
     private static final String KEY_MIRRORED = "Mirrored";
@@ -151,26 +155,36 @@ public abstract class AbstractWoodProjectile extends AbstractArrow {
         return ModSounds.LOG_HIT_GROUND.get();
     }
 
-    // TODO: do damage
     @Override
     protected void onHitEntity(@NotNull EntityHitResult result) {
+        if (result.getEntity() instanceof LivingEntity entity) {
+            entity.hurt(this.damageSources().generic(), 1.0f);
+        }
     }
 
-    // TODO: insert into log pile
     @Override
     protected void onHitBlock(@NotNull BlockHitResult result) {
         super.onHitBlock(result);
-//        Level level = this.level();
-//        ItemStack stack = this.getBlockState().getBlock().asItem().getDefaultInstance();
-//        BlockPos pos = result.getBlockPos();
-//        if (level.getBlockState(pos).is(ModBlocks.LOG_PILE.get())) {
-//            if (!Helpers.insertOne(level, pos, ModBlockEntities.LOG_PILE.get(), stack)) {
-//                Util.spawnDropsPrecise(this.level(), BlockPos.ZERO, result.getLocation(), stack);
-//            }
-//        } else {
-//            Util.spawnDropsPrecise(this.level(), BlockPos.ZERO, result.getLocation(), stack);
-//        }
-//        this.discard();
+
+        try (final var level = this.level()) {
+            final var blockEntity1 = level.getBlockEntity(result.getBlockPos());
+            final var blockEntity2 = level.getBlockEntity(this.blockPosition());
+            LogPileExBlockEntity logPileExBlockEntity;
+
+            if (blockEntity1 instanceof LogPileExBlockEntity) {
+                logPileExBlockEntity = (LogPileExBlockEntity) blockEntity1;
+            } else if (blockEntity2 instanceof LogPileExBlockEntity) {
+                logPileExBlockEntity = (LogPileExBlockEntity) blockEntity2;
+            } else {
+                return;
+            }
+
+            if (logPileExBlockEntity.insertItemStack(this.getPickupItem()).isEmpty()) {
+                this.discard();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

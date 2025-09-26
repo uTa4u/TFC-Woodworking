@@ -86,20 +86,25 @@ public class WoodProjectilefRenderer extends EntityRenderer<AbstractWoodProjecti
         poseStack.translate(0, -0.5, 0);
         poseStack.translate(-0.5, 0, -0.5);
 
-        this.dispatcher.getModelRenderer().tesselateBlock(
-                entity.level(),
-                this.dispatcher.getBlockModel(blockstate),
-                blockstate,
-                entity.blockPosition().above(),
-                poseStack,
-                buffer.getBuffer(RenderTypeHelper.getMovingBlockRenderType(RenderType.SOLID)),
-                false,
-                RandomSource.create(),
-                blockstate.getSeed(entity.getStartBlockpos()),
-                OverlayTexture.NO_OVERLAY,
-                ModelData.EMPTY,
-                RenderType.SOLID
-        );
+        final var model = this.dispatcher.getBlockModel(blockstate);
+        final var startPos = entity.getStartBlockpos();
+
+         for (var renderType : model.getRenderTypes(blockstate, RandomSource.create(blockstate.getSeed(startPos)), ModelData.EMPTY)) {
+             this.dispatcher.getModelRenderer().tesselateBlock(
+                     entity.level(),
+                     model,
+                     blockstate,
+                     entity.blockPosition().above(),
+                     poseStack,
+                     buffer.getBuffer(RenderTypeHelper.getMovingBlockRenderType(renderType)),
+                     false,
+                     RandomSource.create(),
+                     blockstate.getSeed(startPos),
+                     OverlayTexture.NO_OVERLAY,
+                     ModelData.EMPTY,
+                     renderType
+             );
+         }
 
         poseStack.popPose();
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
