@@ -21,6 +21,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import su.uTa4u.tfcwoodwork.blocks.BlockType;
 import su.uTa4u.tfcwoodwork.blocks.ModBlocks;
@@ -35,6 +36,7 @@ public abstract class AbstractWoodProjectile extends AbstractArrow {
     private static final String KEY_HROT0 = "Hrot0";
     protected static final EntityDataAccessor<Boolean> MIRRORED = SynchedEntityData.defineId(AbstractWoodProjectile.class, EntityDataSerializers.BOOLEAN);
     protected static final EntityDataAccessor<Direction> DIRECTION = SynchedEntityData.defineId(AbstractWoodProjectile.class, EntityDataSerializers.DIRECTION);
+    // TODO: this is probably unnecessary
     protected static final EntityDataAccessor<BlockPos> START_BLOCKPOS = SynchedEntityData.defineId(AbstractWoodProjectile.class, EntityDataSerializers.BLOCK_POS);
     protected static final EntityDataAccessor<BlockState> BLOCKSTATE = SynchedEntityData.defineId(AbstractWoodProjectile.class, EntityDataSerializers.BLOCK_STATE);
 
@@ -42,6 +44,7 @@ public abstract class AbstractWoodProjectile extends AbstractArrow {
     private static final EntityDimensions DIMENSIONS = new EntityDimensions(DIM_SIZE, DIM_SIZE, DIM_SIZE * 0.5f, EntityAttachments.createDefault(DIM_SIZE, DIM_SIZE), true);
     private static final int HOR_ROT_PERIOD = 30; // Ticks for 360.0f degree rotation
     // TODO: this doesn't seem to save correctly...
+    //  or rather it doesn't work because arrow doesn't save it's angle, only the position
     private float hRot0 = 0.0f;
     private float hRot = 0.0f;
 
@@ -157,8 +160,6 @@ public abstract class AbstractWoodProjectile extends AbstractArrow {
     @Override
     protected void onHitBlock(@NotNull BlockHitResult result) {
         super.onHitBlock(result);
-//        this.setDeltaMovement(Vec3.ZERO);
-//        this.setPosRaw(this.getX(), this.getY() + 0.05, this.getZ());
 //        Level level = this.level();
 //        ItemStack stack = this.getBlockState().getBlock().asItem().getDefaultInstance();
 //        BlockPos pos = result.getBlockPos();
