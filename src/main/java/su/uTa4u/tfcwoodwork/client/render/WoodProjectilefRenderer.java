@@ -41,24 +41,25 @@ public class WoodProjectilefRenderer extends EntityRenderer<AbstractWoodProjecti
 
         if (blockstate.getRenderShape() != RenderShape.MODEL) return;
 
-        final var isMirrored = entity.getMirrored();
-        final var dir = entity.getDirection();
-
         poseStack.pushPose();
 
         poseStack.translate(0, -0.3125, 0);
         poseStack.translate(0, 0.5, 0);
 
+        final var isMirrored = entity.getMirrored();
+        final var dir = entity.getDirection();
+        final var axis = dir.getAxis();
+        final var angle = Mth.rotLerp(partialTicks, entity.getHRot0(), entity.getHRot());
+
         if (blockstate.is(ModTags.Blocks.LOGS_QUARTER)) {
-            final Direction.Axis axis = dir.getAxis();
             if (axis == Direction.Axis.X) {
-                poseStack.mulPose(mojandAxisFromDir(dir, isMirrored).rotationDegrees(Mth.rotLerp(partialTicks, entity.getHRot0(), entity.getHRot())));
+                poseStack.mulPose(mojandAxisFromDir(dir, isMirrored).rotationDegrees(angle));
                 if (isMirrored) {
                     poseStack.mulPose(Axis.YP.rotationDegrees(90.0f));
                 }
             }
             if (axis == Direction.Axis.Z) {
-                poseStack.mulPose(mojandAxisFromDir(dir, !isMirrored).rotationDegrees(Mth.rotLerp(partialTicks, entity.getHRot0(), entity.getHRot())));
+                poseStack.mulPose(mojandAxisFromDir(dir, !isMirrored).rotationDegrees(angle));
                 if (isMirrored) {
                     poseStack.mulPose(Axis.YP.rotationDegrees(-90.0f));
                 }
@@ -67,12 +68,11 @@ public class WoodProjectilefRenderer extends EntityRenderer<AbstractWoodProjecti
                 poseStack.mulPose(Axis.YP.rotationDegrees(180.0f));
             }
         } else if (blockstate.is(ModTags.Blocks.LOGS_HALF)) {
-            final Direction.Axis axis = dir.getAxis();
             if (axis == Direction.Axis.X) {
-                poseStack.mulPose(mojandAxisFromDir(dir, isMirrored).rotationDegrees(Mth.rotLerp(partialTicks, entity.getHRot0(), entity.getHRot())));
+                poseStack.mulPose(mojandAxisFromDir(dir, isMirrored).rotationDegrees(angle));
             }
             if (axis == Direction.Axis.Z) {
-                poseStack.mulPose(mojandAxisFromDir(dir, !isMirrored).rotationDegrees(Mth.rotLerp(partialTicks, entity.getHRot0(), entity.getHRot())));
+                poseStack.mulPose(mojandAxisFromDir(dir, !isMirrored).rotationDegrees(angle));
                 poseStack.mulPose(Axis.YP.rotationDegrees(90.0f));
             }
             if (isMirrored) {

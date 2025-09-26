@@ -33,27 +33,24 @@ public abstract class AbstractWoodProjectile extends AbstractArrow {
     private static final String KEY_DIRECTION = "Direction";
     private static final String KEY_START_BLOCKPOS = "StartBlockpos";
     private static final String KEY_BLOCKSTATE = "Blockstate";
-    private static final String KEY_HROT = "Hrot";
-    private static final String KEY_HROT0 = "Hrot0";
-    protected static final EntityDataAccessor<Boolean> MIRRORED = SynchedEntityData.defineId(AbstractWoodProjectile.class, EntityDataSerializers.BOOLEAN);
-    protected static final EntityDataAccessor<Direction> DIRECTION = SynchedEntityData.defineId(AbstractWoodProjectile.class, EntityDataSerializers.DIRECTION);
-    // TODO: this is probably unnecessary
-    protected static final EntityDataAccessor<BlockPos> START_BLOCKPOS = SynchedEntityData.defineId(AbstractWoodProjectile.class, EntityDataSerializers.BLOCK_POS);
-    protected static final EntityDataAccessor<BlockState> BLOCKSTATE = SynchedEntityData.defineId(AbstractWoodProjectile.class, EntityDataSerializers.BLOCK_STATE);
+    private static final String KEY_HROT = "HRot";
+    private static final EntityDataAccessor<Float> HROT = SynchedEntityData.defineId(AbstractWoodProjectile.class, EntityDataSerializers.FLOAT);
+    // TODO: some of these are unnecessary, see FallingBlockEntity and FallingBlockRenderer
+    private static final EntityDataAccessor<Boolean> MIRRORED = SynchedEntityData.defineId(AbstractWoodProjectile.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Direction> DIRECTION = SynchedEntityData.defineId(AbstractWoodProjectile.class, EntityDataSerializers.DIRECTION);
+    private static final EntityDataAccessor<BlockPos> START_BLOCKPOS = SynchedEntityData.defineId(AbstractWoodProjectile.class, EntityDataSerializers.BLOCK_POS);
+    private static final EntityDataAccessor<BlockState> BLOCKSTATE = SynchedEntityData.defineId(AbstractWoodProjectile.class, EntityDataSerializers.BLOCK_STATE);
 
     private static final float DIM_SIZE = 0.375f;
     private static final EntityDimensions DIMENSIONS = new EntityDimensions(DIM_SIZE, DIM_SIZE, DIM_SIZE * 0.5f, EntityAttachments.createDefault(DIM_SIZE, DIM_SIZE), true);
     private static final int HOR_ROT_PERIOD = 30; // Ticks for 360.0f degree rotation
-    // TODO: this doesn't seem to save correctly...
-    //  or rather it doesn't work because arrow doesn't save it's angle, only the position
     private float hRot0 = 0.0f;
-    private float hRot = 0.0f;
 
-    protected AbstractWoodProjectile(EntityType<? extends AbstractArrow> entityType, Level level) {
+    protected AbstractWoodProjectile(EntityType<? extends AbstractWoodProjectile> entityType, Level level) {
         super(entityType, level);
     }
 
-    public AbstractWoodProjectile(EntityType<? extends AbstractArrow> entityType, BlockPos pos, BlockState state, double offsetX, double offsetY, double offsetZ, Level level, Direction dir, boolean isMirrored) {
+    public AbstractWoodProjectile(EntityType<? extends AbstractWoodProjectile> entityType, BlockPos pos, BlockState state, double offsetX, double offsetY, double offsetZ, Level level, Direction dir, boolean isMirrored) {
         super(entityType, pos.getX() + offsetX, pos.getY() + offsetY, pos.getZ() + offsetZ, level, ItemStack.EMPTY, null);
         this.setMirrored(isMirrored);
         this.setDirection(dir);
@@ -64,10 +61,11 @@ public abstract class AbstractWoodProjectile extends AbstractArrow {
     }
 
     public float getHRot() {
-        if (this.inGround) return this.hRot;
-        this.hRot0 = this.hRot;
-        this.hRot = (this.tickCount % HOR_ROT_PERIOD) * (360.0f / HOR_ROT_PERIOD);
-        return this.hRot;
+        return this.entityData.get(HROT);
+    }
+
+    private void setHRot(float value) {
+        this.entityData.set(HROT, value);
     }
 
     public float getHRot0() {
@@ -75,8 +73,20 @@ public abstract class AbstractWoodProjectile extends AbstractArrow {
     }
 
     @Override
+    public void tick() {
+        super.tick();
+
+        this.hRot0 = this.getHRot();
+        if (!this.inGround) {
+            this.setHRot((this.tickCount % HOR_ROT_PERIOD) * (360.0f / HOR_ROT_PERIOD));
+        }
+    }
+
+    @Override
     protected void defineSynchedData(@NotNull SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
+
+        builder.define(HROT, 0.0f);
         builder.define(MIRRORED, Boolean.FALSE);
         builder.define(DIRECTION, Direction.NORTH);
         builder.define(START_BLOCKPOS, BlockPos.ZERO);
@@ -87,18 +97,18 @@ public abstract class AbstractWoodProjectile extends AbstractArrow {
     public void addAdditionalSaveData(@NotNull CompoundTag nbt) {
         super.addAdditionalSaveData(nbt);
 
+        nbt.putFloat(KEY_HROT, this.getHRot());
         nbt.putBoolean(KEY_MIRRORED, this.getMirrored());
         nbt.putString(KEY_DIRECTION, this.getDirection().getName());
         nbt.put(KEY_START_BLOCKPOS, NbtUtils.writeBlockPos(this.getStartBlockpos()));
         nbt.putString(KEY_BLOCKSTATE, BuiltInRegistries.BLOCK.getKey(this.getBlockState().getBlock()).toString());
-        nbt.putFloat(KEY_HROT, this.hRot);
-        nbt.putFloat(KEY_HROT0, this.hRot0);
     }
 
     @Override
     public void readAdditionalSaveData(@NotNull CompoundTag nbt) {
         super.readAdditionalSaveData(nbt);
 
+        this.setHRot(nbt.getFloat(KEY_HROT));
         this.setMirrored(nbt.getBoolean(KEY_MIRRORED));
         final var dir = Direction.byName(nbt.getString(KEY_DIRECTION));
         if (dir != null) {
@@ -109,8 +119,6 @@ public abstract class AbstractWoodProjectile extends AbstractArrow {
         if (!state.isEmpty()) {
             this.setBlockState(BuiltInRegistries.BLOCK.get(ResourceLocation.parse(state)).defaultBlockState());
         }
-        this.hRot = nbt.getFloat(KEY_HROT);
-        this.hRot0 = nbt.getFloat(KEY_HROT0);
     }
 
     public BlockState getBlockState() {

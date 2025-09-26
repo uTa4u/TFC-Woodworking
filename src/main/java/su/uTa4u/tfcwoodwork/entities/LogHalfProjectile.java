@@ -6,9 +6,9 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class LogHalfProjectile extends AbstractWoodProjectile {
+public final class LogHalfProjectile extends AbstractWoodProjectile {
 
-    public LogHalfProjectile(EntityType<LogHalfProjectile> entityType, Level level) {
+    public LogHalfProjectile(EntityType<? extends AbstractWoodProjectile> entityType, Level level) {
         super(entityType, level);
     }
 
