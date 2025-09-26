@@ -22,14 +22,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import su.uTa4u.tfcwoodwork.blockentities.LogPileExBlockEntity;
 import su.uTa4u.tfcwoodwork.blocks.BlockType;
 import su.uTa4u.tfcwoodwork.blocks.ModBlocks;
 import su.uTa4u.tfcwoodwork.sounds.ModSounds;
-
-import java.io.IOException;
 
 public abstract class AbstractWoodProjectile extends AbstractArrow {
     private static final String KEY_MIRRORED = "Mirrored";
@@ -103,12 +100,12 @@ public abstract class AbstractWoodProjectile extends AbstractArrow {
         super.readAdditionalSaveData(nbt);
 
         this.setMirrored(nbt.getBoolean(KEY_MIRRORED));
-        var dir = Direction.byName(nbt.getString(KEY_DIRECTION));
+        final var dir = Direction.byName(nbt.getString(KEY_DIRECTION));
         if (dir != null) {
             this.setDirection(dir);
         }
         NbtUtils.readBlockPos(nbt, KEY_START_BLOCKPOS).ifPresent(this::setStartBlockpos);
-        String state = nbt.getString(KEY_BLOCKSTATE);
+        final var state = nbt.getString(KEY_BLOCKSTATE);
         if (!state.isEmpty()) {
             this.setBlockState(BuiltInRegistries.BLOCK.get(ResourceLocation.parse(state)).defaultBlockState());
         }
@@ -166,24 +163,21 @@ public abstract class AbstractWoodProjectile extends AbstractArrow {
     protected void onHitBlock(@NotNull BlockHitResult result) {
         super.onHitBlock(result);
 
-        try (final var level = this.level()) {
-            final var blockEntity1 = level.getBlockEntity(result.getBlockPos());
-            final var blockEntity2 = level.getBlockEntity(this.blockPosition());
-            LogPileExBlockEntity logPileExBlockEntity;
+        final var level = this.level();
+        final var blockEntity1 = level.getBlockEntity(result.getBlockPos());
+        final var blockEntity2 = level.getBlockEntity(this.blockPosition());
+        LogPileExBlockEntity logPileExBlockEntity;
 
-            if (blockEntity1 instanceof LogPileExBlockEntity) {
-                logPileExBlockEntity = (LogPileExBlockEntity) blockEntity1;
-            } else if (blockEntity2 instanceof LogPileExBlockEntity) {
-                logPileExBlockEntity = (LogPileExBlockEntity) blockEntity2;
-            } else {
-                return;
-            }
+        if (blockEntity1 instanceof LogPileExBlockEntity) {
+            logPileExBlockEntity = (LogPileExBlockEntity) blockEntity1;
+        } else if (blockEntity2 instanceof LogPileExBlockEntity) {
+            logPileExBlockEntity = (LogPileExBlockEntity) blockEntity2;
+        } else {
+            return;
+        }
 
-            if (logPileExBlockEntity.insertItemStack(this.getPickupItem()).isEmpty()) {
-                this.discard();
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if (logPileExBlockEntity.insertItemStack(this.getPickupItem()).isEmpty()) {
+            this.discard();
         }
     }
 
@@ -206,7 +200,7 @@ public abstract class AbstractWoodProjectile extends AbstractArrow {
 
     @Override
     protected void tickDespawn() {
-        if (this.pickup != Pickup.ALLOWED) {
+        if (this.pickup != Pickup.ALLOWED || this.getPickupItemStackOrigin().isEmpty()) {
             super.tickDespawn();
         }
     }
