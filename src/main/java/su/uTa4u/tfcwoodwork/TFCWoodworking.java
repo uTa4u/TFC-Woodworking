@@ -1,6 +1,7 @@
 package su.uTa4u.tfcwoodwork;
 
 import com.mojang.logging.LogUtils;
+import net.dries007.tfc.common.blocks.wood.Wood;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
@@ -50,13 +51,12 @@ public class TFCWoodworking {
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> CREATIVE_TAB = CREATIVE_TABS.register("woodworking", () -> CreativeModeTab.builder()
             .title(Component.translatable("item_group." + MOD_ID + ".woodworking"))
-            .icon(() -> new ItemStack(Items.OAK_WOOD))
-            .displayItems((p, o) -> ModItems.ITEMS.getEntries().forEach(item -> o.accept(item.value())))
+            .icon(() -> new ItemStack(ModItems.getBark(Wood.OAK)))
+            .displayItems((p, o) -> ModItems.ITEMS.getEntries().forEach((item) -> o.accept(item.value())))
             .build()
     );
 
     public TFCWoodworking(IEventBus modEventBus, ModContainer modContainer) {
-        // TODO: use EventBusSubscriber
         ModItems.ITEMS.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
         ModBlockEntities.BLOCK_ENTITIES.register(modEventBus);
@@ -68,9 +68,9 @@ public class TFCWoodworking {
 
         modContainer.registerConfig(net.neoforged.fml.config.ModConfig.Type.COMMON, ModConfig.SPEC);
 
-        if (ModList.get().isLoaded("dttfc")) {
-            InWorldRecipeHandler.initDTTFCBlocks();
-        }
+//        if (ModList.get().isLoaded("dttfc")) {
+//            InWorldRecipeHandler.initDTTFCBlocks();
+//        }
     }
 
     @EventBusSubscriber(modid = MOD_ID, value = Dist.CLIENT)

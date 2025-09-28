@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-// TODO: add group string
 public final class InWorldRecipeBuilder implements RecipeBuilder {
     @NotNull
     private final BlockStatePredicate inputState;

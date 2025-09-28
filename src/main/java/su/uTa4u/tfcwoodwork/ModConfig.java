@@ -16,7 +16,6 @@ public final class ModConfig {
             .comment("Default: true")
             .define("logProjectileVsItem", true);
 
-    // TODO: maybe for higher tier tools -> less cooldown
     public static final ModConfigSpec.ConfigValue<List<Integer>> TOOL_COOLDOWNS = BUILDER
             .comment("Cooldown on tools after log interaction succeeded")
             .comment("Level 0: IGNEOUS_INTRUSIVE, IGNEOUS_EXTRUSIVE, SEDIMENTARY, METAMORPHIC")
@@ -28,7 +27,7 @@ public final class ModConfig {
             .comment("Level 6: BLUE_STEEL, RED_STEEL")
             .comment("Default: [10, 10, 10, 10, 10, 10, 10]")
             .comment("Range: [0, 1200]")
-            .define("toolCooldowns", Arrays.asList(10, 10, 10, 10, 10, 10, 10), val -> (val instanceof Integer intVal && (0 <= intVal) && (intVal <= 1200)));
+            .define("toolCooldowns", Arrays.asList(35, 25, 20, 15, 10, 5, 5), val -> (val instanceof Integer intVal && (0 <= intVal) && (intVal <= 1200)));
 
     public static final ModConfigSpec SPEC = BUILDER.build();
 }

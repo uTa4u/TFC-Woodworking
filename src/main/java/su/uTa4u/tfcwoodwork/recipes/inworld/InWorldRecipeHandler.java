@@ -34,10 +34,6 @@ import java.util.Random;
 public final class InWorldRecipeHandler {
     private static final Random RNG = new Random();
 
-    // TODO: Rework compat with dynamic trees tfc
-    // TODO: Add compat with arbor firma craft
-    private static final Block[] DTTFC_LOGS = new Block[Wood.VALUES.length];
-
     @SubscribeEvent
     public static void onPlayerRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
         if (event.getHand() != InteractionHand.MAIN_HAND) return;
@@ -110,31 +106,23 @@ public final class InWorldRecipeHandler {
         int uses = ((TieredItem) inHand.getItem()).getTier().getUses();
         // when bismuth bronze axe is used chance to damage the tool is 1/3
         if (RNG.nextDouble() < 400.0 / uses) {
-            // maybe break even harder when the chance value is bigger than 1
+            // TODO: maybe break even harder when the chance value is bigger than 1
             inHand.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
         }
     }
 
-    public static void initDTTFCBlocks() {
-        for (int i = 0; i < Wood.VALUES.length; ++i) {
-            Block block = BuiltInRegistries.BLOCK.get(ResourceLocation.fromNamespaceAndPath("dttfc", Wood.VALUES[i].getSerializedName() + "_branch"));
-            DTTFC_LOGS[i] = block;
-        }
-    }
+    // TODO: rework compat with dynamic trees tfc
+//    private static final Block[] DTTFC_LOGS = new Block[Wood.VALUES.length];
+//    public static void initDTTFCBlocks() {
+//        for (int i = 0; i < Wood.VALUES.length; ++i) {
+//            Block block = BuiltInRegistries.BLOCK.get(ResourceLocation.fromNamespaceAndPath("dttfc", Wood.VALUES[i].getSerializedName() + "_branch"));
+//            DTTFC_LOGS[i] = block;
+//        }
+//    }
 
-    private static boolean isBlockFromDTTFC(BlockState state) {
-        for (int i = 0; i < Wood.VALUES.length; ++i) {
-            if (state.is(DTTFC_LOGS[i])) return true;
-        }
-        return false;
-    }
-
+    // TODO: add JEI compat
+    // TODO: add arbor firma craft compat
     // TODO: remove chisel recipes for handled items
-
-    // TODO: if alive tree was debarked it should die after some time and fall, more debarked blocks = faster death
     // TODO: make bark/bast pileable
-
-    // TODO: fix projectile rotation reseting after world exit
-    // TODO: check if player is looking in the same axis as wood is placed
     // TODO: add interactions like these https://discord.com/channels/432522930610765835/1415675635489181716
 }
