@@ -1,13 +1,19 @@
 {
   "config.jade.plugin_tfcwoodwork.log_pile_ex": "Log Pile",
 
+  "tfcwoodwork.jei.in_world.axe": "In World: Axe",
+  "tfcwoodwork.jei.in_world.saw": "In World: Saw",
+  "tfcwoodwork.jei.acceptable_states": "Acceptable States",
+  "tfcwoodwork.jei.itemstack_action": "ItemStack Action",
+  "tfcwoodwork.itemstack_action.drop_cardinal": "Drop Cardinal",
+  "tfcwoodwork.itemstack_action.drop_center": "Drop Center",
+  "tfcwoodwork.itemstack_action.drop_above": "Drop Above",
+  "tfcwoodwork.itemstack_action.shoot_as_block": "Shoot as Block",
+
   "entity.tfcwoodwork.log_half_proj": "Half Log",
   "entity.tfcwoodwork.log_quarter_proj": "Quarter Log",
 
   "item_group.tfcwoodwork.woodworking": "TFC Woodworking",
-
-  "item.tfcwoodwork.testaxe": "DEGUG Axe",
-  "item.tfcwoodwork.testsaw": "DEGUG Saw",
 
   "item.tfcwoodwork.sawdust": "Sawdust",
   "item.tfcwoodwork.sawdust_soup": "Sawdust Soup",

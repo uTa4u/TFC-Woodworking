@@ -5,6 +5,7 @@ import net.dries007.tfc.common.blocks.TFCBlocks;
 import net.dries007.tfc.common.blocks.wood.Wood;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.StringRepresentable;
@@ -17,6 +18,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import su.uTa4u.tfcwoodwork.ModConfig;
 import su.uTa4u.tfcwoodwork.TFCWoodworking;
 import su.uTa4u.tfcwoodwork.blocks.AbstractDebarkedWood;
@@ -29,7 +31,7 @@ import su.uTa4u.tfcwoodwork.entities.LogQuarterProjectile;
 import java.util.Optional;
 
 public enum Action implements StringRepresentable {
-    DROP_CARDINAL("drop_cardinal") {
+    DROP_CARDINAL("drop_cardinal", 4) {
         @Override
         public void accept(Level level, BlockPos pos, ItemStack itemStack, Direction playerDir) {
             spawnDropsPrecise(level, pos, 0.5, 0.5, -0.2, itemStack, 0, 0.05, -0.05);
@@ -38,19 +40,19 @@ public enum Action implements StringRepresentable {
             spawnDropsPrecise(level, pos, 1.2, 0.5, 0.5, itemStack, 0.05, 0.05, 0);
         }
     },
-    DROP_CENTER("drop_center") {
+    DROP_CENTER("drop_center", 1) {
         @Override
         public void accept(Level level, BlockPos pos, ItemStack itemStack, Direction playerDir) {
             spawnDropsPrecise(level, pos, 0.5, 0.5, 0.5, itemStack, 0.0, 0.0, 0.0);
         }
     },
-    DROP_ABOVE("drop_above") {
+    DROP_ABOVE("drop_above", 1) {
         @Override
         public void accept(Level level, BlockPos pos, ItemStack itemStack, Direction playerDir) {
             spawnDropsPrecise(level, pos, 0.5, 1.05, 0.5, itemStack, 0.0, 0.0, 0.0);
         }
     },
-    SHOOT_AS_BLOCK("shoot_as_block") {
+    SHOOT_AS_BLOCK("shoot_as_block", 2) {
         @Override
         public void accept(Level level, BlockPos pos, ItemStack itemStack, Direction playerDir) {
             BlockState chopped = level.getBlockState(pos);
@@ -118,9 +120,13 @@ public enum Action implements StringRepresentable {
             ByteBufCodecs.idMapper((id) -> Action.VALUES[id], Action::ordinal);
 
     private final String name;
+    private final Component prettyName;
+    private final int countFactor;
 
-    Action(String name) {
+    Action(String name, int countFactor) {
         this.name = name;
+        this.prettyName = Component.translatable(TFCWoodworking.MOD_ID + ".itemstack_action." + this.name);
+        this.countFactor = countFactor;
     }
 
     public abstract void accept(Level level, BlockPos pos, ItemStack itemStack, Direction playerDir);
@@ -131,10 +137,19 @@ public enum Action implements StringRepresentable {
         return this.name;
     }
 
+    public Component getPrettyName() {
+        return this.prettyName;
+    }
+
+    public int getCountFactor() {
+        return this.countFactor;
+    }
+
     private static void spawnDropsPrecise(Level level, BlockPos pos, double offsetX, double offsetY, double offsetZ, ItemStack itemStack, double deltaX, double deltaY, double deltaZ) {
         level.addFreshEntity(new ItemEntity(level, pos.getX() + offsetX, pos.getY() + offsetY, pos.getZ() + offsetZ, itemStack, deltaX, deltaY, deltaZ));
     }
 
+    @Nullable
     private static Wood getWoodFromState(BlockState state) {
         for (var entry1 : TFCBlocks.WOODS.entrySet()) {
             for (var entry2 : entry1.getValue().entrySet()) {

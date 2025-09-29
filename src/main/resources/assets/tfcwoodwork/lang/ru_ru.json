@@ -1,13 +1,19 @@
 {
   "config.jade.plugin_tfcwoodwork.log_pile_ex": "Кладка брёвен",
 
+  "tfcwoodwork.jei.in_world.axe": "В мире: Топор",
+  "tfcwoodwork.jei.in_world.saw": "В мире: Пила",
+  "tfcwoodwork.jei.acceptable_states": "Допустимые состояния",
+  "tfcwoodwork.jei.itemstack_action": "Действие предмета",
+  "tfcwoodwork.itemstack_action.drop_cardinal": "Падает по сторонам света",
+  "tfcwoodwork.itemstack_action.drop_center": "Падает по центру",
+  "tfcwoodwork.itemstack_action.drop_above": "Падает сверху",
+  "tfcwoodwork.itemstack_action.shoot_as_block": "Выстрел в виде блока",
+
   "entity.tfcwoodwork.log_half_proj": "Плаха",
   "entity.tfcwoodwork.log_quarter_proj": "Четвертина",
 
   "item_group.tfcwoodwork.woodworking": "TFC Деревообработка",
-
-  "item.tfcwoodwork.testaxe": "ДЕБАГ топор",
-  "item.tfcwoodwork.testsaw": "ДЕБАГ пила",
 
   "item.tfcwoodwork.sawdust": "Опилки",
   "item.tfcwoodwork.sawdust_soup": "Суп из опилок",
