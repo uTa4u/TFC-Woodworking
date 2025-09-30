@@ -6,6 +6,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.NotNull;
 
 public class SawdustSoupBowl extends Item {
@@ -16,7 +17,9 @@ public class SawdustSoupBowl extends Item {
     @Override
     @NotNull
     public ItemStack finishUsingItem(@NotNull ItemStack itemStack, @NotNull Level level, @NotNull LivingEntity entityLiving) {
-      ItemStack itemstack = super.finishUsingItem(itemStack, level, entityLiving);
-      return entityLiving instanceof Player player && player.getAbilities().instabuild ? itemstack : new ItemStack(TFCBlocks.CERAMIC_BOWL.get().asItem());
-   }
+        if (entityLiving instanceof Player player) {
+            ItemHandlerHelper.giveItemToPlayer(player, new ItemStack(TFCBlocks.CERAMIC_BOWL.get().asItem()));
+        }
+        return super.finishUsingItem(itemStack, level, entityLiving);
+    }
 }
