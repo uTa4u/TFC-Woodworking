@@ -1,9 +1,9 @@
 {
+  "decay_modifier": 3.5,
+  "hunger": 2.5,
   "ingredient": {
     "item": "tfcwoodwork:sawdust_soup"
   },
-  "hunger": 2.5,
   "saturation": 1.5,
-  "water": 0.5,
-  "decay_modifier": 3.5
+  "water": 0.5
 }

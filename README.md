@@ -9,7 +9,7 @@ Makes crafting wooden things more immersive through a tree (pun intended) of in-
 - [Modrinth](https://modrinth.com/mod/tfc-woodworking)
 
 ### Notes:
-- Canoes from FirmaCiv is possible. It requires 3 stripped logs placed facing horizontally. You will need to strip them separately beforehand.
+- Making canoes from FirmaCiv is possible. It requires 3 stripped logs placed facing horizontally. You will need to strip them separately beforehand.
 
 ### Features:
 - Stripping logs/wood is only possible when 4 sides are empty (no solid blocks)

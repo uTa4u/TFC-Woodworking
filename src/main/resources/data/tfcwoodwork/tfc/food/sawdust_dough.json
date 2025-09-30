@@ -1,0 +1,7 @@
+{
+  "decay_modifier": 3.0,
+  "hunger": 3.5,
+  "ingredient": {
+    "item": "tfcwoodwork:sawdust_dough"
+  }
+}

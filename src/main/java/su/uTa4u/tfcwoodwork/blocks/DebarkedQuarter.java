@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -24,6 +25,12 @@ public class DebarkedQuarter extends AbstractDebarkedWood {
     @NotNull
     public VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
         return AABB;
+    }
+
+    @Override
+    public boolean canSurvive(@NotNull BlockState state, @NotNull LevelReader level, BlockPos pos) {
+        final var below = pos.below();
+        return state == level.getBlockState(below) || canSupportCenter(level, below, Direction.UP);
     }
 
     @Override

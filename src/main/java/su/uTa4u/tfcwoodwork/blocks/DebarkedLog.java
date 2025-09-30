@@ -23,7 +23,8 @@ public class DebarkedLog extends AbstractDebarkedWood {
     }
 
     @Override
-    public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
-        return canSupportRigidBlock(level, pos.below()) || state == level.getBlockState(pos.below());
+    public boolean canSurvive(@NotNull BlockState state, @NotNull LevelReader level, BlockPos pos) {
+        final var below = pos.below();
+        return state == level.getBlockState(below) || canSupportRigidBlock(level, below);
     }
 }

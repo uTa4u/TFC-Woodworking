@@ -15,10 +15,12 @@
 
   "item_group.tfcwoodwork.woodworking": "TFC Woodworking",
 
+  "block.tfcwoodwork.log_pile_ex": "Log Pile",
+
   "item.tfcwoodwork.sawdust": "Sawdust",
   "item.tfcwoodwork.sawdust_soup": "Sawdust Soup",
-
-  "block.tfcwoodwork.log_pile_ex": "Log Pile",
+  "item.tfcwoodwork.sawdust_dough": "Sawdust Dough",
+  "item.tfcwoodwork.sawdust_bread": "Sawdust Bread",
 
   "item.tfcwoodwork.bark.acacia": "Acacia Bark",
   "item.tfcwoodwork.bark.ash": "Ash Bark",

@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "tfcwoodwork:item/testaxe"
+    "layer0": "tfcwoodwork:item/sawdust_dough"
   }
 }

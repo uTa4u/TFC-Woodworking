@@ -23,13 +23,17 @@ public final class ModItems {
     public static final Map<Wood, DeferredHolder<Item, Item>> TREE_BAST;
     public static final DeferredHolder<Item, Item> SAWDUST;
     public static final DeferredHolder<Item, Item> SAWDUST_SOUP;
+    public static final DeferredHolder<Item, Item> SAWDUST_DOUGH;
+    public static final DeferredHolder<Item, Item> SAWDUST_BREAD;
 
     static {
         ITEMS = DeferredRegister.create(BuiltInRegistries.ITEM, TFCWoodworking.MOD_ID);
         TREE_BARK = Helpers.mapOf(Wood.class, wood -> registerItem("bark/" + wood.name(), () -> new Item(new Item.Properties())));
         TREE_BAST = Helpers.mapOf(Wood.class, wood -> registerItem("bast/" + wood.name(), () -> new Item(new Item.Properties())));
         SAWDUST = registerItem("sawdust", () -> new Item(new Item.Properties()));
-        SAWDUST_SOUP = registerItem("sawdust_soup", () -> new SawdustSoupBowl((new Item.Properties().food(new FoodProperties.Builder().nutrition(0).saturationModifier(1).build()))));
+        SAWDUST_SOUP = registerItem("sawdust_soup", () -> new SawdustSoupBowl(new Item.Properties()));
+        SAWDUST_DOUGH = registerItem("sawdust_dough", () -> new Item(new Item.Properties()));
+        SAWDUST_BREAD = registerItem("sawdust_bread", () -> new Item(new Item.Properties()));
     }
 
     private static DeferredHolder<Item, Item> registerItem(String name, Supplier<Item> itemSup) {
