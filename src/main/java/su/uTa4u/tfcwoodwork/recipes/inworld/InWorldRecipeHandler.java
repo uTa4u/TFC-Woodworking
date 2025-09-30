@@ -62,7 +62,7 @@ public final class InWorldRecipeHandler {
             if (!resultItems.isEmpty()) {
                 final var dir = player.getDirection();
                 for (var pair : resultItems) {
-                    pair.getSecond().accept(level, pos, pair.getFirst(), dir);
+                    pair.getSecond().accept(level, pos, pair.getFirst().copy(), dir);
                 }
             }
 
